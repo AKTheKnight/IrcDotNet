@@ -1659,7 +1659,7 @@ namespace IrcDotNet
             lock (((ICollection) Users).SyncRoot)
                 users.Add(localUser);
 
-            SendMessageCapList();
+            //SendMessageCapList();
 
             OnConnected(new EventArgs());
         }
