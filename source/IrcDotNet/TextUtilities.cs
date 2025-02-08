@@ -70,7 +70,7 @@ namespace IrcDotNet
         // Splits specified string into pair of strings at position of first occurrence of separator.
         public static Tuple<string, string> SplitIntoPair(this string value, string separator)
         {
-            var index = value.IndexOf(separator);
+            var index = value.IndexOf(separator, StringComparison.Ordinal);
             if (index < 0)
                 return Tuple.Create(value, (string) null);
             return Tuple.Create(value.Substring(0, index), value.Substring(index + separator.Length));

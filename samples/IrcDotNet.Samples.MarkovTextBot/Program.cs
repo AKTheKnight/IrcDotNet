@@ -1,6 +1,7 @@
 ﻿using System;
+using IrcDotNet.Samples.Common;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.MarkovTextBot
 {
     internal static class Program
     {

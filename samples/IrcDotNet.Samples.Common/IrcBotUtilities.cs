@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.Common
 {
     public static class IrcBotUtilities
     {

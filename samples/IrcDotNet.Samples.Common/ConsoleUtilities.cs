@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.Common
 {
     // Utilities for working with operating system console interface.
     public static class ConsoleUtilities

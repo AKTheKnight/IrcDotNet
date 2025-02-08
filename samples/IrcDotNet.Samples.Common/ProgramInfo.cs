@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.Common
 {
     public static class ProgramInfo
     {

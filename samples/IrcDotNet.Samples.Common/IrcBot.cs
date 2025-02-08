@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.Common
 {
     // Provides core functionality for an IRC bot that operates via multiple clients.
     public abstract class IrcBot : IDisposable

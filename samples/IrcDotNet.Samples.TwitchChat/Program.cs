@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.TwitchChat
 {
     internal static class Program
     {

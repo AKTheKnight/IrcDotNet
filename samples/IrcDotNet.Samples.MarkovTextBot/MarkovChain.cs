@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.MarkovTextBot
 {
     // Represents a Markov chain of arbitrary length.
     [DebuggerDisplay("{this.nodes.Count} nodes")]

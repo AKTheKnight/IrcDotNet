@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.MarkovTextBot
 {
     // Represents a node within a Markov chain.
     [DebuggerDisplay("Value: {this.value == null ? \"(null)\" : this.value.ToString()}, {this.links.Count} links")]

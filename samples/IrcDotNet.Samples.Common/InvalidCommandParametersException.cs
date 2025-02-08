@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.Common
 {
     public class InvalidCommandParametersException : Exception
     {

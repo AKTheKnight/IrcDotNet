@@ -1209,8 +1209,7 @@ namespace IrcDotNet.Test
                 millisecondsTimeout = Timeout.Infinite;
             var setEventIndex = WaitHandle.WaitAny(new[]
             {
-                eventHandle, client1DisconnectedEvent, client1ErrorEvent,
-                client2DisconnectedEvent, client2ErrorEvent
+                eventHandle, client1DisconnectedEvent, client1ErrorEvent, client2DisconnectedEvent, client2ErrorEvent
             }, millisecondsTimeout);
 
             // Fail test if timeout occurred, client was disconnected, or client error occurred.

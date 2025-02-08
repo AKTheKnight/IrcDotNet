@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using IrcDotNet.Samples.Common;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.MarkovTextBot
 {
     public class MarkovChainTextBot : BasicIrcBot
     {

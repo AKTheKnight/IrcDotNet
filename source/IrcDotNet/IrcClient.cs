@@ -791,7 +791,7 @@ namespace IrcDotNet
             {
                 case "prefix":
                     var prefixValueMatch = Regex.Match(paramValue, isupportPrefix);
-                    ;
+                    
                     var prefixes = prefixValueMatch.Groups["prefixes"].GetValue();
                     var modes = prefixValueMatch.Groups["modes"].GetValue();
 
@@ -1311,7 +1311,6 @@ namespace IrcDotNet
                         Resources.MessageInvalidCommandDefinition, attribute.CommandName));
                 }
             }
-            ;
         }
 
         /// <inheritdoc cref="WriteMessage(string,string,System.Collections.Generic.IEnumerable{string})"/>
@@ -1590,7 +1589,7 @@ namespace IrcDotNet
             // is prefixed by colon.
             var parameters = new string[maxParamsCount];
             int paramStartIndex, paramEndIndex = -1;
-            var lineColonIndex = paramsLine.IndexOf(" :");
+            var lineColonIndex = paramsLine.IndexOf(" :", StringComparison.Ordinal);
             if (lineColonIndex == -1 && !paramsLine.StartsWith(":"))
                 lineColonIndex = paramsLine.Length;
             for (var i = 0; i < parameters.Length; i++)

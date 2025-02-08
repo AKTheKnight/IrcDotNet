@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IrcDotNet
+namespace IrcDotNet.Samples.Common
 {
     public class IrcBotException : Exception
     {
