@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+// ReSharper disable once RedundantUsingDirective
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using IrcDotNet.Collections;

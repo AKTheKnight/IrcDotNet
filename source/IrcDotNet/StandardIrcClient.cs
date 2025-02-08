@@ -4,10 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
-using System.Threading.Tasks;
 using IrcDotNet.Properties;
 #if !SILVERLIGHT
 using System.Net.Security;

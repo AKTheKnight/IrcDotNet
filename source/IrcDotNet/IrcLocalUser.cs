@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using IrcDotNet.Collections;
 using static IrcDotNet.IrcClient;
+
+#if !NET9_0_OR_GREATER
+    using IrcDotNet.Collections;
+#else
+    using System.Collections.ObjectModel;
+#endif
 
 namespace IrcDotNet
 {
@@ -40,7 +45,7 @@ namespace IrcDotNet
             this.modes = new HashSet<char>();
             Modes = new ReadOnlySet<char>(this.modes);
             if (modes != null)
-                this.modes.AddRange(modes);
+                this.modes.UnionWith(modes);
         }
 
         /// <summary>

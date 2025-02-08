@@ -168,7 +168,7 @@ namespace IrcDotNet
         ///     This value is set after successful registration of the connection.
         /// </summary>
         /// <value>A dictionary of features supported by the server.</value>
-        public Collections.ReadOnlyDictionary<string, string> ServerSupportedFeatures { get; private set; }
+        public ReadOnlyDictionary<string, string> ServerSupportedFeatures { get; private set; }
 
         /// <summary>
         ///     Gets a set of capabilities supported by the server, as returned by the CAP LS command.
@@ -1252,7 +1252,7 @@ namespace IrcDotNet
             isRegistered = false;
             localUser = null;
             serverSupportedFeatures = new Dictionary<string, string>();
-            ServerSupportedFeatures = new Collections.ReadOnlyDictionary<string, string>(serverSupportedFeatures);
+            ServerSupportedFeatures = new ReadOnlyDictionary<string, string>(serverSupportedFeatures);
             serverCapabilities = new List<string>();
             ServerCapabilities = new ReadOnlyCollection<string>(serverCapabilities);
             channelUserModes = new Collection<char>
