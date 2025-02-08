@@ -317,6 +317,7 @@ namespace IrcDotNet
                     serverCapabilities.AddRange(caps);
 
                     OnServerCapabilitiesReceived(new EventArgs());
+                    SendMessageCapEnd();
                     break;
                 case "LIST":
                     string[] active = message.Parameters[2]?.Split(' ');
