@@ -30,6 +30,7 @@ namespace IrcDotNet
 
         // Default port on which to connect to IRC server.
         public static readonly int DefaultPort = 6667;
+        public static readonly int DefaultSSLPort = 6697;
 
         // Regular expressions used for extracting information from protocol messages.
         protected static readonly string regexNickName;

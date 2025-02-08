@@ -156,7 +156,7 @@ namespace IrcDotNet
             using (var connectedEvent = new ManualResetEventSlim(false))
             {
                 client.Connected += (sender2, e2) => connectedEvent.Set();
-                client.Connect(server, false, registrationInfo);
+                client.Connect(server, true, registrationInfo);
                 if (!connectedEvent.Wait(10000))
                 {
                     client.Dispose();

@@ -122,7 +122,7 @@ namespace IrcDotNet
                 throw new ArgumentException(string.Format(Resources.MessageInvalidUrlScheme,
                     url.Scheme), "url");
 
-            Connect(url.Host, url.Port == -1 ? DefaultPort : url.Port, useSsl, registrationInfo);
+            Connect(url.Host, url.Port == -1 ? (useSsl ? DefaultSSLPort : DefaultPort) : url.Port, useSsl, registrationInfo);
         }
 
         /// <inheritdoc cref="Connect(string, int, bool, IrcRegistrationInfo)" />
@@ -133,7 +133,7 @@ namespace IrcDotNet
             if (registrationInfo == null)
                 throw new ArgumentNullException("registrationInfo");
 
-            Connect(hostName, DefaultPort, useSsl, registrationInfo);
+            Connect(hostName, useSsl ? DefaultSSLPort : DefaultPort, useSsl, registrationInfo);
         }
 
         /// <inheritdoc cref="Connect(IPEndPoint, bool, IrcRegistrationInfo)" />
@@ -160,7 +160,7 @@ namespace IrcDotNet
             if (registrationInfo == null)
                 throw new ArgumentNullException("registrationInfo");
 
-            Connect(new IPEndPoint(address, DefaultPort), useSsl, registrationInfo);
+            Connect(new IPEndPoint(address, useSsl ? DefaultSSLPort : DefaultPort), useSsl, registrationInfo);
         }
 
         /// <inheritdoc cref="Connect(IPEndPoint, bool, IrcRegistrationInfo)" />
@@ -183,7 +183,7 @@ namespace IrcDotNet
             if (registrationInfo == null)
                 throw new ArgumentNullException("registrationInfo");
 
-            Connect(new IPEndPoint(((IPEndPoint)endpoint).Address, DefaultPort), useSsl, registrationInfo);
+            Connect(new IPEndPoint(((IPEndPoint)endpoint).Address, useSsl ? DefaultSSLPort : DefaultPort), useSsl, registrationInfo);
         }
 
         /// <summary>
