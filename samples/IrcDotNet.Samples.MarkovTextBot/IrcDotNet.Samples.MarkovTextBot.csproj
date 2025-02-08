@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <VersionPrefix>0.6</VersionPrefix>
-    <TargetFrameworks>netcoreapp1.0</TargetFrameworks>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>IrcDotNet.Samples.MarkovTextBot</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>IrcDotNet.Samples.MarkovTextBot</PackageId>

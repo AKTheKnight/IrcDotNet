@@ -50,3 +50,5 @@ TestResult.xml
 *.lock.json
 .vs/
 .vscode/
+
+.idea/

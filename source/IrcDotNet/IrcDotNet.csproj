@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <VersionPrefix>0.7.0</VersionPrefix>
-    <TargetFrameworks>netstandard1.5</TargetFrameworks>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>IrcDotNet</AssemblyName>
     <PackageId>IrcDotNet</PackageId>
     <PackageTags>communication;irc;networking;ctcp</PackageTags>
