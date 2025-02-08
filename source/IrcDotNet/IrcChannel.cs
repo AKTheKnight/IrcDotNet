@@ -183,7 +183,7 @@ namespace IrcDotNet
         public IrcChannelUser GetChannelUser(IrcUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return users.SingleOrDefault(cu => cu.User == user);
         }
@@ -260,7 +260,7 @@ namespace IrcDotNet
         public void SetModes(IEnumerable<char> newModes)
         {
             if (newModes == null)
-                throw new ArgumentNullException("newModes");
+                throw new ArgumentNullException(nameof(newModes));
 
             lock (((ICollection) Modes).SyncRoot)
                 SetModes(newModes.Except(modes), modes.Except(newModes));
@@ -273,9 +273,9 @@ namespace IrcDotNet
             IEnumerable<string> modeParameters = null)
         {
             if (setModes == null)
-                throw new ArgumentNullException("setModes");
+                throw new ArgumentNullException(nameof(setModes));
             if (unsetModes == null)
-                throw new ArgumentNullException("unsetModes");
+                throw new ArgumentNullException(nameof(unsetModes));
 
             SetModes("+" + string.Join(string.Empty, setModes) + "-" + string.Join(string.Empty, unsetModes),
                 modeParameters);
@@ -285,7 +285,7 @@ namespace IrcDotNet
         public void SetModes(string modes, params string[] modeParameters)
         {
             if (modes == null)
-                throw new ArgumentNullException("modes");
+                throw new ArgumentNullException(nameof(modes));
 
             SetModes(modes, (IEnumerable<string>) modeParameters);
         }
@@ -305,7 +305,7 @@ namespace IrcDotNet
         public void SetModes(string modes, IEnumerable<string> modeParameters = null)
         {
             if (modes == null)
-                throw new ArgumentNullException("modes");
+                throw new ArgumentNullException(nameof(modes));
 
             client.SetChannelModes(this, modes, modeParameters);
         }

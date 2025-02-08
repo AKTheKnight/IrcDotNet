@@ -72,7 +72,7 @@ namespace IrcDotNet
         public IrcChannelListReceivedEventArgs(IrcMessage ircMessage, IList<IrcChannelInfo> channels) : base(ircMessage)
         {
             if (channels == null)
-                throw new ArgumentNullException("channels");
+                throw new ArgumentNullException(nameof(channels));
 
             Channels = new ReadOnlyCollection<IrcChannelInfo>(channels);
         }
@@ -100,13 +100,13 @@ namespace IrcDotNet
         public IrcServerVersionInfoEventArgs(IrcMessage ircMessage, string version, string debugLevel, string serverName, string comments) : base(ircMessage)
         {
             if (version == null)
-                throw new ArgumentNullException("version");
+                throw new ArgumentNullException(nameof(version));
             if (debugLevel == null)
-                throw new ArgumentNullException("debugLevel");
+                throw new ArgumentNullException(nameof(debugLevel));
             if (serverName == null)
-                throw new ArgumentNullException("serverName");
+                throw new ArgumentNullException(nameof(serverName));
             if (comments == null)
-                throw new ArgumentNullException("comments");
+                throw new ArgumentNullException(nameof(comments));
 
             Version = version;
             DebugLevel = debugLevel;
@@ -153,9 +153,9 @@ namespace IrcDotNet
         public IrcServerTimeEventArgs(IrcMessage ircMessage, string serverName, string dateTime) : base(ircMessage)
         {
             if (serverName == null)
-                throw new ArgumentNullException("serverName");
+                throw new ArgumentNullException(nameof(serverName));
             if (dateTime == null)
-                throw new ArgumentNullException("dateTime");
+                throw new ArgumentNullException(nameof(dateTime));
 
             ServerName = serverName;
             DateTime = dateTime;
@@ -187,7 +187,7 @@ namespace IrcDotNet
         public IrcServerLinksListReceivedEventArgs(IrcMessage ircMessage, IList<IrcServerInfo> links) : base(ircMessage)
         {
             if (links == null)
-                throw new ArgumentNullException("links");
+                throw new ArgumentNullException(nameof(links));
 
             Links = new ReadOnlyCollection<IrcServerInfo>(links);
         }
@@ -212,7 +212,7 @@ namespace IrcDotNet
         public IrcServerStatsReceivedEventArgs(IrcMessage ircMessage, IList<IrcServerStatisticalEntry> entries) : base(ircMessage)
         {
             if (entries == null)
-                throw new ArgumentNullException("entries");
+                throw new ArgumentNullException(nameof(entries));
 
             Entries = new ReadOnlyCollection<IrcServerStatisticalEntry>(entries);
         }
@@ -268,7 +268,7 @@ namespace IrcDotNet
             if (targets == null)
                 throw new ArgumentNullException("target");
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
             if (encoding == null)
                 throw new ArgumentNullException("textEncoding");
 
@@ -330,7 +330,7 @@ namespace IrcDotNet
         public IrcChannelInvitationEventArgs(IrcMessage ircMessage, IrcChannel channel, IrcUser inviter, string comment = null) : base(ircMessage, channel, comment)
         {
             if (inviter == null)
-                throw new ArgumentNullException("inviter");
+                throw new ArgumentNullException(nameof(inviter));
 
             Inviter = inviter;
         }
@@ -356,7 +356,7 @@ namespace IrcDotNet
         public IrcChannelUserEventArgs(IrcMessage ircMessage, IrcChannelUser channelUser, string comment = null) : base(ircMessage, comment)
         {
             if (channelUser == null)
-                throw new ArgumentNullException("channelUser");
+                throw new ArgumentNullException(nameof(channelUser));
 
             ChannelUser = channelUser;
         }
@@ -383,7 +383,7 @@ namespace IrcDotNet
             : base(ircMessage, comment)
         {
             if (channel == null)
-                throw new ArgumentNullException("channel");
+                throw new ArgumentNullException(nameof(channel));
 
             Channel = channel;
         }
@@ -476,7 +476,7 @@ namespace IrcDotNet
         public IrcPingOrPongReceivedEventArgs(IrcMessage ircMessage, string server) : base(ircMessage)
         {
             if (server == null)
-                throw new ArgumentNullException("server");
+                throw new ArgumentNullException(nameof(server));
 
             Server = server;
         }
@@ -520,9 +520,9 @@ namespace IrcDotNet
         public IrcServerInfoEventArgs(IrcMessage ircMessage, string address, int port) : base(ircMessage)
         {
             if (address == null)
-                throw new ArgumentNullException("address");
+                throw new ArgumentNullException(nameof(address));
             if (port <= 0)
-                throw new ArgumentOutOfRangeException("port");
+                throw new ArgumentOutOfRangeException(nameof(port));
 
             Address = address;
             Port = port;
@@ -554,7 +554,7 @@ namespace IrcDotNet
         public IrcErrorMessageEventArgs(IrcMessage ircMessage, string message) : base(ircMessage)
         {
             if (message == null)
-                throw new ArgumentNullException("message");
+                throw new ArgumentNullException(nameof(message));
 
             Message = message;
         }
@@ -579,7 +579,7 @@ namespace IrcDotNet
         public ActiveCapabilitiesEventArgs(string[] caps)
         {
             if (caps == null)
-                throw new ArgumentNullException("caps");
+                throw new ArgumentNullException(nameof(caps));
 
             Capabilities = caps;
         }
@@ -636,9 +636,9 @@ namespace IrcDotNet
         public IrcProtocolErrorEventArgs(IrcMessage ircMessage, int code, IList<string> parameters, string message) : base(ircMessage)
         {
             if (parameters == null)
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             if (message == null)
-                throw new ArgumentNullException("message");
+                throw new ArgumentNullException(nameof(message));
 
             Code = code;
             Parameters = new ReadOnlyCollection<string>(parameters);
@@ -752,7 +752,7 @@ namespace IrcDotNet
         public IrcErrorEventArgs(Exception error)
         {
             if (error == null)
-                throw new ArgumentNullException("error");
+                throw new ArgumentNullException(nameof(error));
 
             Error = error;
         }

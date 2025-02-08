@@ -23,7 +23,7 @@ namespace IrcDotNet.Ctcp
             if (targets == null)
                 throw new ArgumentNullException("target");
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             Source = source;
             Targets = new ReadOnlyCollection<IIrcMessageTarget>(targets);

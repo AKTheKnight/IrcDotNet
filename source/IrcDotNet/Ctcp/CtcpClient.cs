@@ -65,7 +65,7 @@ namespace IrcDotNet.Ctcp
         public CtcpClient(IrcClient ircClient)
         {
             if (ircClient == null)
-                throw new ArgumentNullException("ircClient");
+                throw new ArgumentNullException(nameof(ircClient));
 
             IrcClient = ircClient;
             messageProcessors = new Dictionary<string, MessageProcessor>(
@@ -361,7 +361,7 @@ namespace IrcDotNet.Ctcp
         protected void WriteMessage(IList<IIrcMessageTarget> targets, CtcpMessage message)
         {
             if (message.Tag == null)
-                throw new ArgumentException(Resources.MessageInvalidTag, "message");
+                throw new ArgumentException(Resources.MessageInvalidTag, nameof(message));
 
             var tag = message.Tag.ToUpperInvariant();
             var taggedData = message.Data == null ? tag : tag + " :" + message.Data;

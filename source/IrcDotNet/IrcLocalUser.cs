@@ -131,9 +131,9 @@ namespace IrcDotNet
         public void SendMessage(IIrcMessageTarget target, string text)
         {
             if (target == null)
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             SendMessage(new[] {target}, text);
         }
@@ -147,9 +147,9 @@ namespace IrcDotNet
         public void SendMessage(IEnumerable<IIrcMessageTarget> targets, string text)
         {
             if (targets == null)
-                throw new ArgumentNullException("targets");
+                throw new ArgumentNullException(nameof(targets));
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             SendMessage(targets.Select(t => t.Name), text);
         }
@@ -159,9 +159,9 @@ namespace IrcDotNet
         public void SendMessage(string target, string text)
         {
             if (target == null)
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             SendMessage(new[] {target}, text);
         }
@@ -177,9 +177,9 @@ namespace IrcDotNet
         public void SendMessage(IEnumerable<string> targets, string text, Encoding encoding = null)
         {
             if (targets == null)
-                throw new ArgumentNullException("targets");
+                throw new ArgumentNullException(nameof(targets));
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             Client.SendPrivateMessage(targets, text.ChangeEncoding(Client.TextEncoding, encoding));
         }
@@ -189,9 +189,9 @@ namespace IrcDotNet
         public void SendNotice(IIrcMessageTarget target, string text)
         {
             if (target == null)
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             SendNotice(new[] {target}, text);
         }
@@ -205,9 +205,9 @@ namespace IrcDotNet
         public void SendNotice(IEnumerable<IIrcMessageTarget> targets, string text)
         {
             if (targets == null)
-                throw new ArgumentNullException("targets");
+                throw new ArgumentNullException(nameof(targets));
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             SendNotice(targets.Select(t => t.Name), text);
         }
@@ -217,9 +217,9 @@ namespace IrcDotNet
         public void SendNotice(string target, string text)
         {
             if (target == null)
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             SendNotice(new[] {target}, text);
         }
@@ -235,9 +235,9 @@ namespace IrcDotNet
         public void SendNotice(IEnumerable<string> targets, string text, Encoding encoding = null)
         {
             if (targets == null)
-                throw new ArgumentNullException("targets");
+                throw new ArgumentNullException(nameof(targets));
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             Client.SendNotice(targets, text.ChangeEncoding(Client.TextEncoding, encoding));
         }
@@ -250,7 +250,7 @@ namespace IrcDotNet
         public void SetNickName(string nickName)
         {
             if (nickName == null)
-                throw new ArgumentNullException("nickName");
+                throw new ArgumentNullException(nameof(nickName));
 
             Client.SetNickName(nickName);
         }
@@ -263,7 +263,7 @@ namespace IrcDotNet
         public void SetAway(string text)
         {
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             Client.SetAway(text);
         }
@@ -300,7 +300,7 @@ namespace IrcDotNet
         public void SetModes(IEnumerable<char> newModes)
         {
             if (newModes == null)
-                throw new ArgumentNullException("newModes");
+                throw new ArgumentNullException(nameof(newModes));
 
             lock (((ICollection) Modes).SyncRoot)
                 SetModes(newModes.Except(modes), modes.Except(newModes));
@@ -312,9 +312,9 @@ namespace IrcDotNet
         public void SetModes(IEnumerable<char> setModes, IEnumerable<char> unsetModes)
         {
             if (setModes == null)
-                throw new ArgumentNullException("setModes");
+                throw new ArgumentNullException(nameof(setModes));
             if (unsetModes == null)
-                throw new ArgumentNullException("unsetModes");
+                throw new ArgumentNullException(nameof(unsetModes));
 
             SetModes("+" + string.Join(string.Empty, setModes) + "-" + string.Join(string.Empty, unsetModes));
         }
@@ -330,7 +330,7 @@ namespace IrcDotNet
         public void SetModes(string modes)
         {
             if (modes == null)
-                throw new ArgumentNullException("modes");
+                throw new ArgumentNullException(nameof(modes));
 
             Client.SetLocalUserModes(this, modes);
         }

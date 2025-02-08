@@ -38,9 +38,9 @@ namespace IrcDotNet.Collections
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> range)
         {
             if (collection == null)
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
             if (range == null)
-                throw new ArgumentNullException("range");
+                throw new ArgumentNullException(nameof(range));
 
             foreach (var item in range)
                 collection.Add(item);
@@ -55,9 +55,9 @@ namespace IrcDotNet.Collections
         public static void RemoveRange<T>(this ICollection<T> collection, IEnumerable<T> range)
         {
             if (collection == null)
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
             if (range == null)
-                throw new ArgumentNullException("range");
+                throw new ArgumentNullException(nameof(range));
 
             foreach (var item in range)
                 collection.Remove(item);
@@ -72,9 +72,9 @@ namespace IrcDotNet.Collections
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             if (action == null)
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
 
             foreach (var item in source)
                 action(item);

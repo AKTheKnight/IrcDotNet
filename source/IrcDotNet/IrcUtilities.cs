@@ -17,15 +17,15 @@ namespace IrcDotNet
             Action<bool, char, string> handleModeParameter = null)
         {
             if (collection == null)
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
             if (newModes == null)
-                throw new ArgumentNullException("newModes");
+                throw new ArgumentNullException(nameof(newModes));
             if (newModeParameters != null)
             {
                 if (modesWithParameters == null)
-                    throw new ArgumentNullException("modesWithParameters");
+                    throw new ArgumentNullException(nameof(modesWithParameters));
                 if (handleModeParameter == null)
-                    throw new ArgumentNullException("handleModeParameter");
+                    throw new ArgumentNullException(nameof(handleModeParameter));
             }
 
             // Reads list of mode changes, where each group of modes is prefixed by a '+' or '-', representing
@@ -48,7 +48,7 @@ namespace IrcDotNet
                     {
                         if (!modeParametersEnumerator.MoveNext())
                             throw new ArgumentException(Resources.MessageNotEnoughModeParameters,
-                                "newModeParameters");
+                                nameof(newModeParameters));
                         handleModeParameter(addMode.Value, mode, modeParametersEnumerator.Current);
                     }
                     else
