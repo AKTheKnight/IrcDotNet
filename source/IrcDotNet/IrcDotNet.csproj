@@ -3,6 +3,7 @@
   <PropertyGroup>
     <VersionPrefix>0.7.0</VersionPrefix>
     <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
     <AssemblyName>IrcDotNet</AssemblyName>
     <PackageId>IrcDotNet</PackageId>
     <PackageTags>communication;irc;networking;ctcp</PackageTags>
@@ -14,6 +15,7 @@
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <Nullable>warnings</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
