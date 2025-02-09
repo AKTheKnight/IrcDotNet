@@ -15,43 +15,21 @@ namespace IrcDotNet;
 [DebuggerDisplay("{ToString(), nq}")]
 public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTarget
 {
-    private string awayMessage;
-
     private IrcClient client;
-
-    private int hopCount;
-
-    private string hostName;
-
-    private TimeSpan idleDuration;
-
-    private bool isAway;
-    private bool isOnline;
-
-    private bool isOperator;
-
-    private string nickName;
-
-    private string realName;
-
-    private string serverInfo;
-
-    private string serverName;
-
-    private string userName;
 
     internal IrcUser(bool isOnline, string nickName, string userName, string realName)
     {
-        this.nickName = nickName;
-        this.userName = userName;
-        this.realName = realName;
-        serverName = null;
-        serverInfo = null;
-        isOperator = false;
-        isAway = false;
-        awayMessage = null;
-        idleDuration = TimeSpan.Zero;
-        hopCount = 0;
+        this.NickName = nickName;
+        this.UserName = userName;
+        this.RealName = realName;
+        this.IsOnline = isOnline;
+        ServerName = null;
+        ServerInfo = null;
+        IsOperator = false;
+        IsAway = false;
+        AwayMessage = null;
+        IdleDuration = TimeSpan.Zero;
+        HopCount = 0;
     }
 
     internal IrcUser()
@@ -68,10 +46,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// </value>
     public bool IsOnline
     {
-        get { return isOnline; }
+        get;
         internal set
         {
-            isOnline = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsOnline)));
         }
     }
@@ -82,10 +60,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>The nick name of the user.</value>
     public string NickName
     {
-        get { return nickName; }
+        get;
         internal set
         {
-            nickName = value;
+            field = value;
             OnNickNameChanged(new EventArgs());
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(NickName)));
         }
@@ -97,10 +75,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>The user name of the user.</value>
     public string UserName
     {
-        get { return userName; }
+        get;
         internal set
         {
-            userName = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(UserName)));
         }
     }
@@ -111,10 +89,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>The real name of the user.</value>
     public string RealName
     {
-        get { return realName; }
+        get;
         internal set
         {
-            realName = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(RealName)));
         }
     }
@@ -125,10 +103,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>The host name of the user.</value>
     public string HostName
     {
-        get { return hostName; }
+        get;
         internal set
         {
-            hostName = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(HostName)));
         }
     }
@@ -139,10 +117,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>The name of the server to which the user is connected.</value>
     public string ServerName
     {
-        get { return serverName; }
+        get;
         internal set
         {
-            serverName = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(ServerName)));
         }
     }
@@ -153,10 +131,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>Arbitrary information about the server.</value>
     public string ServerInfo
     {
-        get { return serverInfo; }
+        get;
         internal set
         {
-            serverInfo = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(ServerInfo)));
         }
     }
@@ -167,10 +145,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value><see langword="true" /> if the user is a server operator; <see langword="false" />, otherwise.</value>
     public bool IsOperator
     {
-        get { return isOperator; }
+        get;
         internal set
         {
-            isOperator = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsOperator)));
         }
     }
@@ -186,10 +164,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// </value>
     public bool IsAway
     {
-        get { return isAway; }
+        get;
         internal set
         {
-            isAway = value;
+            field = value;
             OnIsAwayChanged(new EventArgs());
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAway)));
         }
@@ -201,10 +179,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>The current away message of the user.</value>
     public string AwayMessage
     {
-        get { return awayMessage; }
+        get;
         internal set
         {
-            awayMessage = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(AwayMessage)));
         }
     }
@@ -215,10 +193,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>The duration for which the user has been idle.</value>
     public TimeSpan IdleDuration
     {
-        get { return idleDuration; }
+        get;
         internal set
         {
-            idleDuration = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IdleDuration)));
         }
     }
@@ -230,10 +208,10 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <value>The hop count of the user.</value>
     public int HopCount
     {
-        get { return hopCount; }
+        get;
         internal set
         {
-            hopCount = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(HopCount)));
         }
     }
@@ -303,7 +281,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// </summary>
     public void WhoIs()
     {
-        client.QueryWhoIs(nickName);
+        client.QueryWhoIs(NickName);
     }
 
     /// <summary>
@@ -315,7 +293,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// </param>
     public void WhoWas(int entriesCount = -1)
     {
-        client.QueryWhoWas(new[] {nickName}, entriesCount);
+        client.QueryWhoWas(new[] {NickName}, entriesCount);
     }
 
     /// <summary>
@@ -411,6 +389,6 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <returns>A string that represents this instance.</returns>
     public override string ToString()
     {
-        return nickName;
+        return NickName;
     }
 }

@@ -23,9 +23,6 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     private readonly HashSet<char> modes;
 
     // Current topic of channel.
-    private string topic;
-
-    private IrcChannelType type;
 
     // Collection of users that are currently members of this channel.
     private readonly Collection<IrcChannelUser> users;
@@ -33,7 +30,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     internal IrcChannel(string name)
     {
         Name = name;
-        type = IrcChannelType.Unspecified;
+        Type = IrcChannelType.Unspecified;
         modes = new HashSet<char>();
         Modes = new ReadOnlySet<char>(modes);
         users = new Collection<IrcChannelUser>();
@@ -52,10 +49,10 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <value>The type of the channel.</value>
     public IrcChannelType Type
     {
-        get { return type; }
+        get;
         private set
         {
-            type = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(Type)));
         }
     }
@@ -66,10 +63,10 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <value>The current topic of the channel.</value>
     public string Topic
     {
-        get { return topic; }
+        get;
         private set
         {
-            topic = value;
+            field = value;
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(Topic)));
         }
     }
