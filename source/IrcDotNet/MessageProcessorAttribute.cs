@@ -1,8 +1,10 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace IrcDotNet
 {
     // Indicates that method processes message for some protocol.
+    [MeansImplicitUse]
     internal class MessageProcessorAttribute : Attribute
     {
         public MessageProcessorAttribute(string commandName)
