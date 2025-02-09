@@ -301,15 +301,11 @@ namespace IrcDotNet
         /// </summary>
         public event EventHandler<IrcErrorEventArgs> Error;
 
-#if !SILVERLIGHT
-
         /// <summary>
         ///     Occurs when the SSL certificate received from the server should be validated.
         ///     The certificate is automatically validated if this event is not handled.
         /// </summary>
         public event EventHandler<IrcValidateSslCertificateEventArgs> ValidateSslCertificate;
-
-#endif
 
         /// <summary>
         ///     Occurs when a raw message has been sent to the server.
@@ -1695,8 +1691,6 @@ namespace IrcDotNet
                 handler(this, e);
         }
 
-#if !SILVERLIGHT
-
         /// <summary>
         ///     Raises the <see cref="ValidateSslCertificate" /> event.
         /// </summary>
@@ -1709,8 +1703,6 @@ namespace IrcDotNet
             if (handler != null)
                 handler(this, e);
         }
-
-#endif
 
         /// <summary>
         ///     Raises the <see cref="RawMessageSent" /> event.

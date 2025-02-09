@@ -4,10 +4,7 @@ using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using static IrcDotNet.IrcClient;
-#if !SILVERLIGHT
 using System.Net.Security;
-
-#endif
 
 namespace IrcDotNet
 {
@@ -668,9 +665,7 @@ namespace IrcDotNet
         /// <value>The raw content of the message.</value>
         public string RawContent { get; private set; }
     }
-
-#if !SILVERLIGHT
-
+    
     /// <summary>
     ///     Provides data for the <see cref="IrcClient.ValidateSslCertificate" /> event.
     /// </summary>
@@ -715,8 +710,6 @@ namespace IrcDotNet
         /// <value><see langword="true" /> if the certificate is valid; <see langword="false" />, otherwise.</value>
         public bool IsValid { get; set; }
     }
-
-#endif
 
     /// <summary>
     ///     Provides data for the <see cref="IrcClient.Error" /> event.

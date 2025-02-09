@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using IrcDotNet.Collections;
 using static IrcDotNet.IrcClient;
 
 namespace IrcDotNet
@@ -322,11 +321,7 @@ namespace IrcDotNet
             {
                 if (users.Contains(channelUser))
                 {
-#if SILVERLIGHT
-                    Debug.Assert(false, "User already in channel.");
-#else
                     Debug.Fail("User already in channel.");
-#endif
                     return;
                 }
             }
@@ -369,11 +364,7 @@ namespace IrcDotNet
             {
                 if (users.Contains(channelUser))
                 {
-#if SILVERLIGHT
-                Debug.Assert(false, "User already in channel.");
-#else
                     Debug.Fail("User already in channel.");
-#endif
                     return;
                 }
             }

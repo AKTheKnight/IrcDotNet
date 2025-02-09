@@ -7,10 +7,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using IrcDotNet.Properties;
-#if !SILVERLIGHT
 using System.Net.Security;
-
-#endif
 
 namespace IrcDotNet
 {
@@ -484,11 +481,8 @@ namespace IrcDotNet
 
                 // Create stream for received data. Use SSL stream on top of network stream, if specified.
                 receiveStream = new CircularBufferStream(socketReceiveBufferSize);
-#if SILVERLIGHT
-                this.dataStream = this.receiveStream;
-#else
                 dataStream = GetDataStream(token.Item1, token.Item2);
-#endif
+                
                 dataStreamReader = new StreamReader(receiveStream, TextEncoding);
                 dataStreamLineReader = new SafeLineReader(dataStreamReader);
 
@@ -617,8 +611,6 @@ namespace IrcDotNet
             return "(Not connected)";
         }
 
-#if !SILVERLIGHT
-
         private Stream GetDataStream(bool useSsl, string targetHost)
         {
             if (useSsl)
@@ -645,7 +637,5 @@ namespace IrcDotNet
             OnValidateSslCertificate(eventArgs);
             return eventArgs.IsValid;
         }
-
-#endif
-            }
+    }
 }
