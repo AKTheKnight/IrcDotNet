@@ -130,10 +130,8 @@ namespace IrcDotNet
         /// <param name="target">The <see cref="IIrcMessageTarget" /> to which to send the message.</param>
         public void SendMessage(IIrcMessageTarget target, string text)
         {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(target);
+            ArgumentNullException.ThrowIfNull(text);
 
             SendMessage(new[] {target}, text);
         }
@@ -146,10 +144,8 @@ namespace IrcDotNet
         /// <param name="targets">A collection of targets to which to send the message.</param>
         public void SendMessage(IEnumerable<IIrcMessageTarget> targets, string text)
         {
-            if (targets == null)
-                throw new ArgumentNullException(nameof(targets));
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(targets);
+            ArgumentNullException.ThrowIfNull(text);
 
             SendMessage(targets.Select(t => t.Name), text);
         }
@@ -158,10 +154,8 @@ namespace IrcDotNet
         /// <param name="target">The name of the target to which to send the message.</param>
         public void SendMessage(string target, string text)
         {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(target);
+            ArgumentNullException.ThrowIfNull(text);
 
             SendMessage(new[] {target}, text);
         }
@@ -176,10 +170,8 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
         public void SendMessage(IEnumerable<string> targets, string text, Encoding encoding = null)
         {
-            if (targets == null)
-                throw new ArgumentNullException(nameof(targets));
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(targets);
+            ArgumentNullException.ThrowIfNull(text);
 
             Client.SendPrivateMessage(targets, text.ChangeEncoding(Client.TextEncoding, encoding));
         }
@@ -188,10 +180,8 @@ namespace IrcDotNet
         /// <param name="target">The <see cref="IIrcMessageTarget" /> to which to send the notice.</param>
         public void SendNotice(IIrcMessageTarget target, string text)
         {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(target);
+            ArgumentNullException.ThrowIfNull(text);
 
             SendNotice(new[] {target}, text);
         }
@@ -204,10 +194,8 @@ namespace IrcDotNet
         /// <param name="targets">A collection of targets to which to send the notice.</param>
         public void SendNotice(IEnumerable<IIrcMessageTarget> targets, string text)
         {
-            if (targets == null)
-                throw new ArgumentNullException(nameof(targets));
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(targets);
+            ArgumentNullException.ThrowIfNull(text);
 
             SendNotice(targets.Select(t => t.Name), text);
         }
@@ -216,10 +204,8 @@ namespace IrcDotNet
         /// <param name="target">The name of the target to which to send the notice.</param>
         public void SendNotice(string target, string text)
         {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(target);
+            ArgumentNullException.ThrowIfNull(text);
 
             SendNotice(new[] {target}, text);
         }
@@ -234,10 +220,8 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
         public void SendNotice(IEnumerable<string> targets, string text, Encoding encoding = null)
         {
-            if (targets == null)
-                throw new ArgumentNullException(nameof(targets));
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(targets);
+            ArgumentNullException.ThrowIfNull(text);
 
             Client.SendNotice(targets, text.ChangeEncoding(Client.TextEncoding, encoding));
         }
@@ -249,8 +233,7 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="nickName" /> is <see langword="null" />.</exception>
         public void SetNickName(string nickName)
         {
-            if (nickName == null)
-                throw new ArgumentNullException(nameof(nickName));
+            ArgumentNullException.ThrowIfNull(nickName);
 
             Client.SetNickName(nickName);
         }
@@ -262,8 +245,7 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
         public void SetAway(string text)
         {
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(text);
 
             Client.SetAway(text);
         }
@@ -299,8 +281,7 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="newModes" /> is <see langword="null" />.</exception>
         public void SetModes(IEnumerable<char> newModes)
         {
-            if (newModes == null)
-                throw new ArgumentNullException(nameof(newModes));
+            ArgumentNullException.ThrowIfNull(newModes);
 
             lock (((ICollection) Modes).SyncRoot)
                 SetModes(newModes.Except(modes), modes.Except(newModes));
@@ -311,10 +292,8 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="unsetModes" /> is <see langword="null" />.</exception>
         public void SetModes(IEnumerable<char> setModes, IEnumerable<char> unsetModes)
         {
-            if (setModes == null)
-                throw new ArgumentNullException(nameof(setModes));
-            if (unsetModes == null)
-                throw new ArgumentNullException(nameof(unsetModes));
+            ArgumentNullException.ThrowIfNull(setModes);
+            ArgumentNullException.ThrowIfNull(unsetModes);
 
             SetModes("+" + string.Join(string.Empty, setModes) + "-" + string.Join(string.Empty, unsetModes));
         }
@@ -329,8 +308,7 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="modes" /> is <see langword="null" />.</exception>
         public void SetModes(string modes)
         {
-            if (modes == null)
-                throw new ArgumentNullException(nameof(modes));
+            ArgumentNullException.ThrowIfNull(modes);
 
             Client.SetLocalUserModes(this, modes);
         }

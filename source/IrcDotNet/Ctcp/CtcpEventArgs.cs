@@ -20,10 +20,8 @@ namespace IrcDotNet.Ctcp
         /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
         public CtcpMessageEventArgs(IrcUser source, IList<IIrcMessageTarget> targets, string text)
         {
-            if (targets == null)
-                throw new ArgumentNullException("target");
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+            ArgumentNullException.ThrowIfNull(targets);
+            ArgumentNullException.ThrowIfNull(text);
 
             Source = source;
             Targets = new ReadOnlyCollection<IIrcMessageTarget>(targets);

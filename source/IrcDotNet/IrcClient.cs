@@ -453,8 +453,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (channelNames == null)
-                throw new ArgumentNullException(nameof(channelNames));
+            ArgumentNullException.ThrowIfNull(channelNames);
 
             SendMessageList(channelNames);
         }
@@ -634,8 +633,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (nickNameMasks == null)
-                throw new ArgumentNullException("nickNames");
+            ArgumentNullException.ThrowIfNull(nickNameMasks);
 
             QueryWhoIs((IEnumerable<string>) nickNameMasks);
         }
@@ -653,8 +651,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (nickNameMasks == null)
-                throw new ArgumentNullException("nickNames");
+            ArgumentNullException.ThrowIfNull(nickNameMasks);
 
             SendMessageWhoIs(nickNameMasks);
         }
@@ -664,8 +661,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (nickNames == null)
-                throw new ArgumentNullException(nameof(nickNames));
+            ArgumentNullException.ThrowIfNull(nickNames);
 
             QueryWhoWas((IEnumerable<string>) nickNames);
         }
@@ -684,8 +680,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (nickNames == null)
-                throw new ArgumentNullException(nameof(nickNames));
+            ArgumentNullException.ThrowIfNull(nickNames);
 
             SendMessageWhoWas(nickNames, entriesCount);
         }
@@ -729,8 +724,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+            ArgumentNullException.ThrowIfNull(message);
 
             var token = new IrcRawMessageEventArgs(new IrcMessage(), message);
 
@@ -781,8 +775,7 @@ namespace IrcDotNet
         /// </param>
         protected bool HandleISupportParameter(string paramName, string paramValue)
         {
-            if (paramName == null)
-                throw new ArgumentNullException(nameof(paramName));
+            ArgumentNullException.ThrowIfNull(paramName);
             if (paramName.Length == 0)
                 throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(paramName));
 
@@ -821,8 +814,7 @@ namespace IrcDotNet
         /// <returns>A 2-tuple of the nick name and user mode.</returns>
         protected Tuple<string, string> GetUserModeAndNickName(string input)
         {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
+            ArgumentNullException.ThrowIfNull(input);
             if (input.Length == 0)
                 throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(input));
 
@@ -847,8 +839,7 @@ namespace IrcDotNet
         /// </returns>
         protected Tuple<string, IEnumerable<string>> GetModeAndParameters(IEnumerable<string> messageParameters)
         {
-            if (messageParameters == null)
-                throw new ArgumentNullException(nameof(messageParameters));
+            ArgumentNullException.ThrowIfNull(messageParameters);
 
             var modes = new StringBuilder();
             var modeParameters = new List<string>();
@@ -873,8 +864,7 @@ namespace IrcDotNet
         /// <returns>A list of channel objects that corresponds to the given list of channel names.</returns>
         protected IEnumerable<IrcChannel> GetChannelsFromList(string namesList)
         {
-            if (namesList == null)
-                throw new ArgumentNullException(nameof(namesList));
+            ArgumentNullException.ThrowIfNull(namesList);
 
             return namesList.Split(',').Select(n => GetChannelFromName(n));
         }
@@ -886,8 +876,7 @@ namespace IrcDotNet
         /// <returns>A list of user objects that corresponds to the given list of nick names.</returns>
         protected IEnumerable<IrcUser> GetUsersFromList(string nickNamesList)
         {
-            if (nickNamesList == null)
-                throw new ArgumentNullException(nameof(nickNamesList));
+            ArgumentNullException.ThrowIfNull(nickNamesList);
 
             lock (((ICollection) Users).SyncRoot)
                 return nickNamesList.Split(',').Select(n => users.Single(u => u.NickName == n));
@@ -903,8 +892,7 @@ namespace IrcDotNet
         /// </returns>
         protected bool IsChannelName(string name)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
 
             return Regex.IsMatch(name, regexChannelName);
         }
@@ -965,8 +953,7 @@ namespace IrcDotNet
         /// </exception>
         protected IIrcMessageTarget GetMessageTarget(string targetName)
         {
-            if (targetName == null)
-                throw new ArgumentNullException(nameof(targetName));
+            ArgumentNullException.ThrowIfNull(targetName);
             if (targetName.Length == 0)
                 throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(targetName));
 
@@ -1072,8 +1059,7 @@ namespace IrcDotNet
         /// <returns>The server object that corresponds to the specified host name.</returns>
         protected IrcServer GetServerFromHostName(string hostName, out bool createdNew)
         {
-            if (hostName == null)
-                throw new ArgumentNullException(nameof(hostName));
+            ArgumentNullException.ThrowIfNull(hostName);
             if (hostName.Length == 0)
                 throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(hostName));
 
@@ -1111,8 +1097,7 @@ namespace IrcDotNet
         /// <returns>The channel object that corresponds to the specified name.</returns>
         protected IrcChannel GetChannelFromName(string channelName, out bool createdNew)
         {
-            if (channelName == null)
-                throw new ArgumentNullException(nameof(channelName));
+            ArgumentNullException.ThrowIfNull(channelName);
             if (channelName.Length == 0)
                 throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(channelName));
 
@@ -1159,8 +1144,7 @@ namespace IrcDotNet
         /// <returns>The user object that corresponds to the specified nick name.</returns>
         protected IrcUser GetUserFromNickName(string nickName, bool isOnline, out bool createdNew)
         {
-            if (nickName == null)
-                throw new ArgumentNullException(nameof(nickName));
+            ArgumentNullException.ThrowIfNull(nickName);
             if (nickName.Length == 0)
                 throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(nickName));
 
@@ -1206,8 +1190,7 @@ namespace IrcDotNet
         /// <returns>The user object that corresponds to the specified user name.</returns>
         protected IrcUser GetUserFromUserName(string userName, out bool createdNew)
         {
-            if (userName == null)
-                throw new ArgumentNullException(nameof(userName));
+            ArgumentNullException.ThrowIfNull(userName);
             if (userName.Length == 0)
                 throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(userName));
 
@@ -1499,8 +1482,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (registrationInfo == null)
-                throw new ArgumentNullException(nameof(registrationInfo));
+            ArgumentNullException.ThrowIfNull(registrationInfo);
 
             CheckRegistrationInfo(registrationInfo, "registrationInfo");
             ResetState();

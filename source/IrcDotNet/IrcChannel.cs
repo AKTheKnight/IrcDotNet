@@ -182,8 +182,7 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="user" /> is <see langword="null" />.</exception>
         public IrcChannelUser GetChannelUser(IrcUser user)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
+            ArgumentNullException.ThrowIfNull(user);
 
             return users.SingleOrDefault(cu => cu.User == user);
         }
@@ -259,8 +258,7 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="newModes" /> is <see langword="null" />.</exception>
         public void SetModes(IEnumerable<char> newModes)
         {
-            if (newModes == null)
-                throw new ArgumentNullException(nameof(newModes));
+            ArgumentNullException.ThrowIfNull(newModes);
 
             lock (((ICollection) Modes).SyncRoot)
                 SetModes(newModes.Except(modes), modes.Except(newModes));
@@ -272,10 +270,8 @@ namespace IrcDotNet
         public void SetModes(IEnumerable<char> setModes, IEnumerable<char> unsetModes,
             IEnumerable<string> modeParameters = null)
         {
-            if (setModes == null)
-                throw new ArgumentNullException(nameof(setModes));
-            if (unsetModes == null)
-                throw new ArgumentNullException(nameof(unsetModes));
+            ArgumentNullException.ThrowIfNull(setModes);
+            ArgumentNullException.ThrowIfNull(unsetModes);
 
             SetModes("+" + string.Join(string.Empty, setModes) + "-" + string.Join(string.Empty, unsetModes),
                 modeParameters);
@@ -284,8 +280,7 @@ namespace IrcDotNet
         /// <inheritdoc cref="SetModes(string, IEnumerable{string})" />
         public void SetModes(string modes, params string[] modeParameters)
         {
-            if (modes == null)
-                throw new ArgumentNullException(nameof(modes));
+            ArgumentNullException.ThrowIfNull(modes);
 
             SetModes(modes, (IEnumerable<string>) modeParameters);
         }
@@ -304,8 +299,7 @@ namespace IrcDotNet
         /// <exception cref="ArgumentNullException"><paramref name="modes" /> is <see langword="null" />.</exception>
         public void SetModes(string modes, IEnumerable<string> modeParameters = null)
         {
-            if (modes == null)
-                throw new ArgumentNullException(nameof(modes));
+            ArgumentNullException.ThrowIfNull(modes);
 
             client.SetChannelModes(this, modes, modeParameters);
         }

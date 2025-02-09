@@ -20,8 +20,7 @@ namespace IrcDotNet.Collections
         /// <param name="value">The object to use as the value of the element to add/update.</param>
         public static void Set<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
-            if (dictionary == null)
-                throw new ArgumentNullException("collection");
+            ArgumentNullException.ThrowIfNull(dictionary);
 
             if (dictionary.ContainsKey(key))
                 dictionary[key] = value;
@@ -37,10 +36,8 @@ namespace IrcDotNet.Collections
         /// <param name="range">A collection of items to add to <paramref name="collection"/>.</param>
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> range)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-            if (range == null)
-                throw new ArgumentNullException(nameof(range));
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(range);
 
             foreach (var item in range)
                 collection.Add(item);
@@ -54,10 +51,8 @@ namespace IrcDotNet.Collections
         /// <param name="range">A collection of items to remove from <paramref name="collection"/>.</param>
         public static void RemoveRange<T>(this ICollection<T> collection, IEnumerable<T> range)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-            if (range == null)
-                throw new ArgumentNullException(nameof(range));
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(range);
 
             foreach (var item in range)
                 collection.Remove(item);
@@ -71,10 +66,8 @@ namespace IrcDotNet.Collections
         /// <param name="action">The action to perform on each item of the collection.</param>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(action);
 
             foreach (var item in source)
                 action(item);

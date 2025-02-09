@@ -71,8 +71,7 @@ namespace IrcDotNet
         /// <param name="channels">A list of information about the channels that was returned by the server.</param>
         public IrcChannelListReceivedEventArgs(IrcMessage ircMessage, IList<IrcChannelInfo> channels) : base(ircMessage)
         {
-            if (channels == null)
-                throw new ArgumentNullException(nameof(channels));
+            ArgumentNullException.ThrowIfNull(channels);
 
             Channels = new ReadOnlyCollection<IrcChannelInfo>(channels);
         }
@@ -99,14 +98,10 @@ namespace IrcDotNet
         /// <param name="comments">The comments about the server.</param>
         public IrcServerVersionInfoEventArgs(IrcMessage ircMessage, string version, string debugLevel, string serverName, string comments) : base(ircMessage)
         {
-            if (version == null)
-                throw new ArgumentNullException(nameof(version));
-            if (debugLevel == null)
-                throw new ArgumentNullException(nameof(debugLevel));
-            if (serverName == null)
-                throw new ArgumentNullException(nameof(serverName));
-            if (comments == null)
-                throw new ArgumentNullException(nameof(comments));
+            ArgumentNullException.ThrowIfNull(version);
+            ArgumentNullException.ThrowIfNull(debugLevel);
+            ArgumentNullException.ThrowIfNull(serverName);
+            ArgumentNullException.ThrowIfNull(comments);
 
             Version = version;
             DebugLevel = debugLevel;
@@ -152,10 +147,8 @@ namespace IrcDotNet
         /// <param name="dateTime">The local date/time received from the server.</param>
         public IrcServerTimeEventArgs(IrcMessage ircMessage, string serverName, string dateTime) : base(ircMessage)
         {
-            if (serverName == null)
-                throw new ArgumentNullException(nameof(serverName));
-            if (dateTime == null)
-                throw new ArgumentNullException(nameof(dateTime));
+            ArgumentNullException.ThrowIfNull(serverName);
+            ArgumentNullException.ThrowIfNull(dateTime);
 
             ServerName = serverName;
             DateTime = dateTime;
@@ -186,8 +179,7 @@ namespace IrcDotNet
         /// <param name="links">A list of information about the server links that was returned by the server.</param>
         public IrcServerLinksListReceivedEventArgs(IrcMessage ircMessage, IList<IrcServerInfo> links) : base(ircMessage)
         {
-            if (links == null)
-                throw new ArgumentNullException(nameof(links));
+            ArgumentNullException.ThrowIfNull(links);
 
             Links = new ReadOnlyCollection<IrcServerInfo>(links);
         }
@@ -211,8 +203,7 @@ namespace IrcDotNet
         /// <param name="entries">A list of statistical entries that was returned by the server.</param>
         public IrcServerStatsReceivedEventArgs(IrcMessage ircMessage, IList<IrcServerStatisticalEntry> entries) : base(ircMessage)
         {
-            if (entries == null)
-                throw new ArgumentNullException(nameof(entries));
+            ArgumentNullException.ThrowIfNull(entries);
 
             Entries = new ReadOnlyCollection<IrcServerStatisticalEntry>(entries);
         }
@@ -265,12 +256,9 @@ namespace IrcDotNet
         public IrcMessageEventArgs(IrcMessage ircMessage, IIrcMessageSource source, IList<IIrcMessageTarget> targets, string text,
             Encoding encoding) : base(ircMessage)
         {
-            if (targets == null)
-                throw new ArgumentNullException("target");
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
-            if (encoding == null)
-                throw new ArgumentNullException("textEncoding");
+            ArgumentNullException.ThrowIfNull(targets);
+            ArgumentNullException.ThrowIfNull(text);
+            ArgumentNullException.ThrowIfNull(encoding);
 
             Source = source;
             Targets = new ReadOnlyCollection<IIrcMessageTarget>(targets);
@@ -329,8 +317,7 @@ namespace IrcDotNet
         /// <param name="inviter">The user inviting the recipient user to the channel.</param>
         public IrcChannelInvitationEventArgs(IrcMessage ircMessage, IrcChannel channel, IrcUser inviter, string comment = null) : base(ircMessage, channel, comment)
         {
-            if (inviter == null)
-                throw new ArgumentNullException(nameof(inviter));
+            ArgumentNullException.ThrowIfNull(inviter);
 
             Inviter = inviter;
         }
@@ -355,8 +342,7 @@ namespace IrcDotNet
         /// <param name="channelUser">The channel user that the event concerns.</param>
         public IrcChannelUserEventArgs(IrcMessage ircMessage, IrcChannelUser channelUser, string comment = null) : base(ircMessage, comment)
         {
-            if (channelUser == null)
-                throw new ArgumentNullException(nameof(channelUser));
+            ArgumentNullException.ThrowIfNull(channelUser);
 
             ChannelUser = channelUser;
         }
@@ -382,8 +368,7 @@ namespace IrcDotNet
         public IrcChannelEventArgs(IrcMessage ircMessage, IrcChannel channel, string comment = null)
             : base(ircMessage, comment)
         {
-            if (channel == null)
-                throw new ArgumentNullException(nameof(channel));
+            ArgumentNullException.ThrowIfNull(channel);
 
             Channel = channel;
         }
@@ -475,8 +460,7 @@ namespace IrcDotNet
         /// <param name="server">The name of the server that is the source of the ping or pong.</param>
         public IrcPingOrPongReceivedEventArgs(IrcMessage ircMessage, string server) : base(ircMessage)
         {
-            if (server == null)
-                throw new ArgumentNullException(nameof(server));
+            ArgumentNullException.ThrowIfNull(server);
 
             Server = server;
         }
@@ -519,8 +503,7 @@ namespace IrcDotNet
         /// <param name="port">The port on which to connect to the server.</param>
         public IrcServerInfoEventArgs(IrcMessage ircMessage, string address, int port) : base(ircMessage)
         {
-            if (address == null)
-                throw new ArgumentNullException(nameof(address));
+            ArgumentNullException.ThrowIfNull(address);
             if (port <= 0)
                 throw new ArgumentOutOfRangeException(nameof(port));
 
@@ -553,8 +536,7 @@ namespace IrcDotNet
         /// <param name="message">The error message given by the server.</param>
         public IrcErrorMessageEventArgs(IrcMessage ircMessage, string message) : base(ircMessage)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+            ArgumentNullException.ThrowIfNull(message);
 
             Message = message;
         }
@@ -578,8 +560,7 @@ namespace IrcDotNet
         /// <param name="caps">The list of active capabilities</param>
         public ActiveCapabilitiesEventArgs(string[] caps)
         {
-            if (caps == null)
-                throw new ArgumentNullException(nameof(caps));
+            ArgumentNullException.ThrowIfNull(caps);
 
             Capabilities = caps;
         }
@@ -635,10 +616,8 @@ namespace IrcDotNet
         /// <param name="message">The message.</param>
         public IrcProtocolErrorEventArgs(IrcMessage ircMessage, int code, IList<string> parameters, string message) : base(ircMessage)
         {
-            if (parameters == null)
-                throw new ArgumentNullException(nameof(parameters));
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+            ArgumentNullException.ThrowIfNull(parameters);
+            ArgumentNullException.ThrowIfNull(message);
 
             Code = code;
             Parameters = new ReadOnlyCollection<string>(parameters);
@@ -751,8 +730,7 @@ namespace IrcDotNet
         /// <param name="error">The error.</param>
         public IrcErrorEventArgs(Exception error)
         {
-            if (error == null)
-                throw new ArgumentNullException(nameof(error));
+            ArgumentNullException.ThrowIfNull(error);
 
             Error = error;
         }

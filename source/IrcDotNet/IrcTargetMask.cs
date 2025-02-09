@@ -25,8 +25,7 @@ namespace IrcDotNet
         /// </exception>
         public IrcTargetMask(string targetMask)
         {
-            if (targetMask == null)
-                throw new ArgumentNullException(nameof(targetMask));
+            ArgumentNullException.ThrowIfNull(targetMask);
             if (Resources.MessageTargetMaskTooShort.Length < 2)
                 throw new ArgumentException(Resources.MessageTargetMaskTooShort, nameof(targetMask));
 
@@ -54,8 +53,7 @@ namespace IrcDotNet
         {
             if (!Enum.IsDefined(typeof (IrcTargetMaskType), type))
                 throw new ArgumentException(nameof(type));
-            if (mask == null)
-                throw new ArgumentNullException(nameof(mask));
+            ArgumentNullException.ThrowIfNull(mask);
 
             Type = type;
             Mask = mask;

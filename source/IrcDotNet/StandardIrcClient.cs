@@ -107,8 +107,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (registrationInfo == null)
-                throw new ArgumentNullException(nameof(registrationInfo));
+            ArgumentNullException.ThrowIfNull(registrationInfo);
 
             // Check URL scheme and decide whether to use SSL.
             bool useSsl;
@@ -128,8 +127,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (registrationInfo == null)
-                throw new ArgumentNullException(nameof(registrationInfo));
+            ArgumentNullException.ThrowIfNull(registrationInfo);
 
             Connect(hostName, useSsl ? DefaultSSLPort : DefaultPort, useSsl, registrationInfo);
         }
@@ -141,8 +139,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (registrationInfo == null)
-                throw new ArgumentNullException(nameof(registrationInfo));
+            ArgumentNullException.ThrowIfNull(registrationInfo);
 
             var dnsTask = Dns.GetHostAddressesAsync(hostName);
             var addresses = dnsTask.Result;
@@ -155,8 +152,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (registrationInfo == null)
-                throw new ArgumentNullException(nameof(registrationInfo));
+            ArgumentNullException.ThrowIfNull(registrationInfo);
 
             Connect(new IPEndPoint(address, useSsl ? DefaultSSLPort : DefaultPort), useSsl, registrationInfo);
         }
@@ -168,8 +164,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (registrationInfo == null)
-                throw new ArgumentNullException(nameof(registrationInfo));
+            ArgumentNullException.ThrowIfNull(registrationInfo);
 
             Connect(new IPEndPoint(address.Address, port), useSsl, registrationInfo);
         }
@@ -178,8 +173,7 @@ namespace IrcDotNet
         {
             CheckDisposed();
 
-            if (registrationInfo == null)
-                throw new ArgumentNullException(nameof(registrationInfo));
+            ArgumentNullException.ThrowIfNull(registrationInfo);
 
             Connect(new IPEndPoint(((IPEndPoint)endpoint).Address, useSsl ? DefaultSSLPort : DefaultPort), useSsl, registrationInfo);
         }

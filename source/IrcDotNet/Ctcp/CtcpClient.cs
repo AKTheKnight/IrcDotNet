@@ -64,8 +64,7 @@ namespace IrcDotNet.Ctcp
         /// <param name="ircClient">The IRC client by which the CTCP client should communicate.</param>
         public CtcpClient(IrcClient ircClient)
         {
-            if (ircClient == null)
-                throw new ArgumentNullException(nameof(ircClient));
+            ArgumentNullException.ThrowIfNull(ircClient);
 
             IrcClient = ircClient;
             messageProcessors = new Dictionary<string, MessageProcessor>(

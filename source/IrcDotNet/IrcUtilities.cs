@@ -16,16 +16,12 @@ namespace IrcDotNet
             IEnumerable<string> newModeParameters = null, ICollection<char> modesWithParameters = null,
             Action<bool, char, string> handleModeParameter = null)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-            if (newModes == null)
-                throw new ArgumentNullException(nameof(newModes));
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(newModes);
             if (newModeParameters != null)
             {
-                if (modesWithParameters == null)
-                    throw new ArgumentNullException(nameof(modesWithParameters));
-                if (handleModeParameter == null)
-                    throw new ArgumentNullException(nameof(handleModeParameter));
+                ArgumentNullException.ThrowIfNull(modesWithParameters);
+                ArgumentNullException.ThrowIfNull(handleModeParameter);
             }
 
             // Reads list of mode changes, where each group of modes is prefixed by a '+' or '-', representing
