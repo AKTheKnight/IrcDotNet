@@ -1,4 +1,5 @@
 ﻿using System;
+using IrcDotNet.Interfaces;
 
 namespace IrcDotNet;
 

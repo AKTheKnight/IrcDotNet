@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using IrcDotNet.Collections;
+using IrcDotNet.Interfaces;
 using IrcDotNet.Properties;
 
 namespace IrcDotNet;

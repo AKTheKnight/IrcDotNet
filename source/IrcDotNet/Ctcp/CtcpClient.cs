@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using IrcDotNet.Collections;
+using IrcDotNet.Interfaces;
 using IrcDotNet.Properties;
 
 namespace IrcDotNet.Ctcp;

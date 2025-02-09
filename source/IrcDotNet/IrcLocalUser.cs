@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using IrcDotNet.Interfaces;
 using static IrcDotNet.IrcClient;
 
 #if !NET9_0_OR_GREATER

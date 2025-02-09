@@ -1,4 +1,6 @@
-﻿namespace IrcDotNet;
+﻿using IrcDotNet.Interfaces;
+
+namespace IrcDotNet;
 
 /// <summary>
 ///     Represents an IRC server from the view of a particular client.

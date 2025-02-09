@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using IrcDotNet.Interfaces;
 using IrcDotNet.Samples.Common;
 
 namespace IrcDotNet.Samples.MarkovTextBot

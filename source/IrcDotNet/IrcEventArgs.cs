@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using static IrcDotNet.IrcClient;
 using System.Net.Security;
+using IrcDotNet.Interfaces;
 
 namespace IrcDotNet;
 

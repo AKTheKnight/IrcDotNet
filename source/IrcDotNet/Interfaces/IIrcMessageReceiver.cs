@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Interfaces;
 
 /// <summary>
 ///     Represents an object that raises an event when a message or notice has been received.

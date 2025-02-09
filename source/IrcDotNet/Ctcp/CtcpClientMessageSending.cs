@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IrcDotNet.Interfaces;
 
 namespace IrcDotNet.Ctcp;
 

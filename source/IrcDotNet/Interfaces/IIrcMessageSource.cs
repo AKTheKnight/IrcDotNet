@@ -1,4 +1,4 @@
-﻿namespace IrcDotNet;
+﻿namespace IrcDotNet.Interfaces;
 
 /// <summary>
 ///     Represents the source of a message or notice sent by an IRC client.

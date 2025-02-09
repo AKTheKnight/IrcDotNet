@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using static IrcDotNet.IrcClient;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Interfaces;
 
 /// <summary>
 ///     Represents an object that handles messages and notices received by an IRC client.

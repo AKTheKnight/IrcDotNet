@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using IrcDotNet.Interfaces;
 
 namespace IrcDotNet.Samples.Common
 {

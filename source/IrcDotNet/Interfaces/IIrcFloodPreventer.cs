@@ -1,4 +1,4 @@
-﻿namespace IrcDotNet;
+﻿namespace IrcDotNet.Interfaces;
 
 /// <summary>
 ///     Defines a mechanism for preventing server floods by limiting the rate of outgoing raw messages from the client.

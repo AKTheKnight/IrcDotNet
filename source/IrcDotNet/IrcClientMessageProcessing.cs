@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using IrcDotNet.Collections;
+using IrcDotNet.Interfaces;
 using IrcDotNet.Properties;
 
 namespace IrcDotNet;
