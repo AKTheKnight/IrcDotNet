@@ -23,52 +23,52 @@ Exit the program
 
 Syntax:
 
-  exit
+  `exit`
 
 Connect to a server
 -------------------
 
 Syntax:
 
-  connect <server address>
+  `connect <server address>`
 
 Examples:
 
-  connect irc.freenode.net
-  connect 192.168.2.3
+  `connect irc.freenode.net`  
+  `connect 192.168.2.3`
 
 Disconnect from a server
 ------------------------
 
 Syntax:
 
-  disconnect <server name regex>
+  `disconnect <server name regex>`
 
 Examples:
 
-  disconnect freenode
+  `disconnect freenode`
 
 Join a channel
 --------------
 
 Syntax:
 
-  join <server name regex> <channel name>
+  `join <server name regex> <channel name>`
 
 Examples:
 
-  join freenode #TestChannel
+  `join freenode #TestChannel`
   
 Leave a channel
 ---------------
 
 Syntax:
 
-  leave <server name regex> <channel name>
+  `leave <server name regex> <channel name>`
 
 Examples:
 
-  leave freenode #TestChannel
+  `leave freenode #TestChannel`
 
 Chat Commands
 =============
@@ -76,7 +76,7 @@ Chat Commands
 These commands may be sent by a user directly to the bot user or to a channel of
 which the bot is a member.
 
-Note that all chat commands are prefixed with a period ('.').
+Note that all chat commands are prefixed with an exclamation mark (`!`).
 
 Talk
 ----
@@ -86,7 +86,7 @@ and send it to the channel.
 
 Syntax:
 
-  .talk [ <number of sentences> [ <highlight nick name> ] ]
+  `!talk [ <number of sentences> [ <highlight nick name> ] ]`
 
 If <number of sentences> is not specified, then the number is chosen randomly
 between 1 and 3.
@@ -95,9 +95,9 @@ with the given nick name.
 
 Examples:
 
-  .talk
-  .talk 5
-  .talk 3 SomeNickName
+  `!talk`  
+  `!talk 5`  
+  `!talk 3 SomeNickName`  
 
 Statistics
 ----------
@@ -106,8 +106,8 @@ Asks the bot to report various statistics about its usage to the channel.
 
 Syntax:
 
-  .stats
+  `!stats`
 
 Examples:
 
-  .stats
+  `!stats`

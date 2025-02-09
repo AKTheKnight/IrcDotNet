@@ -103,11 +103,7 @@ namespace IrcDotNet
                 var newWritePosition = (writePosition + writeCount)%Buffer.Length;
                 if (newWritePosition > readPosition && oldWritePosition < readPosition)
                 {
-#if !SILVERLIGHT && !NETSTANDARD1_5
                     throw new InternalBufferOverflowException("The CircularBuffer was overflowed!");
-#else
-                    throw new IOException("The CircularBuffer was overflowed!");
-#endif
                 }
                 System.Buffer.BlockCopy(buffer, offset, Buffer, (int) writePosition, writeCount);
                 writePosition = newWritePosition;

@@ -632,13 +632,9 @@ namespace IrcDotNet
                 // Create SSL stream over network stream to use for data transmission.
                 var sslStream = new SslStream(tcpClient.GetStream(), true,
                     SslUserCertificateValidationCallback);
-
-#if NETSTANDARD1_5
-                var authTask = sslStream.AuthenticateAsClientAsync(targetHost);
-                authTask.Wait();
-#else
+                
                 sslStream.AuthenticateAsClient(targetHost);
-#endif
+
                 Debug.Assert(sslStream.IsAuthenticated);
                 return sslStream;
             }
