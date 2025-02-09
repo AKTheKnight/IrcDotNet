@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace IrcDotNet.Collections;
@@ -68,5 +69,17 @@ public static class CollectionsUtilities
 
         foreach (var item in source)
             action(item);
+    }
+    /// <summary>
+    /// Invert a dictionary to move keys to values and vice versa
+    /// </summary>
+    /// <param name="dictionary">The dictionary to invert</param>
+    /// <typeparam name="TKey">Type of the keys</typeparam>
+    /// <typeparam name="TValue">Type of the values</typeparam>
+    /// <returns></returns>
+    
+    public static IDictionary<TValue, TKey> Invert<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+    {
+        return dictionary.ToDictionary(pair => pair.Value, pair => pair.Key);
     }
 }
