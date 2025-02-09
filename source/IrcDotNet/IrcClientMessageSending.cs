@@ -73,7 +73,7 @@ partial class IrcClient
     /// <param name="caps"></param>
     protected void SendMessageCapRequest(string[] caps)
     {
-        if (caps == null || caps.Length == 0)
+        if (caps is null || caps.Length == 0)
             return;
 
         WriteMessage(null, "CAP", "REQ", string.Join(" ", caps));
@@ -210,7 +210,7 @@ partial class IrcClient
         IEnumerable<string> modeParameters = null)
     {
         string modeParametersList = null;
-        if (modeParameters != null)
+        if (modeParameters is not null)
         {
             var modeParametersArray = modeParameters.ToArray();
             if (modeParametersArray.Length > 3)
@@ -245,7 +245,7 @@ partial class IrcClient
     /// <returns>The produced <see cref="IrcMessage"/></returns>
     protected IrcMessage SendMessageNames(IEnumerable<string> channels = null, string targetServer = null)
     {
-        return WriteMessage(null, "names", channels == null ? null : string.Join(",", channels), targetServer);
+        return WriteMessage(null, "names", channels is null ? null : string.Join(",", channels), targetServer);
     }
 
     /// <summary>
@@ -262,7 +262,7 @@ partial class IrcClient
     /// <returns>The produced <see cref="IrcMessage"/></returns>
     protected IrcMessage SendMessageList(IEnumerable<string> channels = null, string targetServer = null)
     {
-        return WriteMessage(null, "list", channels == null ? null : string.Join(",", channels), targetServer);
+        return WriteMessage(null, "list", channels is null ? null : string.Join(",", channels), targetServer);
     }
 
     /// <summary>

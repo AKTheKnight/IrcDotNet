@@ -22,12 +22,12 @@ partial class IrcClient
     protected internal void ProcessMessageNick(IrcMessage message)
     {
         var sourceUser = message.Source as IrcUser;
-        if (sourceUser == null)
+        if (sourceUser is null)
             throw new ProtocolViolationException(string.Format(
                 Resources.MessageSourceNotUser, message.Source.Name));
 
         // Local or remote user has changed nick name.
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
 
         var oldNickName = sourceUser.NickName;
         var newNickName = message.Parameters[0];
@@ -43,12 +43,12 @@ partial class IrcClient
     protected internal void ProcessMessageQuit(IrcMessage message)
     {
         var sourceUser = message.Source as IrcUser;
-        if (sourceUser == null)
+        if (sourceUser is null)
             throw new ProtocolViolationException(string.Format(
                 Resources.MessageSourceNotUser, message.Source.Name));
 
         // Remote user has quit server.
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         sourceUser.HandleQuit(message, message.Parameters[0]);
 
         lock (((ICollection)Users).SyncRoot)
@@ -63,12 +63,12 @@ partial class IrcClient
     protected internal void ProcessMessageJoin(IrcMessage message)
     {
         var sourceUser = message.Source as IrcUser;
-        if (sourceUser == null)
+        if (sourceUser is null)
             throw new ProtocolViolationException(string.Format(
                 Resources.MessageSourceNotUser, message.Source.Name));
 
         // Local or remote user has joined one or more channels.
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var chans = GetChannelsFromList(message.Parameters[0]).ToArray();
         if (sourceUser == localUser)
             chans.ForEach(c => localUser.HandleJoinedChannel(message, c));
@@ -84,12 +84,12 @@ partial class IrcClient
     protected internal void ProcessMessagePart(IrcMessage message)
     {
         var sourceUser = message.Source as IrcUser;
-        if (sourceUser == null)
+        if (sourceUser is null)
             throw new ProtocolViolationException(string.Format(
                 Resources.MessageSourceNotUser, message.Source.Name));
 
         // Local or remote user has left one or more channels.
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var comment = message.Parameters[1];
         var chans = GetChannelsFromList(message.Parameters[0]).ToArray();
         if (sourceUser == localUser)
@@ -106,13 +106,13 @@ partial class IrcClient
     protected internal void ProcessMessageMode(IrcMessage message)
     {
         // Check if mode applies to channel or user.
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         if (IsChannelName(message.Parameters[0]))
         {
             var channel = GetChannelFromName(message.Parameters[0]);
 
             // Get channel modes and list of mode parameters from message parameters.
-            Debug.Assert(message.Parameters[1] != null);
+            Debug.Assert(message.Parameters[1] is not null);
             var modesAndParameters = GetModeAndParameters(message.Parameters.Skip(1));
             var source = message.Source as IrcUser;
             OnChannelModeChanged(message, channel, source, modesAndParameters.Item1, modesAndParameters.Item2);
@@ -121,7 +121,7 @@ partial class IrcClient
         }
         else if (message.Parameters[0] == localUser.NickName)
         {
-            Debug.Assert(message.Parameters[1] != null);
+            Debug.Assert(message.Parameters[1] is not null);
             localUser.HandleModesChanged(message.Parameters[1]);
         }
         else
@@ -143,9 +143,9 @@ partial class IrcClient
     [MessageProcessor("topic")]
     protected internal void ProcessMessageTopic(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var channel = GetChannelFromName(message.Parameters[0]);
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         channel.HandleTopicChanged(message, message.Source as IrcUser, message.Parameters[1]);
     }
 
@@ -156,9 +156,9 @@ partial class IrcClient
     [MessageProcessor("kick")]
     protected internal void ProcessMessageKick(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var channels = GetChannelsFromList(message.Parameters[0]);
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var users = GetUsersFromList(message.Parameters[1]).ToArray();
         var comment = message.Parameters[2];
 
@@ -191,9 +191,9 @@ partial class IrcClient
     [MessageProcessor("invite")]
     protected internal void ProcessMessageInvite(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var user = GetUserFromNickName(message.Parameters[0]);
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var channel = GetChannelFromName(message.Parameters[1]);
 
         Debug.Assert(message.Source is IrcUser);
@@ -209,17 +209,17 @@ partial class IrcClient
     protected internal void ProcessMessagePrivateMessage(IrcMessage message)
     {
         // Get list of message targets.
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var targets = message.Parameters[0].Split(',').Select(n => GetMessageTarget(n)).ToArray();
 
         // Get message text.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var text = message.Parameters[1];
 
         // Process message for each given target.
         foreach (var curTarget in targets)
         {
-            Debug.Assert(curTarget != null);
+            Debug.Assert(curTarget is not null);
             var messageHandler = curTarget as IIrcMessageReceiveHandler ?? localUser;
             messageHandler.HandleMessageReceived(message, message.Source, targets, text);
         }
@@ -233,19 +233,19 @@ partial class IrcClient
     protected internal void ProcessMessageNotice(IrcMessage message)
     {
         // Get list of message targets.
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var targets = message.Parameters[0].Split(',').Select(n => GetMessageTarget(n)).ToArray();
 
         // Get message text.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var text = message.Parameters[1];
 
         // Process notice for each given target.
         foreach (var curTarget in targets)
         {
-            Debug.Assert(curTarget != null);
+            Debug.Assert(curTarget is not null);
             var messageHandler = curTarget as IIrcMessageReceiveHandler ?? localUser;
-            if (messageHandler != null)
+            if (messageHandler is not null)
                 messageHandler.HandleNoticeReceived(message, message.Source, targets, text);
         }
     }
@@ -257,7 +257,7 @@ partial class IrcClient
     [MessageProcessor("ping")]
     protected internal void ProcessMessagePing(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var server = message.Parameters[0];
         var target = message.Parameters[1];
         var ircPingReceivedEventArgs = new IrcPingReceivedEventArgs(message, server);
@@ -281,7 +281,7 @@ partial class IrcClient
     [MessageProcessor("pong")]
     protected internal void ProcessMessagePong(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var server = message.Parameters[0];
         OnPongReceived(new IrcPingOrPongReceivedEventArgs(message, server));
     }
@@ -293,7 +293,7 @@ partial class IrcClient
     [MessageProcessor("error")]
     protected internal void ProcessMessageError(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
         var errorMessage = message.Parameters[0];
         OnErrorMessageReceived(new IrcErrorMessageEventArgs(message, errorMessage));
     }
@@ -306,13 +306,13 @@ partial class IrcClient
     protected internal void ProcessMessageCap(IrcMessage message)
     {
         string subCmd = message.Parameters[1];
-        Debug.Assert(subCmd != null);
+        Debug.Assert(subCmd is not null);
 
         switch (subCmd.ToUpper())
         {
             case "LS":
                 string[] caps = message.Parameters[2]?.Split(' ');
-                Debug.Assert(caps != null);
+                Debug.Assert(caps is not null);
 
                 serverCapabilities.Clear();
                 serverCapabilities.AddRange(caps);
@@ -344,9 +344,9 @@ partial class IrcClient
     [MessageProcessor("001")]
     protected internal virtual void ProcessMessageReplyWelcome(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         WelcomeMessage = message.Parameters[1];
 
         // Extract nick name, user name, and host name from welcome message. Use fallback info if not present.
@@ -368,7 +368,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         YourHostMessage = message.Parameters[1];
     }
 
@@ -381,7 +381,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         ServerCreatedMessage = message.Parameters[1];
     }
 
@@ -394,13 +394,13 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         ServerName = message.Parameters[1];
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         ServerVersion = message.Parameters[2];
-        Debug.Assert(message.Parameters[3] != null);
+        Debug.Assert(message.Parameters[3] is not null);
         ServerAvailableUserModes = message.Parameters[3];
-        Debug.Assert(message.Parameters[4] != null);
+        Debug.Assert(message.Parameters[4] is not null);
         ServerAvailableChannelModes = message.Parameters[4];
 
         // All initial information about client has now been received.
@@ -417,7 +417,7 @@ partial class IrcClient
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
         // Check if message is RPL_BOUNCE or RPL_ISUPPORT.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         if (message.Parameters[1].StartsWith("Try server"))
         {
             // Message is RPL_BOUNCE.
@@ -434,7 +434,7 @@ partial class IrcClient
             // Add key/value pairs to dictionary of supported server features.
             for (var i = 1; i < message.Parameters.Count - 1; i++)
             {
-                if (message.Parameters[i + 1] == null)
+                if (message.Parameters[i + 1] is null)
                     break;
 
                 var paramParts = message.Parameters[i].Split('=');
@@ -603,7 +603,7 @@ partial class IrcClient
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
         // Extract network information from text.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var info = message.Parameters[1];
         var infoParts = info.Split(' ');
         Debug.Assert(infoParts.Length == 10);
@@ -624,7 +624,7 @@ partial class IrcClient
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
         // Extract network information from text.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var info = message.Parameters[1];
         networkInformation.OperatorsCount = int.Parse(info);
 
@@ -641,7 +641,7 @@ partial class IrcClient
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
         // Extract network information from text.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var info = message.Parameters[1];
         networkInformation.UnknownConnectionsCount = int.Parse(info);
 
@@ -658,7 +658,7 @@ partial class IrcClient
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
         // Extract network information from text.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var info = message.Parameters[1];
         networkInformation.ChannelsCount = int.Parse(info);
 
@@ -675,7 +675,7 @@ partial class IrcClient
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
         // Extract network information from text.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var info = message.Parameters[1];
         var infoParts = info.Split(' ');
         for (var i = 0; i < infoParts.Length; i++)
@@ -709,9 +709,9 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1]);
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         user.AwayMessage = message.Parameters[2];
         user.IsAway = true;
     }
@@ -726,7 +726,7 @@ partial class IrcClient
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
         // Set each user listed in reply as online.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var onlineUsers = message.Parameters[1].Split(' ').Select(n => GetUserFromNickName(n));
         onlineUsers.ForEach(u => u.IsOnline = true);
     }
@@ -764,14 +764,14 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1]);
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         user.UserName = message.Parameters[2];
-        Debug.Assert(message.Parameters[3] != null);
+        Debug.Assert(message.Parameters[3] is not null);
         user.HostName = message.Parameters[3];
-        Debug.Assert(message.Parameters[4] != null);
-        Debug.Assert(message.Parameters[5] != null);
+        Debug.Assert(message.Parameters[4] is not null);
+        Debug.Assert(message.Parameters[5] is not null);
         user.RealName = message.Parameters[5];
     }
 
@@ -784,11 +784,11 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1]);
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         user.ServerName = message.Parameters[2];
-        Debug.Assert(message.Parameters[3] != null);
+        Debug.Assert(message.Parameters[3] is not null);
         user.ServerInfo = message.Parameters[3];
     }
 
@@ -801,7 +801,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1]);
         user.IsOperator = true;
     }
@@ -815,14 +815,14 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1], false);
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         user.UserName = message.Parameters[2];
-        Debug.Assert(message.Parameters[3] != null);
+        Debug.Assert(message.Parameters[3] is not null);
         user.HostName = message.Parameters[3];
-        Debug.Assert(message.Parameters[4] != null);
-        Debug.Assert(message.Parameters[5] != null);
+        Debug.Assert(message.Parameters[4] is not null);
+        Debug.Assert(message.Parameters[5] is not null);
         user.RealName = message.Parameters[5];
     }
 
@@ -835,7 +835,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var mask = message.Parameters[1];
         OnWhoReplyReceived(new IrcNameEventArgs(message, mask));
     }
@@ -849,9 +849,9 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1]);
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         user.IdleDuration = TimeSpan.FromSeconds(int.Parse(message.Parameters[2]));
     }
 
@@ -864,7 +864,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1]);
         OnWhoIsReplyReceived(new IrcUserEventArgs(message, user, null));
     }
@@ -878,10 +878,10 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1]);
 
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         foreach (var channelId in message.Parameters[2].Split(' '))
         {
             if (channelId.Length == 0)
@@ -890,7 +890,7 @@ partial class IrcClient
             // Find user by nick name and add it to collection of channel users.
             var channelNameAndUserMode = GetUserModeAndNickName(channelId);
             var channel = GetChannelFromName(channelNameAndUserMode.Item1);
-            if (channel.GetChannelUser(user) == null)
+            if (channel.GetChannelUser(user) is null)
                 channel.HandleUserJoined(message, new IrcChannelUser(user, channelNameAndUserMode.Item2));
         }
     }
@@ -904,11 +904,11 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var channelName = message.Parameters[1];
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         var visibleUsersCount = int.Parse(message.Parameters[2]);
-        Debug.Assert(message.Parameters[3] != null);
+        Debug.Assert(message.Parameters[3] is not null);
         var topic = message.Parameters[3];
 
         // Add channel information to temporary list.
@@ -937,7 +937,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var channel = GetChannelFromName(message.Parameters[1]);
         channel.HandleTopicChanged(message, null, null);
     }
@@ -951,9 +951,9 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var channel = GetChannelFromName(message.Parameters[1]);
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         channel.HandleTopicChanged(message, null, message.Parameters[2]);
     }
 
@@ -966,9 +966,9 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var invitedUser = GetUserFromNickName(message.Parameters[1]);
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         var channel = GetChannelFromName(message.Parameters[2]);
 
         channel.HandleUserInvited(message, invitedUser);
@@ -983,14 +983,14 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var versionInfo = message.Parameters[1];
         var versionSplitIndex = versionInfo.LastIndexOf('.');
         var version = versionInfo.Substring(0, versionSplitIndex);
         var debugLevel = versionInfo.Substring(versionSplitIndex + 1);
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         var server = message.Parameters[2];
-        Debug.Assert(message.Parameters[3] != null);
+        Debug.Assert(message.Parameters[3] is not null);
         var comments = message.Parameters[3];
 
         OnServerVersionInfoReceived(new IrcServerVersionInfoEventArgs(message, version, debugLevel, server, comments));
@@ -1005,20 +1005,20 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var channel = message.Parameters[1] == "*" ? null : GetChannelFromName(message.Parameters[1]);
 
-        Debug.Assert(message.Parameters[5] != null);
+        Debug.Assert(message.Parameters[5] is not null);
         var user = GetUserFromNickName(message.Parameters[5]);
 
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         var userName = message.Parameters[2];
-        Debug.Assert(message.Parameters[3] != null);
+        Debug.Assert(message.Parameters[3] is not null);
         user.HostName = message.Parameters[3];
-        Debug.Assert(message.Parameters[4] != null);
+        Debug.Assert(message.Parameters[4] is not null);
         user.ServerName = message.Parameters[4];
 
-        Debug.Assert(message.Parameters[6] != null);
+        Debug.Assert(message.Parameters[6] is not null);
         var userModeFlags = message.Parameters[6];
         Debug.Assert(userModeFlags.Length > 0);
         if (userModeFlags.Contains('H'))
@@ -1026,11 +1026,11 @@ partial class IrcClient
         else if (userModeFlags.Contains('G'))
             user.IsAway = true;
         user.IsOperator = userModeFlags.Contains('*');
-        if (channel != null)
+        if (channel is not null)
         {
             // Add user to channel if it does not already exist in it.
             var channelUser = channel.GetChannelUser(user);
-            if (channelUser == null)
+            if (channelUser is null)
             {
                 channelUser = new IrcChannelUser(user);
                 channel.HandleUserJoined(message, channelUser);
@@ -1047,10 +1047,10 @@ partial class IrcClient
             }
         }
 
-        Debug.Assert(message.Parameters[7] != null);
+        Debug.Assert(message.Parameters[7] is not null);
         var lastParamParts = message.Parameters[7].SplitIntoPair(" ");
         user.HopCount = int.Parse(lastParamParts.Item1);
-        if (lastParamParts.Item2 != null)
+        if (lastParamParts.Item2 is not null)
             user.RealName = lastParamParts.Item2;
     }
 
@@ -1063,15 +1063,15 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         var channel = GetChannelFromName(message.Parameters[2]);
-        if (channel != null)
+        if (channel is not null)
         {
-            Debug.Assert(message.Parameters[1] != null);
+            Debug.Assert(message.Parameters[1] is not null);
             Debug.Assert(message.Parameters[1].Length == 1);
             channel.HandleTypeChanged(GetChannelType(message.Parameters[1][0]));
 
-            Debug.Assert(message.Parameters[3] != null);
+            Debug.Assert(message.Parameters[3] is not null);
             foreach (var userId in message.Parameters[3].Split(' '))
             {
                 if (userId.Length == 0)
@@ -1106,14 +1106,14 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var hostName = message.Parameters[1];
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         var clientServerHostName = message.Parameters[2];
-        Debug.Assert(ServerName == null || clientServerHostName == ServerName);
-        Debug.Assert(message.Parameters[3] != null);
+        Debug.Assert(ServerName is null || clientServerHostName == ServerName);
+        Debug.Assert(message.Parameters[3] is not null);
         var infoParts = message.Parameters[3].SplitIntoPair(" ");
-        Debug.Assert(infoParts.Item2 != null);
+        Debug.Assert(infoParts.Item2 is not null);
         var hopCount = int.Parse(infoParts.Item1);
         var info = infoParts.Item2;
 
@@ -1130,7 +1130,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var mask = message.Parameters[1];
 
         OnServerLinksListReceived(new IrcServerLinksListReceivedEventArgs(message, listedServerLinks));
@@ -1146,7 +1146,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var channel = GetChannelFromName(message.Parameters[1]);
         channel.HandleUsersListReceived();
     }
@@ -1160,7 +1160,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var user = GetUserFromNickName(message.Parameters[1], false);
         OnWhoWasReplyReceived(new IrcUserEventArgs(message, user, null));
     }
@@ -1174,7 +1174,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         motdBuilder.AppendLine(message.Parameters[1]);
     }
 
@@ -1187,7 +1187,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         motdBuilder.Clear();
         motdBuilder.AppendLine(message.Parameters[1]);
     }
@@ -1201,7 +1201,7 @@ partial class IrcClient
     {
         Debug.Assert(message.Parameters[0] == localUser.NickName);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         motdBuilder.AppendLine(message.Parameters[1]);
 
         OnMotdReceived(new EventArgs());
@@ -1214,9 +1214,9 @@ partial class IrcClient
     [MessageProcessor("383")]
     protected internal void ProcessMessageReplyYouAreService(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         localUser.NickName = message.Parameters[1].Split(' ')[3];
 
         isRegistered = true;
@@ -1230,11 +1230,11 @@ partial class IrcClient
     [MessageProcessor("391")]
     protected internal void ProcessMessageReplyTime(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var server = message.Parameters[1];
-        Debug.Assert(message.Parameters[2] != null);
+        Debug.Assert(message.Parameters[2] is not null);
         var dateTime = message.Parameters[2];
 
         OnServerTimeReceived(new IrcServerTimeEventArgs(message, server, dateTime));
@@ -1247,15 +1247,15 @@ partial class IrcClient
     [MessageProcessor("400-599")]
     protected internal void ProcessMessageNumericError(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
 
         // Extract error parameters and message text from message parameters.
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         var errorParameters = new List<string>();
         string errorMessage = null;
         for (var i = 1; i < message.Parameters.Count; i++)
         {
-            if (i + 1 == message.Parameters.Count || message.Parameters[i + 1] == null)
+            if (i + 1 == message.Parameters.Count || message.Parameters[i + 1] is null)
             {
                 errorMessage = message.Parameters[i];
                 break;
@@ -1263,7 +1263,7 @@ partial class IrcClient
             errorParameters.Add(message.Parameters[i]);
         }
 
-        Debug.Assert(errorMessage != null);
+        Debug.Assert(errorMessage is not null);
         OnProtocolError(new IrcProtocolErrorEventArgs(message, int.Parse(message.Command), errorParameters,
             errorMessage));
     }

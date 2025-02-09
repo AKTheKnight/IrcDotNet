@@ -10,7 +10,7 @@ namespace IrcDotNet.Samples.Common
         {
             Debug.Assert(minParameters >= 0,
                 "minParameters must be at least zero.");
-            Debug.Assert(maxParameters == null || maxParameters >= minParameters,
+            Debug.Assert(maxParameters is null || maxParameters >= minParameters,
                 "maxParameters must be at least minParameters.");
 
             this.MinParameters = minParameters;

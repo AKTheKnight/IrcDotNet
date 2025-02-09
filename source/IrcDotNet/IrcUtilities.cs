@@ -18,7 +18,7 @@ internal static class IrcUtilities
     {
         ArgumentNullException.ThrowIfNull(collection);
         ArgumentNullException.ThrowIfNull(newModes);
-        if (newModeParameters != null)
+        if (newModeParameters is not null)
         {
             ArgumentNullException.ThrowIfNull(modesWithParameters);
             ArgumentNullException.ThrowIfNull(handleModeParameter);
@@ -27,7 +27,7 @@ internal static class IrcUtilities
         // Reads list of mode changes, where each group of modes is prefixed by a '+' or '-', representing
         // respectively setting or unsetting of the given modes.
         bool? addMode = null;
-        var modeParametersEnumerator = newModeParameters == null ? null : newModeParameters.GetEnumerator();
+        var modeParametersEnumerator = newModeParameters is null ? null : newModeParameters.GetEnumerator();
         foreach (var mode in newModes)
         {
             if (mode == '+')
@@ -40,7 +40,7 @@ internal static class IrcUtilities
             }
             else if (addMode.HasValue)
             {
-                if (newModeParameters != null && modesWithParameters.Contains(mode))
+                if (newModeParameters is not null && modesWithParameters.Contains(mode))
                 {
                     if (!modeParametersEnumerator.MoveNext())
                         throw new ArgumentException(Resources.MessageNotEnoughModeParameters,
@@ -119,7 +119,7 @@ internal static class IrcUtilities
             {
                 throw new ArgumentException("key is not a valid irc tag key: " + tag.Key);
             }
-            if (tag.Value == null)
+            if (tag.Value is null)
             {
                 tagstrings.Add(tag.Key);
             }

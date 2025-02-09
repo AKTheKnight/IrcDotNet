@@ -36,7 +36,7 @@ namespace IrcDotNet.Samples.MarkovTextBot
                 if (curNode.Links.Count == 0)
                     break;
                 curNode = curNode.Links[random.Next(curNode.Links.Count)];
-                if (curNode.Value == null)
+                if (curNode.Value is null)
                     break;
                 yield return curNode.Value;
             }
@@ -52,7 +52,7 @@ namespace IrcDotNet.Samples.MarkovTextBot
         private MarkovChainNode<T> GetNode(T value)
         {
             var node = this.nodes.SingleOrDefault(n => comparer.Equals(n.Value, value));
-            if (node == null)
+            if (node is null)
             {
                 node = new MarkovChainNode<T>(value);
                 this.nodes.Add(node);

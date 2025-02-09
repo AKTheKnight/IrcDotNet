@@ -232,7 +232,7 @@ public partial class CtcpClient
 
     private void ircClient_Connected(object sender, EventArgs e)
     {
-        if (IrcClient.LocalUser != null)
+        if (IrcClient.LocalUser is not null)
         {
             IrcClient.LocalUser.PreviewMessageReceived += ircClient_LocalUser_PreviewMessageReceived;
             IrcClient.LocalUser.PreviewNoticeReceived += ircClient_LocalUser_PreviewNoticeReceived;
@@ -241,7 +241,7 @@ public partial class CtcpClient
 
     private void ircClient_Disconnected(object sender, EventArgs e)
     {
-        if (IrcClient.LocalUser != null)
+        if (IrcClient.LocalUser is not null)
         {
             IrcClient.LocalUser.PreviewMessageReceived -= ircClient_LocalUser_PreviewMessageReceived;
             IrcClient.LocalUser.PreviewNoticeReceived -= ircClient_LocalUser_PreviewNoticeReceived;
@@ -360,11 +360,11 @@ public partial class CtcpClient
     /// </exception>
     protected void WriteMessage(IList<IIrcMessageTarget> targets, CtcpMessage message)
     {
-        if (message.Tag == null)
+        if (message.Tag is null)
             throw new ArgumentException(Resources.MessageInvalidTag, nameof(message));
 
         var tag = message.Tag.ToUpperInvariant();
-        var taggedData = message.Data == null ? tag : tag + " :" + message.Data;
+        var taggedData = message.Data is null ? tag : tag + " :" + message.Data;
         WriteMessage(targets, taggedData, message.IsResponse);
         OnRawMessageSent(new CtcpRawMessageEventArgs(message));
     }
@@ -380,7 +380,7 @@ public partial class CtcpClient
     /// </param>
     private void WriteMessage(IList<IIrcMessageTarget> targets, string taggedData, bool isResponse)
     {
-        Debug.Assert(taggedData != null);
+        Debug.Assert(taggedData is not null);
         var text = taggedDataDelimeterChar + LowLevelQuote(CtcpQuote(taggedData)) + taggedDataDelimeterChar;
 
         if (isResponse)
@@ -416,7 +416,7 @@ public partial class CtcpClient
     protected virtual void OnActionSent(CtcpMessageEventArgs e)
     {
         var handler = ActionSent;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -427,7 +427,7 @@ public partial class CtcpClient
     protected virtual void OnActionReceived(CtcpMessageEventArgs e)
     {
         var handler = ActionReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -440,7 +440,7 @@ public partial class CtcpClient
     protected virtual void OnTimeResponseReceived(CtcpTimeResponseReceivedEventArgs e)
     {
         var handler = TimeResponseReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -453,7 +453,7 @@ public partial class CtcpClient
     protected virtual void OnVersionResponseReceived(CtcpVersionResponseReceivedEventArgs e)
     {
         var handler = VersionResponseReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -467,7 +467,7 @@ public partial class CtcpClient
     protected virtual void OnErrorMessageResponseReceived(CtcpErrorMessageReceivedEventArgs e)
     {
         var handler = ErrorMessageReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -480,7 +480,7 @@ public partial class CtcpClient
     protected virtual void OnPingResponseReceived(CtcpPingResponseReceivedEventArgs e)
     {
         var handler = PingResponseReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -491,7 +491,7 @@ public partial class CtcpClient
     protected virtual void OnRawMessageSent(CtcpRawMessageEventArgs e)
     {
         var handler = RawMessageSent;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -502,7 +502,7 @@ public partial class CtcpClient
     protected virtual void OnRawMessageReceived(CtcpRawMessageEventArgs e)
     {
         var handler = RawMessageReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -513,7 +513,7 @@ public partial class CtcpClient
     protected virtual void OnError(IrcErrorEventArgs e)
     {
         var handler = Error;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 

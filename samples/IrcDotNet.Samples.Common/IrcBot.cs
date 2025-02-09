@@ -86,7 +86,7 @@ namespace IrcDotNet.Samples.Common
                     // Disconnect each client gracefully.
                     foreach (var client in allClients)
                     {
-                        if (client != null)
+                        if (client is not null)
                         {
                             client.Quit(clientQuitTimeout, this.QuitMessage);
                             client.Dispose();
@@ -105,7 +105,7 @@ namespace IrcDotNet.Samples.Common
             {
                 Console.Write("> ");
                 var line = Console.ReadLine();
-                if (line == null)
+                if (line is null)
                     break;
                 if (line.Length == 0)
                     continue;
@@ -387,9 +387,9 @@ namespace IrcDotNet.Samples.Common
 
         protected IrcClient GetClientFromServerNameMask(string serverNameMask)
         {
-            var client = this.Clients.SingleOrDefault(c => c.ServerName != null &&
+            var client = this.Clients.SingleOrDefault(c => c.ServerName is not null &&
                 Regex.IsMatch(c.ServerName, serverNameMask, RegexOptions.IgnoreCase));
-            if (client == null)
+            if (client is null)
             {
                 throw new IrcBotException(IrcBotExceptionType.NoConnection,
                     string.Format("No connection", serverNameMask));

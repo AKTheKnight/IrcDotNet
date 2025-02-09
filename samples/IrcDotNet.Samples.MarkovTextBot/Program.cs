@@ -29,7 +29,7 @@ namespace IrcDotNet.Samples.MarkovTextBot
 #endif
             finally
             {
-                if (bot != null)
+                if (bot is not null)
                     bot.Dispose();
             }
         }

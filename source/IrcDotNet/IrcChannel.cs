@@ -437,7 +437,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnUsersListReceived(EventArgs e)
     {
         var handler = UsersListReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -448,7 +448,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnModesChanged(IrcUserEventArgs e)
     {
         var handler = ModesChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -459,7 +459,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnTopicChanged(IrcUserEventArgs e)
     {
         var handler = TopicChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -470,7 +470,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnUserJoined(IrcChannelUserEventArgs e)
     {
         var handler = UserJoined;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -481,7 +481,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnUserLeft(IrcChannelUserEventArgs e)
     {
         var handler = UserLeft;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -492,7 +492,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnUserKicked(IrcChannelUserEventArgs e)
     {
         var handler = UserKicked;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -503,7 +503,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnUserInvited(IrcUserEventArgs e)
     {
         var handler = UserInvited;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -514,7 +514,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnMessageReceived(IrcMessageEventArgs e)
     {
         var handler = MessageReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -525,7 +525,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnPreviewMessageReceived(IrcPreviewMessageEventArgs e)
     {
         var handler = PreviewMessageReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -536,7 +536,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnNoticeReceived(IrcMessageEventArgs e)
     {
         var handler = NoticeReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -547,7 +547,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnPreviewNoticeReceived(IrcPreviewMessageEventArgs e)
     {
         var handler = PreviewNoticeReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -558,7 +558,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         var handler = PropertyChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 

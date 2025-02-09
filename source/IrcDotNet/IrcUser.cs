@@ -335,7 +335,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     protected virtual void OnNickNameChanged(EventArgs e)
     {
         var handler = NickNameChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -346,7 +346,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     protected virtual void OnIsAwayChanged(EventArgs e)
     {
         var handler = IsAwayChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -357,7 +357,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     protected virtual void OnInviteReceived(IrcChannelInvitationEventArgs e)
     {
         var handler = InviteReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -368,7 +368,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     protected virtual void OnQuit(IrcCommentEventArgs e)
     {
         var handler = Quit;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -379,7 +379,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         var handler = PropertyChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 

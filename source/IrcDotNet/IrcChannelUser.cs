@@ -28,7 +28,7 @@ public class IrcChannelUser : INotifyPropertyChanged
 
         this.modes = new HashSet<char>();
         Modes = new ReadOnlySet<char>(this.modes);
-        if (modes != null)
+        if (modes is not null)
             this.modes.AddRange(modes);
     }
 
@@ -129,7 +129,7 @@ public class IrcChannelUser : INotifyPropertyChanged
     protected virtual void OnModesChanged(EventArgs e)
     {
         var handler = ModesChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -140,7 +140,7 @@ public class IrcChannelUser : INotifyPropertyChanged
     protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         var handler = PropertyChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 

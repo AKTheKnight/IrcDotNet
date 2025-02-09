@@ -13,7 +13,7 @@ partial class CtcpClient
     [MessageProcessor("action")]
     protected internal void ProcessMessageAction(CtcpMessage message)
     {
-        Debug.Assert(message.Data != null);
+        Debug.Assert(message.Data is not null);
 
         if (!message.IsResponse)
         {
@@ -59,7 +59,7 @@ partial class CtcpClient
         }
         else
         {
-            if (ClientVersion != null)
+            if (ClientVersion is not null)
             {
                 SendMessageVersion(new[] {message.Source}, ClientVersion, true);
             }
@@ -73,7 +73,7 @@ partial class CtcpClient
     [MessageProcessor("errmsg")]
     protected internal void ProcessMessageErrMsg(CtcpMessage message)
     {
-        Debug.Assert(message.Data != null);
+        Debug.Assert(message.Data is not null);
 
         if (message.IsResponse)
         {
@@ -98,7 +98,7 @@ partial class CtcpClient
     [MessageProcessor("ping")]
     protected internal void ProcessMessagePing(CtcpMessage message)
     {
-        Debug.Assert(message.Data != null);
+        Debug.Assert(message.Data is not null);
 
         if (message.IsResponse)
         {

@@ -46,7 +46,7 @@ public class StandardIrcClient : IrcClient
         get
         {
             CheckDisposed();
-            return tcpClient != null && tcpClient.Connected;
+            return tcpClient is not null && tcpClient.Connected;
         }
     }
 
@@ -55,34 +55,34 @@ public class StandardIrcClient : IrcClient
         base.Dispose(disposing);
         if (disposing)
         {
-            if (tcpClient != null)
+            if (tcpClient is not null)
             {
                 tcpClient.Dispose();
                 tcpClient = null;
 
                 HandleClientDisconnected();
             }
-            if (receiveStream != null)
+            if (receiveStream is not null)
             {
                 receiveStream.Dispose();
                 receiveStream = null;
             }
-            if (dataStream != null)
+            if (dataStream is not null)
             {
                 dataStream.Dispose();
                 dataStream = null;
             }
-            if (dataStreamReader != null)
+            if (dataStreamReader is not null)
             {
                 dataStreamReader.Dispose();
                 dataStreamReader = null;
             }
-            if (sendTimer != null)
+            if (sendTimer is not null)
             {
                 sendTimer.Dispose();
                 sendTimer = null;
             }
-            if (disconnectedEvent != null)
+            if (disconnectedEvent is not null)
             {
                 disconnectedEvent.Dispose();
                 disconnectedEvent = null;
@@ -219,11 +219,11 @@ public class StandardIrcClient : IrcClient
         base.ResetState();
 
         // Reset network I/O objects.
-        if (receiveStream != null)
+        if (receiveStream is not null)
             receiveStream.Dispose();
-        if (dataStream != null)
+        if (dataStream is not null)
             dataStream.Dispose();
-        if (dataStreamReader != null)
+        if (dataStreamReader is not null)
             dataStreamReader = null;
     }
 
@@ -238,7 +238,7 @@ public class StandardIrcClient : IrcClient
             {
                 Debug.Assert(messageSendQueue.Count < 100);
                 // Check that flood preventer currently permits sending of messages.
-                if (FloodPreventer != null)
+                if (FloodPreventer is not null)
                 {
                     sendDelay = FloodPreventer.GetSendDelay();
                     if (sendDelay > 0)
@@ -253,7 +253,7 @@ public class StandardIrcClient : IrcClient
                 SendAsync(lineBuffer, token);
 
                 // Tell flood preventer mechanism that message has just been sent.
-                if (FloodPreventer != null)
+                if (FloodPreventer is not null)
                     FloodPreventer.HandleMessageSent();
             }
 
@@ -328,7 +328,7 @@ public class StandardIrcClient : IrcClient
             }
 
             // Handle sent IRC message.
-            Debug.Assert(e.UserToken != null);
+            Debug.Assert(e.UserToken is not null);
             var messageSentEventArgs = (IrcRawMessageEventArgs) e.UserToken;
             OnRawMessageSent(messageSentEventArgs);
 
@@ -407,7 +407,7 @@ public class StandardIrcClient : IrcClient
             {
                 // Read next line from data stream.
                 var line = dataStreamLineReader.ReadLine();
-                if (line == null)
+                if (line is null)
                     break;
                 if (line.Length == 0)
                     continue;
@@ -476,7 +476,7 @@ public class StandardIrcClient : IrcClient
                 return;
             }
 
-            Debug.Assert(e.UserToken != null);
+            Debug.Assert(e.UserToken is not null);
             var token = (Tuple<bool, string, IrcRegistrationInfo>) e.UserToken;
 
             // Create stream for received data. Use SSL stream on top of network stream, if specified.

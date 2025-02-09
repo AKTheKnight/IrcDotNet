@@ -45,7 +45,7 @@ using static IrcDotNet.IrcClient;
             IsService = false;
             this.modes = new HashSet<char>();
             Modes = new ReadOnlySet<char>(this.modes);
-            if (modes != null)
+            if (modes is not null)
                 this.modes.UnionWith(modes);
         }
 
@@ -365,7 +365,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnModesChanged(EventArgs e)
         {
             var handler = ModesChanged;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 
@@ -376,7 +376,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnJoinedChannel(IrcChannelEventArgs e)
         {
             var handler = JoinedChannel;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 
@@ -387,7 +387,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnLeftChannel(IrcChannelEventArgs e)
         {
             var handler = LeftChannel;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 
@@ -398,7 +398,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnMessageSent(IrcMessageEventArgs e)
         {
             var handler = MessageSent;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 
@@ -409,7 +409,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnMessageReceived(IrcMessageEventArgs e)
         {
             var handler = MessageReceived;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 
@@ -420,7 +420,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnPreviewMessageReceived(IrcPreviewMessageEventArgs e)
         {
             var handler = PreviewMessageReceived;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 
@@ -431,7 +431,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnNoticeSent(IrcMessageEventArgs e)
         {
             var handler = NoticeSent;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 
@@ -442,7 +442,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnPreviewNoticeReceived(IrcPreviewMessageEventArgs e)
         {
             var handler = PreviewNoticeReceived;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 
@@ -453,7 +453,7 @@ using static IrcDotNet.IrcClient;
         protected virtual void OnNoticeReceived(IrcMessageEventArgs e)
         {
             var handler = NoticeReceived;
-            if (handler != null)
+            if (handler is not null)
                 handler(this, e);
         }
 

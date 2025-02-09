@@ -79,7 +79,7 @@ internal static class TextUtilities
     // Change character encoding of specified string.
     internal static string ChangeEncoding(this string value, Encoding currentEncoding, Encoding newEncoding)
     {
-        if (newEncoding == null)
+        if (newEncoding is null)
             return value;
         var buffer = currentEncoding.GetBytes(value);
         return newEncoding.GetString(buffer, 0, buffer.Length);

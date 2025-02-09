@@ -27,16 +27,16 @@ public class TwitchIrcClient : StandardIrcClient
         foreach (var username in newModeParameters)
         {
             var user = GetUserFromNickName(username);
-            if (channel.GetChannelUser(user) == null)
+            if (channel.GetChannelUser(user) is null)
                 channel.HandleUserJoined(ircMessage, new IrcChannelUser(user));
         }
     }
 
     protected internal override void ProcessMessageReplyWelcome(IrcMessage message)
     {
-        Debug.Assert(message.Parameters[0] != null);
+        Debug.Assert(message.Parameters[0] is not null);
 
-        Debug.Assert(message.Parameters[1] != null);
+        Debug.Assert(message.Parameters[1] is not null);
         WelcomeMessage = message.Parameters[1];
 
         // Twitch does not send a normal welcome message, so this code is actually incorrect.

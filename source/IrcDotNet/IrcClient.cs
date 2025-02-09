@@ -534,7 +534,7 @@ public abstract partial class IrcClient : IDisposable
     {
         CheckDisposed();
 
-        SendMessageStats(query == null ? null : query.Value.ToString(), targetServer);
+        SendMessageStats(query is null ? null : query.Value.ToString(), targetServer);
     }
 
     /// <summary>
@@ -842,7 +842,7 @@ public abstract partial class IrcClient : IDisposable
         var modeParameters = new List<string>();
         foreach (var p in messageParameters)
         {
-            if (p == null)
+            if (p is null)
                 break;
             if (p.Length == 0)
                 continue;
@@ -962,31 +962,31 @@ public abstract partial class IrcClient : IDisposable
         var hostName = targetNameMatch.Groups["host"].GetValue();
         var serverName = targetNameMatch.Groups["server"].GetValue();
         var targetMask = targetNameMatch.Groups["targetMask"].GetValue();
-        if (channelName != null)
+        if (channelName is not null)
         {
             return GetChannelFromName(channelName);
         }
-        if (nickName != null)
+        if (nickName is not null)
         {
             // Find user by nick name. If no user exists in list, create it and set its properties.
             var user = GetUserFromNickName(nickName, true);
-            if (user.UserName == null)
+            if (user.UserName is null)
                 user.UserName = userName;
-            if (user.HostName == null)
+            if (user.HostName is null)
                 user.HostName = hostName;
 
             return user;
         }
-        if (userName != null)
+        if (userName is not null)
         {
             // Find user by user  name. If no user exists in list, create it and set its properties.
             var user = GetUserFromNickName(nickName, true);
-            if (user.HostName == null)
+            if (user.HostName is null)
                 user.HostName = hostName;
 
             return user;
         }
-        if (targetMask != null)
+        if (targetMask is not null)
         {
             return new IrcTargetMask(targetMask);
         }
@@ -1008,7 +1008,7 @@ public abstract partial class IrcClient : IDisposable
     /// </exception>
     protected IIrcMessageSource GetSourceFromPrefix(string prefix)
     {
-        if (prefix == null)
+        if (prefix is null)
             return null;
         if (prefix.Length == 0)
             throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(prefix));
@@ -1019,17 +1019,17 @@ public abstract partial class IrcClient : IDisposable
         var nickName = prefixMatch.Groups["nick"].GetValue();
         var userName = prefixMatch.Groups["user"].GetValue();
         var hostName = prefixMatch.Groups["host"].GetValue();
-        if (serverName != null)
+        if (serverName is not null)
         {
             return GetServerFromHostName(serverName);
         }
-        if (nickName != null)
+        if (nickName is not null)
         {
             // Find user by nick name. If no user exists in list, create it and set its properties.
             var user = GetUserFromNickName(nickName, true);
-            if (user.UserName == null)
+            if (user.UserName is null)
                 user.UserName = userName;
-            if (user.HostName == null)
+            if (user.HostName is null)
                 user.HostName = hostName;
 
             return user;
@@ -1062,7 +1062,7 @@ public abstract partial class IrcClient : IDisposable
 
         // Search for server with given name in list of known servers. If it does not exist, add it.
         var server = servers.SingleOrDefault(s => s.HostName == hostName);
-        if (server == null)
+        if (server is null)
         {
             server = new IrcServer(hostName);
             servers.Add(server);
@@ -1102,7 +1102,7 @@ public abstract partial class IrcClient : IDisposable
         lock (((ICollection) Channels).SyncRoot)
         {
             var channel = channels.SingleOrDefault(c => c.Name == channelName);
-            if (channel == null)
+            if (channel is null)
             {
                 channel = new IrcChannel(channelName);
                 channel.Client = this;
@@ -1150,7 +1150,7 @@ public abstract partial class IrcClient : IDisposable
         lock (((ICollection) Users).SyncRoot)
         {
             user = users.SingleOrDefault(u => u.NickName == nickName);
-            if (user == null)
+            if (user is null)
             {
                 user = new IrcUser
                 {
@@ -1195,7 +1195,7 @@ public abstract partial class IrcClient : IDisposable
         lock (((ICollection) Users).SyncRoot)
         {
             var user = users.SingleOrDefault(u => u.UserName == userName);
-            if (user == null)
+            if (user is null)
             {
                 user = new IrcUser();
                 user.Client = this;
@@ -1216,7 +1216,7 @@ public abstract partial class IrcClient : IDisposable
     protected int GetNumericUserMode(ICollection<char> modes)
     {
         var value = 0;
-        if (modes == null)
+        if (modes is null)
             return value;
         if (modes.Contains('w'))
             value |= 0x02;
@@ -1317,7 +1317,7 @@ public abstract partial class IrcClient : IDisposable
         CheckDisposed();
 
         var message = new IrcMessage(this, prefix, command, parameters.ToArray(), tags);
-        if (message.Source == null)
+        if (message.Source is null)
             message.Source = localUser;
         WriteMessage(message);
         return message;
@@ -1344,7 +1344,7 @@ public abstract partial class IrcClient : IDisposable
     {
         CheckDisposed();
 
-        if (message.Command == null)
+        if (message.Command is null)
             throw new ArgumentException(Resources.MessageInvalidCommand, nameof(message));
         if (message.Parameters.Count > maxParamsCount)
             throw new ArgumentException(Resources.MessageTooManyParams, "parameters");
@@ -1352,11 +1352,11 @@ public abstract partial class IrcClient : IDisposable
         var lineBuilder = new StringBuilder();
 
         // Append tags to line, if any
-        if (message.Tags != null)
+        if (message.Tags is not null)
             lineBuilder.Append("@" + IrcUtilities.EncodeTags(message.Tags) + " ");
 
         // Append prefix to line, if specified.
-        if (message.Prefix != null)
+        if (message.Prefix is not null)
             lineBuilder.Append(":" + CheckPrefix(message.Prefix) + " ");
 
         // Append command name to line.
@@ -1365,13 +1365,13 @@ public abstract partial class IrcClient : IDisposable
         // Append each parameter to line, adding ':' character before last parameter.
         for (var i = 0; i < message.Parameters.Count - 1; i++)
         {
-            if (message.Parameters[i] != null)
+            if (message.Parameters[i] is not null)
                 lineBuilder.Append(" " + CheckMiddleParameter(message.Parameters[i]));
         }
         if (message.Parameters.Count > 0)
         {
             var lastParameter = message.Parameters[message.Parameters.Count - 1];
-            if (lastParameter != null)
+            if (lastParameter is not null)
                 lineBuilder.Append(" :" + CheckTrailingParameter(lastParameter));
         }
 
@@ -1385,7 +1385,7 @@ public abstract partial class IrcClient : IDisposable
     {
         CheckDisposed();
 
-        Debug.Assert(line != null);
+        Debug.Assert(line is not null);
     }
 
     private void ReadMessage(IrcMessage message, string line)
@@ -1420,7 +1420,7 @@ public abstract partial class IrcClient : IDisposable
 
     private string CheckPrefix(string value)
     {
-        Debug.Assert(value != null);
+        Debug.Assert(value is not null);
 
         if (value.Length == 0 || value.Any(IsInvalidMessageChar))
         {
@@ -1433,7 +1433,7 @@ public abstract partial class IrcClient : IDisposable
 
     private string CheckCommand(string value)
     {
-        Debug.Assert(value != null);
+        Debug.Assert(value is not null);
 
         if (value.Length == 0 || value.Any(IsInvalidMessageChar))
         {
@@ -1446,7 +1446,7 @@ public abstract partial class IrcClient : IDisposable
 
     private string CheckMiddleParameter(string value)
     {
-        Debug.Assert(value != null);
+        Debug.Assert(value is not null);
 
         if (value.Length == 0 || value.Any(c => IsInvalidMessageChar(c) || c == ' ') || value[0] == ':')
         {
@@ -1459,7 +1459,7 @@ public abstract partial class IrcClient : IDisposable
 
     private string CheckTrailingParameter(string value)
     {
-        Debug.Assert(value != null);
+        Debug.Assert(value is not null);
 
         if (value.Any(c => IsInvalidMessageChar(c)))
         {
@@ -1490,15 +1490,15 @@ public abstract partial class IrcClient : IDisposable
         // Check that given registration info is valid.
         if (registrationInfo is IrcUserRegistrationInfo)
         {
-            if (registrationInfo.NickName == null ||
-                ((IrcUserRegistrationInfo) registrationInfo).UserName == null)
+            if (registrationInfo.NickName is null ||
+                ((IrcUserRegistrationInfo) registrationInfo).UserName is null)
                 throw new ArgumentException(Resources.MessageInvalidUserRegistrationInfo,
                     registrationInfoParamName);
         }
         else if (registrationInfo is IrcServiceRegistrationInfo)
         {
-            if (registrationInfo.NickName == null ||
-                ((IrcServiceRegistrationInfo) registrationInfo).Description == null)
+            if (registrationInfo.NickName is null ||
+                ((IrcServiceRegistrationInfo) registrationInfo).Description is null)
                 throw new ArgumentException(Resources.MessageInvalidServiceRegistrationInfo,
                     registrationInfoParamName);
         }
@@ -1606,7 +1606,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void HandleClientConnected(IrcRegistrationInfo regInfo)
     {
 
-        if (regInfo.Password != null)
+        if (regInfo.Password is not null)
             // Authenticate with server using password.
             SendMessagePassword(regInfo.Password);
 
@@ -1655,7 +1655,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnConnected(EventArgs e)
     {
         var handler = Connected;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1666,7 +1666,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnConnectFailed(IrcErrorEventArgs e)
     {
         var handler = ConnectFailed;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1677,7 +1677,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnDisconnected(EventArgs e)
     {
         var handler = Disconnected;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1688,7 +1688,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnError(IrcErrorEventArgs e)
     {
         var handler = Error;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1701,7 +1701,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnValidateSslCertificate(IrcValidateSslCertificateEventArgs e)
     {
         var handler = ValidateSslCertificate;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1712,7 +1712,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnRawMessageSent(IrcRawMessageEventArgs e)
     {
         var handler = RawMessageSent;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1723,7 +1723,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnRawMessageReceived(IrcRawMessageEventArgs e)
     {
         var handler = RawMessageReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1734,7 +1734,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnProtocolError(IrcProtocolErrorEventArgs e)
     {
         var handler = ProtocolError;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1745,7 +1745,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnErrorMessageReceived(IrcErrorMessageEventArgs e)
     {
         var handler = ErrorMessageReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1782,7 +1782,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnClientInfoReceived(EventArgs e)
     {
         var handler = ClientInfoReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1793,7 +1793,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnRegistered(EventArgs e)
     {
         var handler = Registered;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1804,7 +1804,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnServerBounce(IrcServerInfoEventArgs e)
     {
         var handler = ServerBounce;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1815,7 +1815,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnServerSupportedFeaturesReceived(EventArgs e)
     {
         var handler = ServerSupportedFeaturesReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1826,7 +1826,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnPingReceived(IrcPingOrPongReceivedEventArgs e)
     {
         var handler = PingReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1837,7 +1837,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnPongReceived(IrcPingOrPongReceivedEventArgs e)
     {
         var handler = PongReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1848,7 +1848,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnMotdReceived(EventArgs e)
     {
         var handler = MotdReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1859,7 +1859,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnNetworkInformationReceived(IrcCommentEventArgs e)
     {
         var handler = NetworkInformationReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1870,7 +1870,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnServerVersionInfoReceived(IrcServerVersionInfoEventArgs e)
     {
         var handler = ServerVersionInfoReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1881,7 +1881,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnServerTimeReceived(IrcServerTimeEventArgs e)
     {
         var handler = ServerTimeReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1894,7 +1894,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnServerLinksListReceived(IrcServerLinksListReceivedEventArgs e)
     {
         var handler = ServerLinksListReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1907,7 +1907,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnServerStatsReceived(IrcServerStatsReceivedEventArgs e)
     {
         var handler = ServerStatsReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1918,7 +1918,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnWhoReplyReceived(IrcNameEventArgs e)
     {
         var handler = WhoReplyReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1929,7 +1929,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnWhoXReplyReceived(IrcRawMessageEventArgs e)
     {
         var handler = WhoXReplyReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1940,7 +1940,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnWhoIsReplyReceived(IrcUserEventArgs e)
     {
         var handler = WhoIsReplyReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1951,7 +1951,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnWhoWasReplyReceived(IrcUserEventArgs e)
     {
         var handler = WhoWasReplyReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1964,7 +1964,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnChannelListReceived(IrcChannelListReceivedEventArgs e)
     {
         var handler = ChannelListReceived;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 
@@ -1975,7 +1975,7 @@ public abstract partial class IrcClient : IDisposable
     protected virtual void OnNickChanged(IrcNickChangedEventArgs e)
     {
         var handler = NickChanged;
-        if (handler != null)
+        if (handler is not null)
             handler(this, e);
     }
 

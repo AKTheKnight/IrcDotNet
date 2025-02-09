@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace IrcDotNet.Samples.MarkovTextBot
 {
     // Represents a node within a Markov chain.
-    [DebuggerDisplay("Value: {this.value == null ? \"(null)\" : this.value.ToString()}, {this.links.Count} links")]
+    [DebuggerDisplay("Value: {this.value is null ? \"(null)\" : this.value.ToString()}, {this.links.Count} links")]
     public class MarkovChainNode<T>
     {
         private T value;

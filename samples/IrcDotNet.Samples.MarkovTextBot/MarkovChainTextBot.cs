@@ -122,7 +122,7 @@ namespace IrcDotNet.Samples.MarkovTextBot
                         if (w.Length == 0)
                             continue;
                         // Ignore word if it is first in sentence and same as nick name.
-                        if (lastWord == null && channel.Users.Any(cu => cu.User.NickName.Equals(w,
+                        if (lastWord is null && channel.Users.Any(cu => cu.User.NickName.Equals(w,
                             StringComparison.OrdinalIgnoreCase)))
                             break;
 
@@ -189,7 +189,7 @@ namespace IrcDotNet.Samples.MarkovTextBot
             }
 
             var textBuilder = new StringBuilder();
-            if (textPrefix != null)
+            if (textPrefix is not null)
                 textBuilder.Append(textPrefix);
 
             // Use Markov chain to generate random message, composed of one or more sentences.
