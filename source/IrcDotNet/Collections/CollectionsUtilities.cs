@@ -21,11 +21,8 @@ namespace IrcDotNet.Collections
         public static void Set<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             ArgumentNullException.ThrowIfNull(dictionary);
-
-            if (dictionary.ContainsKey(key))
-                dictionary[key] = value;
-            else
-                dictionary.Add(key, value);
+            
+            dictionary[key] = value;
         }
 
         /// <summary>
