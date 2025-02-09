@@ -12,8 +12,8 @@ using static IrcDotNet.IrcClient;
     using System.Collections.ObjectModel;
 #endif
 
-namespace IrcDotNet
-{
+    namespace IrcDotNet;
+
     /// <summary>
     ///     Represents the local user of a specific <see cref="IrcClient" />.
     ///     The local user is the user as which the client has connected and registered, and may be either a normal user or
@@ -486,4 +486,3 @@ namespace IrcDotNet
 
         #endregion
     }
-}

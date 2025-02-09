@@ -6,732 +6,731 @@ using System.Text;
 using static IrcDotNet.IrcClient;
 using System.Net.Security;
 
-namespace IrcDotNet
+namespace IrcDotNet;
+
+/// <summary>
+///     Base class for all irc event args.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcEventArgs : EventArgs
 {
     /// <summary>
-    ///     Base class for all irc event args.
+    ///     Initializes a new instance of the <see cref="IrcEventArgs"/> class.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcEventArgs : EventArgs
+    /// <param name="ircMessage">The <see cref="IrcClient.IrcMessage"/> this event originates from.</param>
+    public IrcEventArgs(IrcMessage ircMessage)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcEventArgs"/> class.
-        /// </summary>
-        /// <param name="ircMessage">The <see cref="IrcClient.IrcMessage"/> this event originates from.</param>
-        public IrcEventArgs(IrcMessage ircMessage)
-        {
-            IrcMessage = ircMessage;
-        }
-
-        /// <summary>
-        ///     Gets the source irc message.
-        /// </summary>
-        public IrcMessage IrcMessage { get; private set; }
+        IrcMessage = ircMessage;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.IrcNickChangedEventArgs" /> event.
+    ///     Gets the source irc message.
     /// </summary>
-    public class IrcNickChangedEventArgs : IrcEventArgs
+    public IrcMessage IrcMessage { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.IrcNickChangedEventArgs" /> event.
+/// </summary>
+public class IrcNickChangedEventArgs : IrcEventArgs
+{
+    /// <summary>
+    /// Provides the new nickname.
+    /// </summary>
+    public readonly string NewNickName;
+
+    /// <summary>
+    /// Provides the old nickname.
+    /// </summary>
+    public readonly string OldNickName;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="IrcNickChangedEventArgs" /> class.
+    /// </summary>
+    /// <param name="newNickName"></param>
+    /// <param name="oldNickName"></param>
+    public IrcNickChangedEventArgs(IrcMessage ircMessage, string newNickName, string oldNickName) : base(ircMessage)
     {
-        /// <summary>
-        /// Provides the new nickname.
-        /// </summary>
-        public readonly string NewNickName;
+        NewNickName = newNickName;
+        OldNickName = oldNickName;
+    }
+}
 
-        /// <summary>
-        /// Provides the old nickname.
-        /// </summary>
-        public readonly string OldNickName;
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ChannelListReceived" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcChannelListReceivedEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcChannelListReceivedEventArgs" /> class.
+    /// </summary>
+    /// <param name="channels">A list of information about the channels that was returned by the server.</param>
+    public IrcChannelListReceivedEventArgs(IrcMessage ircMessage, IList<IrcChannelInfo> channels) : base(ircMessage)
+    {
+        ArgumentNullException.ThrowIfNull(channels);
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IrcNickChangedEventArgs" /> class.
-        /// </summary>
-        /// <param name="newNickName"></param>
-        /// <param name="oldNickName"></param>
-        public IrcNickChangedEventArgs(IrcMessage ircMessage, string newNickName, string oldNickName) : base(ircMessage)
-        {
-            NewNickName = newNickName;
-            OldNickName = oldNickName;
-        }
+        Channels = new ReadOnlyCollection<IrcChannelInfo>(channels);
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ChannelListReceived" /> event.
+    ///     Gets the list of information about the channels that was returned by the server.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcChannelListReceivedEventArgs : IrcEventArgs
+    /// <value>The list of channels.</value>
+    public IList<IrcChannelInfo> Channels { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ServerVersionInfoReceived" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcServerVersionInfoEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcServerVersionInfoEventArgs" /> class.
+    /// </summary>
+    /// <param name="version">The version of the server.</param>
+    /// <param name="debugLevel">The debug level of the server.</param>
+    /// <param name="serverName">The name of the server.</param>
+    /// <param name="comments">The comments about the server.</param>
+    public IrcServerVersionInfoEventArgs(IrcMessage ircMessage, string version, string debugLevel, string serverName, string comments) : base(ircMessage)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcChannelListReceivedEventArgs" /> class.
-        /// </summary>
-        /// <param name="channels">A list of information about the channels that was returned by the server.</param>
-        public IrcChannelListReceivedEventArgs(IrcMessage ircMessage, IList<IrcChannelInfo> channels) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(channels);
+        ArgumentNullException.ThrowIfNull(version);
+        ArgumentNullException.ThrowIfNull(debugLevel);
+        ArgumentNullException.ThrowIfNull(serverName);
+        ArgumentNullException.ThrowIfNull(comments);
 
-            Channels = new ReadOnlyCollection<IrcChannelInfo>(channels);
-        }
-
-        /// <summary>
-        ///     Gets the list of information about the channels that was returned by the server.
-        /// </summary>
-        /// <value>The list of channels.</value>
-        public IList<IrcChannelInfo> Channels { get; private set; }
+        Version = version;
+        DebugLevel = debugLevel;
+        ServerName = serverName;
+        Comments = comments;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ServerVersionInfoReceived" /> event.
+    ///     Gets the version of the server.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcServerVersionInfoEventArgs : IrcEventArgs
+    /// <value>The version of the server.</value>
+    public string Version { get; private set; }
+
+    /// <summary>
+    ///     Gets the debug level of the server.
+    /// </summary>
+    /// <value>The debug level of the server.</value>
+    public string DebugLevel { get; private set; }
+
+    /// <summary>
+    ///     Gets the name of the server to which the version information applies.
+    /// </summary>
+    /// <value>The name of the server.</value>
+    public string ServerName { get; private set; }
+
+    /// <summary>
+    ///     Gets the comments about the server.
+    /// </summary>
+    /// <value>The comments about the server.</value>
+    public string Comments { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ServerTimeReceived" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcServerTimeEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcServerTimeEventArgs" /> class.
+    /// </summary>
+    /// <param name="serverName">The name of the server.</param>
+    /// <param name="dateTime">The local date/time received from the server.</param>
+    public IrcServerTimeEventArgs(IrcMessage ircMessage, string serverName, string dateTime) : base(ircMessage)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcServerVersionInfoEventArgs" /> class.
-        /// </summary>
-        /// <param name="version">The version of the server.</param>
-        /// <param name="debugLevel">The debug level of the server.</param>
-        /// <param name="serverName">The name of the server.</param>
-        /// <param name="comments">The comments about the server.</param>
-        public IrcServerVersionInfoEventArgs(IrcMessage ircMessage, string version, string debugLevel, string serverName, string comments) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(version);
-            ArgumentNullException.ThrowIfNull(debugLevel);
-            ArgumentNullException.ThrowIfNull(serverName);
-            ArgumentNullException.ThrowIfNull(comments);
+        ArgumentNullException.ThrowIfNull(serverName);
+        ArgumentNullException.ThrowIfNull(dateTime);
 
-            Version = version;
-            DebugLevel = debugLevel;
-            ServerName = serverName;
-            Comments = comments;
-        }
-
-        /// <summary>
-        ///     Gets the version of the server.
-        /// </summary>
-        /// <value>The version of the server.</value>
-        public string Version { get; private set; }
-
-        /// <summary>
-        ///     Gets the debug level of the server.
-        /// </summary>
-        /// <value>The debug level of the server.</value>
-        public string DebugLevel { get; private set; }
-
-        /// <summary>
-        ///     Gets the name of the server to which the version information applies.
-        /// </summary>
-        /// <value>The name of the server.</value>
-        public string ServerName { get; private set; }
-
-        /// <summary>
-        ///     Gets the comments about the server.
-        /// </summary>
-        /// <value>The comments about the server.</value>
-        public string Comments { get; private set; }
+        ServerName = serverName;
+        DateTime = dateTime;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ServerTimeReceived" /> event.
+    ///     Gets the name of the server to which the version information applies.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcServerTimeEventArgs : IrcEventArgs
+    /// <value>The name of the server.</value>
+    public string ServerName { get; private set; }
+
+    /// <summary>
+    ///     Gets the local date/time for the server.
+    /// </summary>
+    /// <value>The local date/time for the server.</value>
+    public string DateTime { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ServerLinksListReceived" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcServerLinksListReceivedEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcServerLinksListReceivedEventArgs" /> class.
+    /// </summary>
+    /// <param name="links">A list of information about the server links that was returned by the server.</param>
+    public IrcServerLinksListReceivedEventArgs(IrcMessage ircMessage, IList<IrcServerInfo> links) : base(ircMessage)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcServerTimeEventArgs" /> class.
-        /// </summary>
-        /// <param name="serverName">The name of the server.</param>
-        /// <param name="dateTime">The local date/time received from the server.</param>
-        public IrcServerTimeEventArgs(IrcMessage ircMessage, string serverName, string dateTime) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(serverName);
-            ArgumentNullException.ThrowIfNull(dateTime);
+        ArgumentNullException.ThrowIfNull(links);
 
-            ServerName = serverName;
-            DateTime = dateTime;
-        }
-
-        /// <summary>
-        ///     Gets the name of the server to which the version information applies.
-        /// </summary>
-        /// <value>The name of the server.</value>
-        public string ServerName { get; private set; }
-
-        /// <summary>
-        ///     Gets the local date/time for the server.
-        /// </summary>
-        /// <value>The local date/time for the server.</value>
-        public string DateTime { get; private set; }
+        Links = new ReadOnlyCollection<IrcServerInfo>(links);
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ServerLinksListReceived" /> event.
+    ///     Gets the list of information about the server links that was returned by the server
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcServerLinksListReceivedEventArgs : IrcEventArgs
+    /// <value>The list of server links.</value>
+    public IList<IrcServerInfo> Links { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ServerStatsReceived" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcServerStatsReceivedEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcServerStatsReceivedEventArgs" /> class.
+    /// </summary>
+    /// <param name="entries">A list of statistical entries that was returned by the server.</param>
+    public IrcServerStatsReceivedEventArgs(IrcMessage ircMessage, IList<IrcServerStatisticalEntry> entries) : base(ircMessage)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcServerLinksListReceivedEventArgs" /> class.
-        /// </summary>
-        /// <param name="links">A list of information about the server links that was returned by the server.</param>
-        public IrcServerLinksListReceivedEventArgs(IrcMessage ircMessage, IList<IrcServerInfo> links) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(links);
+        ArgumentNullException.ThrowIfNull(entries);
 
-            Links = new ReadOnlyCollection<IrcServerInfo>(links);
-        }
-
-        /// <summary>
-        ///     Gets the list of information about the server links that was returned by the server
-        /// </summary>
-        /// <value>The list of server links.</value>
-        public IList<IrcServerInfo> Links { get; private set; }
+        Entries = new ReadOnlyCollection<IrcServerStatisticalEntry>(entries);
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ServerStatsReceived" /> event.
+    ///     Gets the list of statistical entries that was returned by the server.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcServerStatsReceivedEventArgs : IrcEventArgs
+    /// <value>The list of statistical entries.</value>
+    public IList<IrcServerStatisticalEntry> Entries { get; private set; }
+}
+
+/// <summary>
+///     <inheritdoc select="/summary/node()" />
+///     Gives the option to handle the preview event and thus stop the normal event from being raised.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcPreviewMessageEventArgs : IrcMessageEventArgs
+{
+    /// <inheritdoc />
+    public IrcPreviewMessageEventArgs(IrcMessage ircMessage, IIrcMessageSource source, IList<IIrcMessageTarget> targets, string text,
+        Encoding encoding)
+        : base(ircMessage, source, targets, text, encoding)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcServerStatsReceivedEventArgs" /> class.
-        /// </summary>
-        /// <param name="entries">A list of statistical entries that was returned by the server.</param>
-        public IrcServerStatsReceivedEventArgs(IrcMessage ircMessage, IList<IrcServerStatisticalEntry> entries) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(entries);
-
-            Entries = new ReadOnlyCollection<IrcServerStatisticalEntry>(entries);
-        }
-
-        /// <summary>
-        ///     Gets the list of statistical entries that was returned by the server.
-        /// </summary>
-        /// <value>The list of statistical entries.</value>
-        public IList<IrcServerStatisticalEntry> Entries { get; private set; }
+        Handled = false;
     }
 
     /// <summary>
-    ///     <inheritdoc select="/summary/node()" />
-    ///     Gives the option to handle the preview event and thus stop the normal event from being raised.
+    ///     Gets or sets whether the event has been handled. If it is handled, the corresponding normal (non-preview)
+    ///     event is not raised.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcPreviewMessageEventArgs : IrcMessageEventArgs
-    {
-        /// <inheritdoc />
-        public IrcPreviewMessageEventArgs(IrcMessage ircMessage, IIrcMessageSource source, IList<IIrcMessageTarget> targets, string text,
-            Encoding encoding)
-            : base(ircMessage, source, targets, text, encoding)
-        {
-            Handled = false;
-        }
+    /// <value><see langword="true" /> if the event has been handled; <see langword="false" />, otherwise.</value>
+    public bool Handled { get; set; }
+}
 
-        /// <summary>
-        ///     Gets or sets whether the event has been handled. If it is handled, the corresponding normal (non-preview)
-        ///     event is not raised.
-        /// </summary>
-        /// <value><see langword="true" /> if the event has been handled; <see langword="false" />, otherwise.</value>
-        public bool Handled { get; set; }
+/// <summary>
+///     Provides data for events that are raised when an IRC message or notice is sent or received.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcMessageEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcMessageEventArgs" /> class.
+    /// </summary>
+    /// <param name="source">The source of the message.</param>
+    /// <param name="targets">A list of the targets of the message.</param>
+    /// <param name="text">The text of the message.</param>
+    /// <param name="encoding">The encoding of the message text.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="targets" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
+    public IrcMessageEventArgs(IrcMessage ircMessage, IIrcMessageSource source, IList<IIrcMessageTarget> targets, string text,
+        Encoding encoding) : base(ircMessage)
+    {
+        ArgumentNullException.ThrowIfNull(targets);
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(encoding);
+
+        Source = source;
+        Targets = new ReadOnlyCollection<IIrcMessageTarget>(targets);
+        Text = text;
+        Encoding = encoding;
     }
 
     /// <summary>
-    ///     Provides data for events that are raised when an IRC message or notice is sent or received.
+    ///     Gets the source of the message.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcMessageEventArgs : IrcEventArgs
+    /// <value>The source of the message.</value>
+    public IIrcMessageSource Source { get; private set; }
+
+    /// <summary>
+    ///     Gets a list of the targets of the message.
+    /// </summary>
+    /// <value>The targets of the message.</value>
+    public IList<IIrcMessageTarget> Targets { get; private set; }
+
+    /// <summary>
+    ///     Gets the text of the message.
+    /// </summary>
+    /// <value>The text of the message.</value>
+    public string Text { get; }
+
+    /// <summary>
+    ///     Gets the encoding of the message text.
+    /// </summary>
+    /// <value>The encoding of the message text.</value>
+    public Encoding Encoding { get; }
+
+    /// <summary>
+    ///     Gets the text of the message in the specified encoding.
+    /// </summary>
+    /// <param name="encoding">
+    ///     The encoding in which to get the message text, or <see langword="null" /> to use the
+    ///     default encoding.
+    /// </param>
+    /// <returns>The text of the message.</returns>
+    public string GetText(Encoding encoding = null)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcMessageEventArgs" /> class.
-        /// </summary>
-        /// <param name="source">The source of the message.</param>
-        /// <param name="targets">A list of the targets of the message.</param>
-        /// <param name="text">The text of the message.</param>
-        /// <param name="encoding">The encoding of the message text.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="targets" /> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
-        public IrcMessageEventArgs(IrcMessage ircMessage, IIrcMessageSource source, IList<IIrcMessageTarget> targets, string text,
-            Encoding encoding) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(targets);
-            ArgumentNullException.ThrowIfNull(text);
-            ArgumentNullException.ThrowIfNull(encoding);
+        return Text.ChangeEncoding(Encoding, encoding);
+    }
+}
 
-            Source = source;
-            Targets = new ReadOnlyCollection<IIrcMessageTarget>(targets);
-            Text = text;
-            Encoding = encoding;
-        }
+/// <summary>
+///     Provides data for the <see cref="IrcClient.PingReceived" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcChannelInvitationEventArgs : IrcChannelEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcChannelInvitationEventArgs" /> class.
+    /// </summary>
+    /// <param name="channel">The channel to which the recipient user is invited.</param>
+    /// <param name="inviter">The user inviting the recipient user to the channel.</param>
+    public IrcChannelInvitationEventArgs(IrcMessage ircMessage, IrcChannel channel, IrcUser inviter, string comment = null) : base(ircMessage, channel, comment)
+    {
+        ArgumentNullException.ThrowIfNull(inviter);
 
-        /// <summary>
-        ///     Gets the source of the message.
-        /// </summary>
-        /// <value>The source of the message.</value>
-        public IIrcMessageSource Source { get; private set; }
-
-        /// <summary>
-        ///     Gets a list of the targets of the message.
-        /// </summary>
-        /// <value>The targets of the message.</value>
-        public IList<IIrcMessageTarget> Targets { get; private set; }
-
-        /// <summary>
-        ///     Gets the text of the message.
-        /// </summary>
-        /// <value>The text of the message.</value>
-        public string Text { get; }
-
-        /// <summary>
-        ///     Gets the encoding of the message text.
-        /// </summary>
-        /// <value>The encoding of the message text.</value>
-        public Encoding Encoding { get; }
-
-        /// <summary>
-        ///     Gets the text of the message in the specified encoding.
-        /// </summary>
-        /// <param name="encoding">
-        ///     The encoding in which to get the message text, or <see langword="null" /> to use the
-        ///     default encoding.
-        /// </param>
-        /// <returns>The text of the message.</returns>
-        public string GetText(Encoding encoding = null)
-        {
-            return Text.ChangeEncoding(Encoding, encoding);
-        }
+        Inviter = inviter;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.PingReceived" /> event.
+    ///     Gets the user inviting the recipient user to the channel
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcChannelInvitationEventArgs : IrcChannelEventArgs
+    /// <value>The inviter user.</value>
+    public IrcUser Inviter { get; private set; }
+}
+
+/// <summary>
+///     Provides data for events that concern an <see cref="IrcChannelUser" />.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcChannelUserEventArgs : IrcCommentEventArgs
+{
+    /// <inheritdoc />
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcChannelUserEventArgs" /> class.
+    /// </summary>
+    /// <param name="channelUser">The channel user that the event concerns.</param>
+    public IrcChannelUserEventArgs(IrcMessage ircMessage, IrcChannelUser channelUser, string comment = null) : base(ircMessage, comment)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcChannelInvitationEventArgs" /> class.
-        /// </summary>
-        /// <param name="channel">The channel to which the recipient user is invited.</param>
-        /// <param name="inviter">The user inviting the recipient user to the channel.</param>
-        public IrcChannelInvitationEventArgs(IrcMessage ircMessage, IrcChannel channel, IrcUser inviter, string comment = null) : base(ircMessage, channel, comment)
-        {
-            ArgumentNullException.ThrowIfNull(inviter);
+        ArgumentNullException.ThrowIfNull(channelUser);
 
-            Inviter = inviter;
-        }
-
-        /// <summary>
-        ///     Gets the user inviting the recipient user to the channel
-        /// </summary>
-        /// <value>The inviter user.</value>
-        public IrcUser Inviter { get; private set; }
+        ChannelUser = channelUser;
     }
 
     /// <summary>
-    ///     Provides data for events that concern an <see cref="IrcChannelUser" />.
+    ///     Gets the channel user that the event concerns.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcChannelUserEventArgs : IrcCommentEventArgs
+    /// <value>The channel user that the event concerns.</value>
+    public IrcChannelUser ChannelUser { get; private set; }
+}
+
+/// <summary>
+///     Provides data for events that concern an <see cref="IrcChannel" />.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcChannelEventArgs : IrcCommentEventArgs
+{
+    /// <inheritdoc />
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcChannelEventArgs" /> class.
+    /// </summary>
+    /// <param name="channel">The channel that the event concerns.</param>
+    public IrcChannelEventArgs(IrcMessage ircMessage, IrcChannel channel, string comment = null)
+        : base(ircMessage, comment)
     {
-        /// <inheritdoc />
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcChannelUserEventArgs" /> class.
-        /// </summary>
-        /// <param name="channelUser">The channel user that the event concerns.</param>
-        public IrcChannelUserEventArgs(IrcMessage ircMessage, IrcChannelUser channelUser, string comment = null) : base(ircMessage, comment)
-        {
-            ArgumentNullException.ThrowIfNull(channelUser);
+        ArgumentNullException.ThrowIfNull(channel);
 
-            ChannelUser = channelUser;
-        }
-
-        /// <summary>
-        ///     Gets the channel user that the event concerns.
-        /// </summary>
-        /// <value>The channel user that the event concerns.</value>
-        public IrcChannelUser ChannelUser { get; private set; }
+        Channel = channel;
     }
 
     /// <summary>
-    ///     Provides data for events that concern an <see cref="IrcChannel" />.
+    ///     Gets the channel that the event concerns.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcChannelEventArgs : IrcCommentEventArgs
+    /// <value>The channel that the event concerns.</value>
+    public IrcChannel Channel { get; private set; }
+}
+
+/// <summary>
+///     Provides data for events that concern an <see cref="IrcUser" />.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcUserEventArgs : IrcCommentEventArgs
+{
+    /// <inheritdoc />
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcUserEventArgs" /> class.
+    /// </summary>
+    /// <param name="user">The user that the event concerns, or <see langword="null" /> for no user.</param>
+    public IrcUserEventArgs(IrcMessage ircMessage, IrcUser user, string comment = null)
+        : base(ircMessage, comment)
     {
-        /// <inheritdoc />
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcChannelEventArgs" /> class.
-        /// </summary>
-        /// <param name="channel">The channel that the event concerns.</param>
-        public IrcChannelEventArgs(IrcMessage ircMessage, IrcChannel channel, string comment = null)
-            : base(ircMessage, comment)
-        {
-            ArgumentNullException.ThrowIfNull(channel);
-
-            Channel = channel;
-        }
-
-        /// <summary>
-        ///     Gets the channel that the event concerns.
-        /// </summary>
-        /// <value>The channel that the event concerns.</value>
-        public IrcChannel Channel { get; private set; }
+        User = user;
     }
 
     /// <summary>
-    ///     Provides data for events that concern an <see cref="IrcUser" />.
+    ///     Gets the user that the event concerns.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcUserEventArgs : IrcCommentEventArgs
-    {
-        /// <inheritdoc />
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcUserEventArgs" /> class.
-        /// </summary>
-        /// <param name="user">The user that the event concerns, or <see langword="null" /> for no user.</param>
-        public IrcUserEventArgs(IrcMessage ircMessage, IrcUser user, string comment = null)
-            : base(ircMessage, comment)
-        {
-            User = user;
-        }
+    /// <value>The user that the event concerns.</value>
+    public IrcUser User { get; private set; }
+}
 
-        /// <summary>
-        ///     Gets the user that the event concerns.
-        /// </summary>
-        /// <value>The user that the event concerns.</value>
-        public IrcUser User { get; private set; }
+/// <summary>
+///     Provides data for events that specify a comment.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcNameEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcNameEventArgs" /> class.
+    /// </summary>
+    /// <param name="name">The name that the event specified.</param>
+    public IrcNameEventArgs(IrcMessage ircMessage, string name) : base(ircMessage)
+    {
+        Name = name;
     }
 
     /// <summary>
-    ///     Provides data for events that specify a comment.
+    ///     Gets the name that the event specified.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcNameEventArgs : IrcEventArgs
-    {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcNameEventArgs" /> class.
-        /// </summary>
-        /// <param name="name">The name that the event specified.</param>
-        public IrcNameEventArgs(IrcMessage ircMessage, string name) : base(ircMessage)
-        {
-            Name = name;
-        }
+    /// <value>The name that the event specified.</value>
+    public string Name { get; private set; }
+}
 
-        /// <summary>
-        ///     Gets the name that the event specified.
-        /// </summary>
-        /// <value>The name that the event specified.</value>
-        public string Name { get; private set; }
+/// <summary>
+///     Provides data for events that specify a name.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcCommentEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcCommentEventArgs" /> class.
+    /// </summary>
+    /// <param name="comment">The comment that the event specified.</param>
+    public IrcCommentEventArgs(IrcMessage ircMessage, string comment) : base(ircMessage)
+    {
+        Comment = comment;
     }
 
     /// <summary>
-    ///     Provides data for events that specify a name.
+    ///     Gets the comment that the event specified.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcCommentEventArgs : IrcEventArgs
-    {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcCommentEventArgs" /> class.
-        /// </summary>
-        /// <param name="comment">The comment that the event specified.</param>
-        public IrcCommentEventArgs(IrcMessage ircMessage, string comment) : base(ircMessage)
-        {
-            Comment = comment;
-        }
+    /// <value>The comment that the event specified.</value>
+    public string Comment { get; private set; }
+}
 
-        /// <summary>
-        ///     Gets the comment that the event specified.
-        /// </summary>
-        /// <value>The comment that the event specified.</value>
-        public string Comment { get; private set; }
+/// <summary>
+///     Provides data for the <see cref="IrcClient.PingReceived" /> and <see cref="IrcClient.PongReceived" /> events.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcPingOrPongReceivedEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcPingOrPongReceivedEventArgs" /> class.
+    /// </summary>
+    /// <param name="server">The name of the server that is the source of the ping or pong.</param>
+    public IrcPingOrPongReceivedEventArgs(IrcMessage ircMessage, string server) : base(ircMessage)
+    {
+        ArgumentNullException.ThrowIfNull(server);
+
+        Server = server;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.PingReceived" /> and <see cref="IrcClient.PongReceived" /> events.
+    ///     Gets the name of the server that is the source of the ping or pong.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcPingOrPongReceivedEventArgs : IrcEventArgs
+    /// <value>The name of the server.</value>
+    public string Server { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.PingReceived" /> events.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcPingReceivedEventArgs : IrcPingOrPongReceivedEventArgs
+{
+    public IrcPingReceivedEventArgs(IrcMessage ircMessage, string server) : base(ircMessage, server)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcPingOrPongReceivedEventArgs" /> class.
-        /// </summary>
-        /// <param name="server">The name of the server that is the source of the ping or pong.</param>
-        public IrcPingOrPongReceivedEventArgs(IrcMessage ircMessage, string server) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(server);
-
-            Server = server;
-        }
-
-        /// <summary>
-        ///     Gets the name of the server that is the source of the ping or pong.
-        /// </summary>
-        /// <value>The name of the server.</value>
-        public string Server { get; private set; }
+        SendPong = true;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.PingReceived" /> events.
+    ///     Gets or sets if we should send a Pong back
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcPingReceivedEventArgs : IrcPingOrPongReceivedEventArgs
-    {
-        public IrcPingReceivedEventArgs(IrcMessage ircMessage, string server) : base(ircMessage, server)
-        {
-            SendPong = true;
-        }
+    /// <value>A value indicating sending a Pong.</value>
+    public bool SendPong { get; set; }
+}
 
-        /// <summary>
-        ///     Gets or sets if we should send a Pong back
-        /// </summary>
-        /// <value>A value indicating sending a Pong.</value>
-        public bool SendPong { get; set; }
+/// <summary>
+///     Provides data for events that specify information about a server.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcServerInfoEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcServerInfoEventArgs" /> class.
+    /// </summary>
+    /// <param name="address">The address of the server.</param>
+    /// <param name="port">The port on which to connect to the server.</param>
+    public IrcServerInfoEventArgs(IrcMessage ircMessage, string address, int port) : base(ircMessage)
+    {
+        ArgumentNullException.ThrowIfNull(address);
+        if (port <= 0)
+            throw new ArgumentOutOfRangeException(nameof(port));
+
+        Address = address;
+        Port = port;
     }
 
     /// <summary>
-    ///     Provides data for events that specify information about a server.
+    ///     Gets the address of the server.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcServerInfoEventArgs : IrcEventArgs
+    /// <value>The address of the server.</value>
+    public string Address { get; private set; }
+
+    /// <summary>
+    ///     Gets the port on which to connect to the server.
+    /// </summary>
+    /// <value>The port on which to connect to the server.</value>
+    public int Port { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ErrorMessageReceived" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcErrorMessageEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcErrorMessageEventArgs" /> class.
+    /// </summary>
+    /// <param name="message">The error message given by the server.</param>
+    public IrcErrorMessageEventArgs(IrcMessage ircMessage, string message) : base(ircMessage)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcServerInfoEventArgs" /> class.
-        /// </summary>
-        /// <param name="address">The address of the server.</param>
-        /// <param name="port">The port on which to connect to the server.</param>
-        public IrcServerInfoEventArgs(IrcMessage ircMessage, string address, int port) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(address);
-            if (port <= 0)
-                throw new ArgumentOutOfRangeException(nameof(port));
+        ArgumentNullException.ThrowIfNull(message);
 
-            Address = address;
-            Port = port;
-        }
-
-        /// <summary>
-        ///     Gets the address of the server.
-        /// </summary>
-        /// <value>The address of the server.</value>
-        public string Address { get; private set; }
-
-        /// <summary>
-        ///     Gets the port on which to connect to the server.
-        /// </summary>
-        /// <value>The port on which to connect to the server.</value>
-        public int Port { get; private set; }
+        Message = message;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ErrorMessageReceived" /> event.
+    ///     Gets the text of the error message.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcErrorMessageEventArgs : IrcEventArgs
+    /// <value>The text of the error message.</value>
+    public string Message { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ActiveCapabilitiesReceived" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class ActiveCapabilitiesEventArgs : EventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ActiveCapabilitiesEventArgs" /> class.
+    /// </summary>
+    /// <param name="caps">The list of active capabilities</param>
+    public ActiveCapabilitiesEventArgs(string[] caps)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcErrorMessageEventArgs" /> class.
-        /// </summary>
-        /// <param name="message">The error message given by the server.</param>
-        public IrcErrorMessageEventArgs(IrcMessage ircMessage, string message) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(message);
+        ArgumentNullException.ThrowIfNull(caps);
 
-            Message = message;
-        }
-
-        /// <summary>
-        ///     Gets the text of the error message.
-        /// </summary>
-        /// <value>The text of the error message.</value>
-        public string Message { get; private set; }
+        Capabilities = caps;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ActiveCapabilitiesReceived" /> event.
+    ///     Gets the list of capabilities.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class ActiveCapabilitiesEventArgs : EventArgs
+    /// <value>The list of capabilities.</value>
+    public string[] Capabilities { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.CapabilityAcknowledged" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class CapabilityAcknowledgedEventArgs : EventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="CapabilityAcknowledgedEventArgs" /> class.
+    /// </summary>
+    /// <param name="acknowledged">Whether (ACK) or not (NAK) the request has been acknowledged by the server</param>
+    /// <param name="caps">The list of active capabilities</param>
+    public CapabilityAcknowledgedEventArgs(bool acknowledged, string[] caps)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ActiveCapabilitiesEventArgs" /> class.
-        /// </summary>
-        /// <param name="caps">The list of active capabilities</param>
-        public ActiveCapabilitiesEventArgs(string[] caps)
-        {
-            ArgumentNullException.ThrowIfNull(caps);
-
-            Capabilities = caps;
-        }
-
-        /// <summary>
-        ///     Gets the list of capabilities.
-        /// </summary>
-        /// <value>The list of capabilities.</value>
-        public string[] Capabilities { get; private set; }
+        Capabilities = caps;
+        Acknowledged = acknowledged;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.CapabilityAcknowledged" /> event.
+    ///     Gets the list of capabilities.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class CapabilityAcknowledgedEventArgs : EventArgs
+    /// <value>The list of capabilities.</value>
+    public string[] Capabilities { get; private set; }
+
+    /// <summary>
+    ///     Gets whether (ACK) or not (NAK) the request has been acknowledged by the server.
+    /// </summary>
+    /// <value>Whether (ACK) or not (NAK) the request has been acknowledged by the server.</value>
+    public bool Acknowledged { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ProtocolError" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcProtocolErrorEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcProtocolErrorEventArgs" /> class.
+    /// </summary>
+    /// <param name="code">The code.</param>
+    /// <param name="parameters">The parameters.</param>
+    /// <param name="message">The message.</param>
+    public IrcProtocolErrorEventArgs(IrcMessage ircMessage, int code, IList<string> parameters, string message) : base(ircMessage)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CapabilityAcknowledgedEventArgs" /> class.
-        /// </summary>
-        /// <param name="acknowledged">Whether (ACK) or not (NAK) the request has been acknowledged by the server</param>
-        /// <param name="caps">The list of active capabilities</param>
-        public CapabilityAcknowledgedEventArgs(bool acknowledged, string[] caps)
-        {
-            Capabilities = caps;
-            Acknowledged = acknowledged;
-        }
+        ArgumentNullException.ThrowIfNull(parameters);
+        ArgumentNullException.ThrowIfNull(message);
 
-        /// <summary>
-        ///     Gets the list of capabilities.
-        /// </summary>
-        /// <value>The list of capabilities.</value>
-        public string[] Capabilities { get; private set; }
-
-        /// <summary>
-        ///     Gets whether (ACK) or not (NAK) the request has been acknowledged by the server.
-        /// </summary>
-        /// <value>Whether (ACK) or not (NAK) the request has been acknowledged by the server.</value>
-        public bool Acknowledged { get; private set; }
+        Code = code;
+        Parameters = new ReadOnlyCollection<string>(parameters);
+        Message = message;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ProtocolError" /> event.
+    ///     Gets or sets the numeric code that indicates the type of error.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcProtocolErrorEventArgs : IrcEventArgs
-    {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcProtocolErrorEventArgs" /> class.
-        /// </summary>
-        /// <param name="code">The code.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="message">The message.</param>
-        public IrcProtocolErrorEventArgs(IrcMessage ircMessage, int code, IList<string> parameters, string message) : base(ircMessage)
-        {
-            ArgumentNullException.ThrowIfNull(parameters);
-            ArgumentNullException.ThrowIfNull(message);
-
-            Code = code;
-            Parameters = new ReadOnlyCollection<string>(parameters);
-            Message = message;
-        }
-
-        /// <summary>
-        ///     Gets or sets the numeric code that indicates the type of error.
-        /// </summary>
-        /// <value>The numeric code that indicates the type of error.</value>
-        public int Code { get; private set; }
-
-        /// <summary>
-        ///     Gets a list of the parameters of the error.
-        /// </summary>
-        /// <value>A lsit of the parameters of the error.</value>
-        public IList<string> Parameters { get; private set; }
-
-        /// <summary>
-        ///     Gets the text of the error message.
-        /// </summary>
-        /// <value>The text of the error message.</value>
-        public string Message { get; private set; }
-    }
+    /// <value>The numeric code that indicates the type of error.</value>
+    public int Code { get; private set; }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.RawMessageSent" /> and
-    ///     <see cref="IrcClient.RawMessageReceived" /> events.
+    ///     Gets a list of the parameters of the error.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcRawMessageEventArgs : IrcEventArgs
+    /// <value>A lsit of the parameters of the error.</value>
+    public IList<string> Parameters { get; private set; }
+
+    /// <summary>
+    ///     Gets the text of the error message.
+    /// </summary>
+    /// <value>The text of the error message.</value>
+    public string Message { get; private set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.RawMessageSent" /> and
+///     <see cref="IrcClient.RawMessageReceived" /> events.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcRawMessageEventArgs : IrcEventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcRawMessageEventArgs" /> class.
+    /// </summary>
+    /// <param name="rawContent">The raw content of the message.</param>
+    public IrcRawMessageEventArgs(IrcMessage ircMessage, string rawContent) : base(ircMessage)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcRawMessageEventArgs" /> class.
-        /// </summary>
-        /// <param name="rawContent">The raw content of the message.</param>
-        public IrcRawMessageEventArgs(IrcMessage ircMessage, string rawContent) : base(ircMessage)
-        {
-            RawContent = rawContent;
-        }
-
-        [Obsolete("Accessor for backwards compatibility. Use IrcMessage instead.")]
-        public IrcMessage Message => IrcMessage;
-
-        /// <summary>
-        ///     Gets the raw content of the message.
-        /// </summary>
-        /// <value>The raw content of the message.</value>
-        public string RawContent { get; private set; }
+        RawContent = rawContent;
     }
+
+    [Obsolete("Accessor for backwards compatibility. Use IrcMessage instead.")]
+    public IrcMessage Message => IrcMessage;
+
+    /// <summary>
+    ///     Gets the raw content of the message.
+    /// </summary>
+    /// <value>The raw content of the message.</value>
+    public string RawContent { get; private set; }
+}
     
+/// <summary>
+///     Provides data for the <see cref="IrcClient.ValidateSslCertificate" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcValidateSslCertificateEventArgs : EventArgs
+{
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.ValidateSslCertificate" /> event.
+    ///     Initializes a new instance of the <see cref="IrcValidateSslCertificateEventArgs" /> class.
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcValidateSslCertificateEventArgs : EventArgs
+    /// <param name="certificate">The certificate used to authenticate the remote party.</param>
+    /// <param name="chain">The chain of certificate authorities.</param>
+    /// <param name="sslPolicyErrors">The errors associated with the remote certificate.</param>
+    public IrcValidateSslCertificateEventArgs(X509Certificate certificate, X509Chain chain,
+        SslPolicyErrors sslPolicyErrors)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcValidateSslCertificateEventArgs" /> class.
-        /// </summary>
-        /// <param name="certificate">The certificate used to authenticate the remote party.</param>
-        /// <param name="chain">The chain of certificate authorities.</param>
-        /// <param name="sslPolicyErrors">The errors associated with the remote certificate.</param>
-        public IrcValidateSslCertificateEventArgs(X509Certificate certificate, X509Chain chain,
-            SslPolicyErrors sslPolicyErrors)
-        {
-            Certificate = certificate;
-            Chain = chain;
-            SslPolicyErrors = sslPolicyErrors;
-        }
-
-        /// <summary>
-        ///     Gets the certificate used to authenticate the remote party..
-        /// </summary>
-        /// <value>The certificate.</value>
-        public X509Certificate Certificate { get; private set; }
-
-        /// <summary>
-        ///     Gets the chain of certificate authorities associated with the remote certificate.
-        /// </summary>
-        /// <value>The chain.</value>
-        public X509Chain Chain { get; private set; }
-
-        /// <summary>
-        ///     Gets the errors associated with the remote certificate.
-        /// </summary>
-        /// <value>The SSL policy errors.</value>
-        public SslPolicyErrors SslPolicyErrors { get; private set; }
-
-        /// <summary>
-        ///     Gets or sets whether the certificate given by the server is valid.
-        /// </summary>
-        /// <value><see langword="true" /> if the certificate is valid; <see langword="false" />, otherwise.</value>
-        public bool IsValid { get; set; }
+        Certificate = certificate;
+        Chain = chain;
+        SslPolicyErrors = sslPolicyErrors;
     }
 
     /// <summary>
-    ///     Provides data for the <see cref="IrcClient.Error" /> event.
+    ///     Gets the certificate used to authenticate the remote party..
     /// </summary>
-    /// <threadsafety static="true" instance="false" />
-    public class IrcErrorEventArgs : EventArgs
+    /// <value>The certificate.</value>
+    public X509Certificate Certificate { get; private set; }
+
+    /// <summary>
+    ///     Gets the chain of certificate authorities associated with the remote certificate.
+    /// </summary>
+    /// <value>The chain.</value>
+    public X509Chain Chain { get; private set; }
+
+    /// <summary>
+    ///     Gets the errors associated with the remote certificate.
+    /// </summary>
+    /// <value>The SSL policy errors.</value>
+    public SslPolicyErrors SslPolicyErrors { get; private set; }
+
+    /// <summary>
+    ///     Gets or sets whether the certificate given by the server is valid.
+    /// </summary>
+    /// <value><see langword="true" /> if the certificate is valid; <see langword="false" />, otherwise.</value>
+    public bool IsValid { get; set; }
+}
+
+/// <summary>
+///     Provides data for the <see cref="IrcClient.Error" /> event.
+/// </summary>
+/// <threadsafety static="true" instance="false" />
+public class IrcErrorEventArgs : EventArgs
+{
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="IrcErrorEventArgs" /> class.
+    /// </summary>
+    /// <param name="error">The error.</param>
+    public IrcErrorEventArgs(Exception error)
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IrcErrorEventArgs" /> class.
-        /// </summary>
-        /// <param name="error">The error.</param>
-        public IrcErrorEventArgs(Exception error)
-        {
-            ArgumentNullException.ThrowIfNull(error);
+        ArgumentNullException.ThrowIfNull(error);
 
-            Error = error;
-        }
-
-        /// <summary>
-        ///     Gets the error encountered by the client.
-        /// </summary>
-        /// <value>The error encountered by the client.</value>
-        public Exception Error { get; private set; }
+        Error = error;
     }
+
+    /// <summary>
+    ///     Gets the error encountered by the client.
+    /// </summary>
+    /// <value>The error encountered by the client.</value>
+    public Exception Error { get; private set; }
 }

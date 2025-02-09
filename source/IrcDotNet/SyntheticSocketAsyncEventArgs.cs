@@ -1,9 +1,8 @@
 ﻿using System.Net.Sockets;
 
-namespace IrcDotNet
+namespace IrcDotNet;
+
+public class SyntheticSocketAsyncEventArgs : SocketAsyncEventArgs
 {
-    public class SyntheticSocketAsyncEventArgs : SocketAsyncEventArgs
-    {
-        public new int BytesTransferred { get; set; }
-    }
+    public new int BytesTransferred { get; set; }
 }
