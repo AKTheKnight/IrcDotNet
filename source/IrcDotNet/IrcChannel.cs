@@ -56,7 +56,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
         private set
         {
             type = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("Type"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(Type)));
         }
     }
 
@@ -70,7 +70,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
         private set
         {
             topic = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("Topic"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(Topic)));
         }
     }
 
@@ -96,7 +96,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
         internal set
         {
             client = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("Client"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(Client)));
         }
     }
 

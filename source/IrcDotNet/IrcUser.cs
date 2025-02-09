@@ -72,7 +72,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             isOnline = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("IsOnline"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsOnline)));
         }
     }
 
@@ -87,7 +87,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         {
             nickName = value;
             OnNickNameChanged(new EventArgs());
-            OnPropertyChanged(new PropertyChangedEventArgs("NickName"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(NickName)));
         }
     }
 
@@ -101,7 +101,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             userName = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("UserName"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(UserName)));
         }
     }
 
@@ -115,7 +115,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             realName = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("RealName"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(RealName)));
         }
     }
 
@@ -129,7 +129,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             hostName = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("HostName"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(HostName)));
         }
     }
 
@@ -143,7 +143,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             serverName = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("ServerName"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(ServerName)));
         }
     }
 
@@ -157,7 +157,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             serverInfo = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("ServerInfo"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(ServerInfo)));
         }
     }
 
@@ -171,7 +171,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             isOperator = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("IsOperator"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsOperator)));
         }
     }
 
@@ -191,7 +191,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         {
             isAway = value;
             OnIsAwayChanged(new EventArgs());
-            OnPropertyChanged(new PropertyChangedEventArgs("IsAway"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAway)));
         }
     }
 
@@ -205,7 +205,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             awayMessage = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("AwayMessage"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AwayMessage)));
         }
     }
 
@@ -219,7 +219,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             idleDuration = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("IdleDuration"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IdleDuration)));
         }
     }
 
@@ -234,7 +234,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             hopCount = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("HopCount"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(HopCount)));
         }
     }
 
@@ -248,7 +248,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             client = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("Client"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(Client)));
         }
     }
 

@@ -48,7 +48,7 @@ public class IrcChannelUser : INotifyPropertyChanged
         internal set
         {
             channel = value;
-            OnPropertyChanged(new PropertyChangedEventArgs("Channel"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(Channel)));
         }
     }
 
