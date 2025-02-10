@@ -37,6 +37,7 @@ public struct IrcNetworkInfo
 
     /// <summary>
     ///     The number of clients connected to the server.
+    ///     This should be the same as <see cref="CurrentLocalUsersCount"/>, but they are kept separate for clarity.
     /// </summary>
     public int? ServerClientsCount;
 
@@ -49,4 +50,23 @@ public struct IrcNetworkInfo
     ///     The number of services connected to the server.
     /// </summary>
     public int? ServerServicesCount;
+
+    /// <summary>
+    ///     "The number of clients currently (...) connected directly to this server".
+    ///     This should be the same as <see cref="ServerClientsCount"/>, but they are kept separate for clarity.
+    /// </summary>
+    public int? CurrentLocalUsersCount;
+    /// <summary>
+    ///     "The maximum number of clients that have been connected directly to this server at one time".
+    /// </summary>
+    public int? MaxLocalUsersCount;
+    
+    /// <summary>
+    ///     "The number of clients currently connected to this server, globally (directly and through other server links)."
+    /// </summary>
+    public int? CurrentGlobalUsersCount;
+    /// <summary>
+    ///     "The maximum number of clients that have been connected to this server at one time, globally (directly and through other server links)".
+    /// </summary>
+    public int? MaxGlobalUsersCount;
 }

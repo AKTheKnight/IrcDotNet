@@ -701,6 +701,82 @@ partial class IrcClient
     }
 
     /// <summary>
+    ///     Process RPL_LOCALUSERS responses from the server.
+    /// </summary>
+    /// <param name="message">The message received from the server.</param>
+    [MessageProcessor("265")]
+    protected internal void ProcessMessageLocalUsers(IrcMessage message)
+    {
+        Debug.Assert(message.Parameters[0] == localUser.NickName);
+        
+        int currentLocalUsers, maxLocalUsers;
+        string info;
+        
+        //"<client> [<u> <m>] :Current local users <u>, max <m>"
+        //If not empty we can assume we also got the first two optionals
+        if (message.Parameters[3] is not null)
+        {
+            info = message.Parameters[3];
+            
+            currentLocalUsers = int.Parse(message.Parameters[1]);
+            maxLocalUsers = int.Parse(message.Parameters[2]);
+        }
+        else
+        {
+            info = message.Parameters[1];
+            
+            const string pattern = @"Current local users (?<current>\d+), max (?<max>\d+)";
+            var match = Regex.Match(info, pattern);
+            
+            currentLocalUsers = int.Parse(match.Groups["current"].Value);
+            maxLocalUsers = int.Parse(match.Groups["max"].Value);
+        }
+        
+        networkInformation.CurrentLocalUsersCount = currentLocalUsers;
+        networkInformation.MaxLocalUsersCount = maxLocalUsers;
+        
+        OnNetworkInformationReceived(new IrcCommentEventArgs(message, info));
+    }
+
+    /// <summary>
+    ///     Process RPL_GLOBALUSERS responses from the server.
+    /// </summary>
+    /// <param name="message">The message received from the server.</param>
+    [MessageProcessor("266")]
+    protected internal void ProcessMessageGlobalUsers(IrcMessage message)
+    {
+        Debug.Assert(message.Parameters[0] == localUser.NickName);
+        
+        int currentGlobalUsers, maxGlobalUsers;
+        string info;
+        
+        //"<client> [<u> <m>] :Current global users <u>, max <m>"
+        //If not empty we can assume we also got the first two optionals`
+        if (message.Parameters[3] is not null)
+        {
+            info = message.Parameters[3];
+            
+            currentGlobalUsers = int.Parse(message.Parameters[1]);
+            maxGlobalUsers = int.Parse(message.Parameters[2]);
+        }
+        else
+        {
+            info = message.Parameters[1];
+            
+            const string pattern = @"Current global users (?<current>\d+), max (?<max>\d+)";
+            var match = Regex.Match(info, pattern);
+            
+            currentGlobalUsers = int.Parse(match.Groups["current"].Value);
+            maxGlobalUsers = int.Parse(match.Groups["max"].Value);
+        }
+        
+        networkInformation.CurrentGlobalUsersCount = currentGlobalUsers;
+        networkInformation.MaxGlobalUsersCount = maxGlobalUsers;
+        
+        OnNetworkInformationReceived(new IrcCommentEventArgs(message, info));
+    }
+
+    /// <summary>
     ///     Process RPL_AWAY responses from the server.
     /// </summary>
     /// <param name="message">The message received from the server.</param>
