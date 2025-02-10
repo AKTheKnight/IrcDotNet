@@ -64,7 +64,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             field = value;
-            OnNickNameChanged(new EventArgs());
+            OnNickNameChanged(EventArgs.Empty);
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(NickName)));
         }
     }
@@ -168,7 +168,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
         internal set
         {
             field = value;
-            OnIsAwayChanged(new EventArgs());
+            OnIsAwayChanged(EventArgs.Empty);
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAway)));
         }
     }

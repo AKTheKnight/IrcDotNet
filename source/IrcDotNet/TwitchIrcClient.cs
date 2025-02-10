@@ -41,7 +41,7 @@ public class TwitchIrcClient : StandardIrcClient
 
         // Twitch does not send a normal welcome message, so this code is actually incorrect.
         isRegistered = true;
-        OnRegistered(new EventArgs());
+        OnRegistered(EventArgs.Empty);
     }
 
     protected internal override void ProcessMessageReplyMyInfo(IrcMessage message)
@@ -50,7 +50,7 @@ public class TwitchIrcClient : StandardIrcClient
 
         // Twitch doesn't seem to give us this information.
         Debug.Assert(message.Parameters[1] == "-");
-        OnClientInfoReceived(new EventArgs());
+        OnClientInfoReceived(EventArgs.Empty);
     }
 
     protected internal override void ProcessMessageReplyMotdStart(IrcMessage message)

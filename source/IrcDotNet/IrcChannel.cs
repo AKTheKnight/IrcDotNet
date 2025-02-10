@@ -336,7 +336,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
 
     internal void HandleUsersListReceived()
     {
-        OnUsersListReceived(new EventArgs());
+        OnUsersListReceived(EventArgs.Empty);
     }
 
     internal void HandleTopicChanged(IrcMessage ircMessage, IrcUser source, string newTopic)

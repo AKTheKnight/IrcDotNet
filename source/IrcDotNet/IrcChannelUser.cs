@@ -119,7 +119,7 @@ public class IrcChannelUser : INotifyPropertyChanged
                 modes.Remove(mode);
         }
 
-        OnModesChanged(new EventArgs());
+        OnModesChanged(EventArgs.Empty);
     }
 
     /// <summary>

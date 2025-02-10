@@ -319,7 +319,7 @@ using static IrcDotNet.IrcClient;
             lock (((ICollection) Modes).SyncRoot)
                 modes.UpdateModes(newModes);
 
-            OnModesChanged(new EventArgs());
+            OnModesChanged(EventArgs.Empty);
         }
 
         internal void HandleJoinedChannel(IrcMessage ircMessage, IrcChannel channel)

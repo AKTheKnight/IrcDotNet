@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using IrcDotNet.Collections;
 using IrcDotNet.Interfaces;
@@ -1607,12 +1606,12 @@ public abstract partial class IrcClient : IDisposable
 
         SendMessageCapList();
 
-        OnConnected(new EventArgs());
+        OnConnected(EventArgs.Empty);
     }
 
     protected virtual void HandleClientDisconnected()
     {
-        OnDisconnected(new EventArgs());
+        OnDisconnected(EventArgs.Empty);
     }
 
     /// <summary>

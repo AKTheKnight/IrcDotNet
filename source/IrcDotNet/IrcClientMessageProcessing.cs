@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using IrcDotNet.Collections;
 using IrcDotNet.Interfaces;
 using IrcDotNet.Properties;
@@ -317,7 +316,7 @@ partial class IrcClient
                 serverCapabilities.Clear();
                 serverCapabilities.AddRange(caps);
 
-                OnServerCapabilitiesReceived(new EventArgs());
+                OnServerCapabilitiesReceived(EventArgs.Empty);
                 SendMessageCapEnd();
                 break;
             case "LIST":
@@ -356,7 +355,7 @@ partial class IrcClient
         localUser.HostName = nickNameIdMatch.Groups["host"].GetValue() ?? localUser.HostName;
 
         isRegistered = true;
-        OnRegistered(new EventArgs());
+        OnRegistered(EventArgs.Empty);
     }
 
     /// <summary>
@@ -404,7 +403,7 @@ partial class IrcClient
         ServerAvailableChannelModes = message.Parameters[4];
 
         // All initial information about client has now been received.
-        OnClientInfoReceived(new EventArgs());
+        OnClientInfoReceived(EventArgs.Empty);
     }
 
     /// <summary>
@@ -444,7 +443,7 @@ partial class IrcClient
                 serverSupportedFeatures.Set(paramName, paramValue);
             }
 
-            OnServerSupportedFeaturesReceived(new EventArgs());
+            OnServerSupportedFeaturesReceived(EventArgs.Empty);
         }
     }
 
@@ -1278,7 +1277,7 @@ partial class IrcClient
         Debug.Assert(message.Parameters[1] is not null);
         motdBuilder.AppendLine(message.Parameters[1]);
 
-        OnMotdReceived(new EventArgs());
+        OnMotdReceived(EventArgs.Empty);
     }
 
     /// <summary>
@@ -1294,7 +1293,7 @@ partial class IrcClient
         localUser.NickName = message.Parameters[1].Split(' ')[3];
 
         isRegistered = true;
-        OnRegistered(new EventArgs());
+        OnRegistered(EventArgs.Empty);
     }
 
     /// <summary>
