@@ -10,6 +10,7 @@ using System.Threading;
 using IrcDotNet.Collections;
 using IrcDotNet.Interfaces;
 using IrcDotNet.Properties;
+using IrcDotNet.Utilities;
 
 namespace IrcDotNet;
 
@@ -746,7 +747,7 @@ public abstract partial class IrcClient : IDisposable
         switch (paramName.ToLowerInvariant())
         {
             case "prefix":
-                var prefixValueMatch = RegexUtilities.IsupportPrefixRegex().Match(paramValue);
+                var prefixValueMatch = Utilities.RegexUtilities.IsupportPrefixRegex().Match(paramValue);
                     
                 var prefixes = prefixValueMatch.Groups["prefixes"].GetValue();
                 var modes = prefixValueMatch.Groups["modes"].GetValue();
@@ -857,7 +858,7 @@ public abstract partial class IrcClient : IDisposable
     {
         ArgumentNullException.ThrowIfNull(name);
 
-        return RegexUtilities.ChannelNameRegex().IsMatch(name);
+        return Utilities.RegexUtilities.ChannelNameRegex().IsMatch(name);
     }
 
     /// <summary>
@@ -921,7 +922,7 @@ public abstract partial class IrcClient : IDisposable
             throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(targetName));
 
         // Check whether target name represents channel, user, or target mask.
-        var targetNameMatch = RegexUtilities.MessageTargetRegex().Match(targetName); 
+        var targetNameMatch = Utilities.RegexUtilities.MessageTargetRegex().Match(targetName); 
         var channelName = targetNameMatch.Groups["channel"].GetValue();
         var nickName = targetNameMatch.Groups["nick"].GetValue();
         var userName = targetNameMatch.Groups["user"].GetValue();
@@ -980,7 +981,7 @@ public abstract partial class IrcClient : IDisposable
             throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(prefix));
 
         // Check whether prefix represents server or user.
-        var prefixMatch = RegexUtilities.MessagePrefixRegex().Match(prefix);
+        var prefixMatch = Utilities.RegexUtilities.MessagePrefixRegex().Match(prefix);
         var serverName = prefixMatch.Groups["server"].GetValue();
         var nickName = prefixMatch.Groups["nick"].GetValue();
         var userName = prefixMatch.Groups["user"].GetValue();

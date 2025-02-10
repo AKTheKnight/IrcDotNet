@@ -6,6 +6,7 @@ using System.Linq;
 using IrcDotNet.Collections;
 using IrcDotNet.Interfaces;
 using IrcDotNet.Properties;
+using IrcDotNet.Utilities;
 
 namespace IrcDotNet.Ctcp;
 

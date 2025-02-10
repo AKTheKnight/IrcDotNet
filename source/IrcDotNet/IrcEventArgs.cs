@@ -6,6 +6,7 @@ using System.Text;
 using static IrcDotNet.IrcClient;
 using System.Net.Security;
 using IrcDotNet.Interfaces;
+using IrcDotNet.Utilities;
 
 namespace IrcDotNet;
 

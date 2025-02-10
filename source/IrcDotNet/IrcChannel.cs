@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using IrcDotNet.Interfaces;
+using IrcDotNet.Utilities;
 using static IrcDotNet.IrcClient;
 
 namespace IrcDotNet;

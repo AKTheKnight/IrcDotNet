@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Utilities;
 
 partial class RegexUtilities
 {

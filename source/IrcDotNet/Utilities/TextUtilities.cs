@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using IrcDotNet.Properties;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Utilities;
 
 // Utilities for text manipulation.
 internal static class TextUtilities

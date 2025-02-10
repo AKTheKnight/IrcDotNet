@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using IrcDotNet.Properties;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Utilities;
 
 // Utilities for IRC.
 internal static class IrcUtilities

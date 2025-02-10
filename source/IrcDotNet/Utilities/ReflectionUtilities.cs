@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Utilities;
 
 // Utilities for reflection of managed entities.
 internal static class ReflectionUtilities
