@@ -350,7 +350,7 @@ partial class IrcClient
         WelcomeMessage = message.Parameters[1];
 
         // Extract nick name, user name, and host name from welcome message. Use fallback info if not present.
-        var nickNameIdMatch = Regex.Match(WelcomeMessage.Split(' ').Last(), regexNickNameId);
+        var nickNameIdMatch = RegexUtilities.NickNameRegex().Match(WelcomeMessage.Split(' ').Last());
         localUser.NickName = nickNameIdMatch.Groups["nick"].GetValue() ?? localUser.NickName;
         localUser.UserName = nickNameIdMatch.Groups["user"].GetValue() ?? localUser.UserName;
         localUser.HostName = nickNameIdMatch.Groups["host"].GetValue() ?? localUser.HostName;
@@ -725,8 +725,7 @@ partial class IrcClient
         {
             info = message.Parameters[1];
             
-            const string pattern = @"Current local users (?<current>\d+), max (?<max>\d+)";
-            var match = Regex.Match(info, pattern);
+            var match = RegexUtilities.LocalUsersRegex().Match(info);
             
             currentLocalUsers = int.Parse(match.Groups["current"].Value);
             maxLocalUsers = int.Parse(match.Groups["max"].Value);
@@ -763,8 +762,7 @@ partial class IrcClient
         {
             info = message.Parameters[1];
             
-            const string pattern = @"Current global users (?<current>\d+), max (?<max>\d+)";
-            var match = Regex.Match(info, pattern);
+            var match = RegexUtilities.GlobalUsersRegex().Match(info);
             
             currentGlobalUsers = int.Parse(match.Groups["current"].Value);
             maxGlobalUsers = int.Parse(match.Groups["max"].Value);

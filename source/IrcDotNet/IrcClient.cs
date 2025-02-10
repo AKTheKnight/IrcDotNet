@@ -33,47 +33,20 @@ public abstract partial class IrcClient : IDisposable
     public static readonly int DefaultPort = 6667;
     public static readonly int DefaultSSLPort = 6697;
 
-    // Regular expressions used for extracting information from protocol messages.
-    protected static readonly string regexNickName;
-    protected static readonly string regexUserName;
-    protected static readonly string regexHostName;
-    protected static readonly string regexChannelName;
-    protected static readonly string regexTargetMask;
-    protected static readonly string regexServerName;
-    protected static readonly string regexNickNameId;
-    protected static readonly string regexUserNameId;
-    protected static readonly string regexMessagePrefix;
-    protected static readonly string regexMessageTarget;
-
-    protected static readonly string isupportPrefix;
-
     // Non-zero if object has been disposed or is currently being disposed.
     private int disposedFlag;
 
     // Prevents client from flooding server with messages by limiting send rate.
 
     // Dictionary of message processor routines, keyed by their command names.
-    private readonly Dictionary<string, MessageProcessor> messageProcessors;
+    private readonly Dictionary<string, MessageProcessor> messageProcessors = new(
+        StringComparer.OrdinalIgnoreCase);
 
     // Dictionary of message processor routines, keyed by their numeric codes (000 to 999).
-    private readonly Dictionary<int, MessageProcessor> numericMessageProcessors;
+    private readonly Dictionary<int, MessageProcessor> numericMessageProcessors = new(1000);
 
     static IrcClient()
     {
-        regexNickName = @"(?<nick>[^!@]+)";
-        regexUserName = @"(?<user>[^!@]+)";
-        regexHostName = @"(?<host>[^%@]+)";
-        regexChannelName = @"@?(?<channel>[#+!&].+)";
-        regexTargetMask = @"(?<targetMask>[$#].+)";
-        regexServerName = @"(?<server>[^%@]+?\.[^%@]*)";
-        regexNickNameId = string.Format(@"{0}(?:(?:!{1})?@{2})?", regexNickName, regexUserName, regexHostName);
-        regexUserNameId = string.Format(@"{0}(?:(?:%{1})?@{2}|%{1})", regexUserName, regexHostName,
-            regexServerName);
-        regexMessagePrefix = string.Format(@"^(?:{0}|{1})$", regexServerName, regexNickNameId);
-        regexMessageTarget = string.Format(@"^(?:{0}|{1}|{2}|{3})$", regexChannelName, regexUserNameId,
-            regexTargetMask, regexNickNameId);
-
-        isupportPrefix = @"\((?<modes>.*)\)(?<prefixes>.*)";
     }
 
     /// <summary>
@@ -81,12 +54,6 @@ public abstract partial class IrcClient : IDisposable
     /// </summary>
     public IrcClient()
     {
-        TextEncoding = Encoding.UTF8;
-        messageProcessors = new Dictionary<string, MessageProcessor>(
-            StringComparer.OrdinalIgnoreCase);
-        numericMessageProcessors = new Dictionary<int, MessageProcessor>(1000);
-        FloodPreventer = null;
-
         InitializeMessageProcessors();
     }
 
@@ -222,13 +189,13 @@ public abstract partial class IrcClient : IDisposable
     ///     performed.
     /// </summary>
     /// <value>A flood preventer object.</value>
-    public IIrcFloodPreventer FloodPreventer { get; set; }
+    public IIrcFloodPreventer FloodPreventer { get; set; } = null;
 
     /// <summary>
     ///     Gets or sets the text encoding to use for reading from and writing to the network data stream.
     /// </summary>
     /// <value>The text encoding of the network stream.</value>
-    public Encoding TextEncoding { get; set; }
+    public Encoding TextEncoding { get; set; } = Encoding.UTF8;
 
     /// <summary>
     ///     Gets whether the client is currently connected to a server.
@@ -780,7 +747,7 @@ public abstract partial class IrcClient : IDisposable
         switch (paramName.ToLowerInvariant())
         {
             case "prefix":
-                var prefixValueMatch = Regex.Match(paramValue, isupportPrefix);
+                var prefixValueMatch = RegexUtilities.IsupportPrefixRegex().Match(paramValue);
                     
                 var prefixes = prefixValueMatch.Groups["prefixes"].GetValue();
                 var modes = prefixValueMatch.Groups["modes"].GetValue();
@@ -891,7 +858,7 @@ public abstract partial class IrcClient : IDisposable
     {
         ArgumentNullException.ThrowIfNull(name);
 
-        return Regex.IsMatch(name, regexChannelName);
+        return RegexUtilities.ChannelNameRegex().IsMatch(name);
     }
 
     /// <summary>
@@ -955,7 +922,7 @@ public abstract partial class IrcClient : IDisposable
             throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(targetName));
 
         // Check whether target name represents channel, user, or target mask.
-        var targetNameMatch = Regex.Match(targetName, regexMessageTarget);
+        var targetNameMatch = RegexUtilities.MessageTargetRegex().Match(targetName); 
         var channelName = targetNameMatch.Groups["channel"].GetValue();
         var nickName = targetNameMatch.Groups["nick"].GetValue();
         var userName = targetNameMatch.Groups["user"].GetValue();
@@ -1014,7 +981,7 @@ public abstract partial class IrcClient : IDisposable
             throw new ArgumentException(Resources.MessageValueCannotBeEmptyString, nameof(prefix));
 
         // Check whether prefix represents server or user.
-        var prefixMatch = Regex.Match(prefix, regexMessagePrefix);
+        var prefixMatch = RegexUtilities.MessagePrefixRegex().Match(prefix);
         var serverName = prefixMatch.Groups["server"].GetValue();
         var nickName = prefixMatch.Groups["nick"].GetValue();
         var userName = prefixMatch.Groups["user"].GetValue();
