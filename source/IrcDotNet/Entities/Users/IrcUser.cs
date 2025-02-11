@@ -335,9 +335,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnNickNameChanged(EventArgs e)
     {
-        var handler = NickNameChanged;
-        if (handler is not null)
-            handler(this, e);
+        NickNameChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -346,9 +344,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnIsAwayChanged(EventArgs e)
     {
-        var handler = IsAwayChanged;
-        if (handler is not null)
-            handler(this, e);
+        IsAwayChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -357,9 +353,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <param name="e">The <see cref="IrcChannelEventArgs" /> instance containing the event data.</param>
     protected virtual void OnInviteReceived(IrcChannelInvitationEventArgs e)
     {
-        var handler = InviteReceived;
-        if (handler is not null)
-            handler(this, e);
+        InviteReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -368,9 +362,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <param name="e">The <see cref="IrcCommentEventArgs" /> instance containing the event data.</param>
     protected virtual void OnQuit(IrcCommentEventArgs e)
     {
-        var handler = Quit;
-        if (handler is not null)
-            handler(this, e);
+        Quit?.Invoke(this, e);
     }
 
     /// <summary>
@@ -379,9 +371,7 @@ public class IrcUser : INotifyPropertyChanged, IIrcMessageSource, IIrcMessageTar
     /// <param name="e">The <see cref="PropertyChangedEventArgs" /> instance containing the event data.</param>
     protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-        var handler = PropertyChanged;
-        if (handler is not null)
-            handler(this, e);
+        PropertyChanged?.Invoke(this, e);
     }
 
     /// <summary>

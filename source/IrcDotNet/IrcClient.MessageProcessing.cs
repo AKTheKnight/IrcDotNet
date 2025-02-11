@@ -327,10 +327,28 @@ partial class IrcClient
                 break;
             case "LIST":
                 string[] active = message.Parameters[2]?.Split(' ');
+                
+                activeCapabilities.Clear();
+                
+                if (active is { Length: > 0 })
+                    activeCapabilities.AddRange(active);
+                
                 OnActiveCapabilitiesReceived(new ActiveCapabilitiesEventArgs(active));
                 break;
             case "ACK":
                 string[] ackd = message.Parameters[2]?.Split(' ');
+
+                if (ackd is { Length: > 0 })
+                {
+                    // Split into enabled and disabled capabilities
+                    // Disabled has a leading `-` to signify it's disabled
+                    var enabled = ackd.Where(c => !c.StartsWith('-'));
+                    activeCapabilities.AddRange(enabled);
+                    
+                    var disabled = ackd.Where(c => c.StartsWith('-')).Select(c => c[1..]);
+                    activeCapabilities.RemoveAll(disabled.Contains);
+                }
+                
                 OnCapabilityAcknowledged(new CapabilityAcknowledgedEventArgs(true, ackd));
                 SendMessageCapEnd();
                 break;

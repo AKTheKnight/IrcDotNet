@@ -130,9 +130,7 @@ public class IrcChannelUser : INotifyPropertyChanged
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnModesChanged(EventArgs e)
     {
-        var handler = ModesChanged;
-        if (handler is not null)
-            handler(this, e);
+        ModesChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -141,9 +139,7 @@ public class IrcChannelUser : INotifyPropertyChanged
     /// <param name="e">The <see cref="PropertyChangedEventArgs" /> instance containing the event data.</param>
     protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-        var handler = PropertyChanged;
-        if (handler is not null)
-            handler(this, e);
+        PropertyChanged?.Invoke(this, e);
     }
 
     /// <summary>

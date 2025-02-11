@@ -437,9 +437,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnUsersListReceived(EventArgs e)
     {
-        var handler = UsersListReceived;
-        if (handler is not null)
-            handler(this, e);
+        UsersListReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -448,9 +446,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcUserEventArgs" /> instance containing the event data.</param>
     protected virtual void OnModesChanged(IrcUserEventArgs e)
     {
-        var handler = ModesChanged;
-        if (handler is not null)
-            handler(this, e);
+        ModesChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -459,9 +455,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcUserEventArgs" /> instance containing the event data.</param>
     protected virtual void OnTopicChanged(IrcUserEventArgs e)
     {
-        var handler = TopicChanged;
-        if (handler is not null)
-            handler(this, e);
+        TopicChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -470,9 +464,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcChannelUserEventArgs" /> instance containing the event data.</param>
     protected virtual void OnUserJoined(IrcChannelUserEventArgs e)
     {
-        var handler = UserJoined;
-        if (handler is not null)
-            handler(this, e);
+        UserJoined?.Invoke(this, e);
     }
 
     /// <summary>
@@ -481,9 +473,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcChannelUserEventArgs" /> instance containing the event data.</param>
     protected virtual void OnUserLeft(IrcChannelUserEventArgs e)
     {
-        var handler = UserLeft;
-        if (handler is not null)
-            handler(this, e);
+        UserLeft?.Invoke(this, e);
     }
 
     /// <summary>
@@ -492,9 +482,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcChannelUserEventArgs" /> instance containing the event data.</param>
     protected virtual void OnUserKicked(IrcChannelUserEventArgs e)
     {
-        var handler = UserKicked;
-        if (handler is not null)
-            handler(this, e);
+        UserKicked?.Invoke(this, e);
     }
 
     /// <summary>
@@ -503,9 +491,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcUserEventArgs" /> instance containing the event data.</param>
     protected virtual void OnUserInvited(IrcUserEventArgs e)
     {
-        var handler = UserInvited;
-        if (handler is not null)
-            handler(this, e);
+        UserInvited?.Invoke(this, e);
     }
 
     /// <summary>
@@ -514,9 +500,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnMessageReceived(IrcMessageEventArgs e)
     {
-        var handler = MessageReceived;
-        if (handler is not null)
-            handler(this, e);
+        MessageReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -525,9 +509,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcPreviewMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnPreviewMessageReceived(IrcPreviewMessageEventArgs e)
     {
-        var handler = PreviewMessageReceived;
-        if (handler is not null)
-            handler(this, e);
+        PreviewMessageReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -536,9 +518,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnNoticeReceived(IrcMessageEventArgs e)
     {
-        var handler = NoticeReceived;
-        if (handler is not null)
-            handler(this, e);
+        NoticeReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -547,9 +527,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="IrcPreviewMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnPreviewNoticeReceived(IrcPreviewMessageEventArgs e)
     {
-        var handler = PreviewNoticeReceived;
-        if (handler is not null)
-            handler(this, e);
+        PreviewNoticeReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -558,9 +536,7 @@ public class IrcChannel : INotifyPropertyChanged, IIrcMessageTarget, IIrcMessage
     /// <param name="e">The <see cref="PropertyChangedEventArgs" /> instance containing the event data.</param>
     protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-        var handler = PropertyChanged;
-        if (handler is not null)
-            handler(this, e);
+        PropertyChanged?.Invoke(this, e);
     }
 
     /// <summary>

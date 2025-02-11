@@ -149,6 +149,13 @@ public abstract partial class IrcClient : IDisposable
     /// </summary>
     /// <value>A set of capabilities supported by the server.</value>
     public ReadOnlyCollection<string> ServerCapabilities { get; private set; }
+    
+    /// <summary>
+    ///     The current set of active capabilities associated with the connection.
+    ///     This value is adjusted each time a capability is acknowledged or rejected by the server.
+    /// </summary>
+    /// <value>A set of active capabilities associated with the connection.</value>
+    public ReadOnlyCollection<string> ActiveCapabilities { get; private set; }
 
     /// <summary>
     ///     Gets a collection of channel modes that apply to users in a channel.
@@ -1207,6 +1214,8 @@ public abstract partial class IrcClient : IDisposable
         ServerSupportedFeatures = new ReadOnlyDictionary<string, string>(serverSupportedFeatures);
         serverCapabilities = new List<string>();
         ServerCapabilities = new ReadOnlyCollection<string>(serverCapabilities);
+        activeCapabilities = [];
+        ActiveCapabilities = new ReadOnlyCollection<string>(activeCapabilities);
         channelUserModes = new Collection<char>
         {
             'o',
@@ -1626,9 +1635,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnConnected(EventArgs e)
     {
-        var handler = Connected;
-        if (handler is not null)
-            handler(this, e);
+        Connected?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1637,9 +1644,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcErrorEventArgs" /> instance containing the event data.</param>
     protected virtual void OnConnectFailed(IrcErrorEventArgs e)
     {
-        var handler = ConnectFailed;
-        if (handler is not null)
-            handler(this, e);
+        ConnectFailed?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1648,9 +1653,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnDisconnected(EventArgs e)
     {
-        var handler = Disconnected;
-        if (handler is not null)
-            handler(this, e);
+        Disconnected?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1659,9 +1662,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcErrorEventArgs" /> instance containing the event data.</param>
     protected virtual void OnError(IrcErrorEventArgs e)
     {
-        var handler = Error;
-        if (handler is not null)
-            handler(this, e);
+        Error?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1672,9 +1673,7 @@ public abstract partial class IrcClient : IDisposable
     /// </param>
     protected virtual void OnValidateSslCertificate(IrcValidateSslCertificateEventArgs e)
     {
-        var handler = ValidateSslCertificate;
-        if (handler is not null)
-            handler(this, e);
+        ValidateSslCertificate?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1683,9 +1682,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcRawMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnRawMessageSent(IrcRawMessageEventArgs e)
     {
-        var handler = RawMessageSent;
-        if (handler is not null)
-            handler(this, e);
+        RawMessageSent?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1694,9 +1691,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcRawMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnRawMessageReceived(IrcRawMessageEventArgs e)
     {
-        var handler = RawMessageReceived;
-        if (handler is not null)
-            handler(this, e);
+        RawMessageReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1705,9 +1700,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcProtocolErrorEventArgs" /> instance containing the event data.</param>
     protected virtual void OnProtocolError(IrcProtocolErrorEventArgs e)
     {
-        var handler = ProtocolError;
-        if (handler is not null)
-            handler(this, e);
+        ProtocolError?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1716,9 +1709,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcErrorMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnErrorMessageReceived(IrcErrorMessageEventArgs e)
     {
-        var handler = ErrorMessageReceived;
-        if (handler is not null)
-            handler(this, e);
+        ErrorMessageReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1753,9 +1744,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnClientInfoReceived(EventArgs e)
     {
-        var handler = ClientInfoReceived;
-        if (handler is not null)
-            handler(this, e);
+        ClientInfoReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1764,9 +1753,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnRegistered(EventArgs e)
     {
-        var handler = Registered;
-        if (handler is not null)
-            handler(this, e);
+        Registered?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1775,9 +1762,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcServerInfoEventArgs" /> instance containing the event data.</param>
     protected virtual void OnServerBounce(IrcServerInfoEventArgs e)
     {
-        var handler = ServerBounce;
-        if (handler is not null)
-            handler(this, e);
+        ServerBounce?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1786,9 +1771,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnServerSupportedFeaturesReceived(EventArgs e)
     {
-        var handler = ServerSupportedFeaturesReceived;
-        if (handler is not null)
-            handler(this, e);
+        ServerSupportedFeaturesReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1797,9 +1780,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcPingOrPongReceivedEventArgs" /> instance containing the event data.</param>
     protected virtual void OnPingReceived(IrcPingOrPongReceivedEventArgs e)
     {
-        var handler = PingReceived;
-        if (handler is not null)
-            handler(this, e);
+        PingReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1808,9 +1789,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcPingOrPongReceivedEventArgs" /> instance containing the event data.</param>
     protected virtual void OnPongReceived(IrcPingOrPongReceivedEventArgs e)
     {
-        var handler = PongReceived;
-        if (handler is not null)
-            handler(this, e);
+        PongReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1819,9 +1798,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     protected virtual void OnMotdReceived(EventArgs e)
     {
-        var handler = MotdReceived;
-        if (handler is not null)
-            handler(this, e);
+        MotdReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1830,9 +1807,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcCommentEventArgs" /> instance containing the event data.</param>
     protected virtual void OnNetworkInformationReceived(IrcCommentEventArgs e)
     {
-        var handler = NetworkInformationReceived;
-        if (handler is not null)
-            handler(this, e);
+        NetworkInformationReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1841,9 +1816,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcServerVersionInfoEventArgs" /> instance containing the event data.</param>
     protected virtual void OnServerVersionInfoReceived(IrcServerVersionInfoEventArgs e)
     {
-        var handler = ServerVersionInfoReceived;
-        if (handler is not null)
-            handler(this, e);
+        ServerVersionInfoReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1852,9 +1825,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcServerTimeEventArgs" /> instance containing the event data.</param>
     protected virtual void OnServerTimeReceived(IrcServerTimeEventArgs e)
     {
-        var handler = ServerTimeReceived;
-        if (handler is not null)
-            handler(this, e);
+        ServerTimeReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1865,9 +1836,7 @@ public abstract partial class IrcClient : IDisposable
     /// </param>
     protected virtual void OnServerLinksListReceived(IrcServerLinksListReceivedEventArgs e)
     {
-        var handler = ServerLinksListReceived;
-        if (handler is not null)
-            handler(this, e);
+        ServerLinksListReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1878,9 +1847,7 @@ public abstract partial class IrcClient : IDisposable
     /// </param>
     protected virtual void OnServerStatsReceived(IrcServerStatsReceivedEventArgs e)
     {
-        var handler = ServerStatsReceived;
-        if (handler is not null)
-            handler(this, e);
+        ServerStatsReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1889,9 +1856,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcNameEventArgs" /> instance containing the event data.</param>
     protected virtual void OnWhoReplyReceived(IrcNameEventArgs e)
     {
-        var handler = WhoReplyReceived;
-        if (handler is not null)
-            handler(this, e);
+        WhoReplyReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1900,9 +1865,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcRawMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnWhoXReplyReceived(IrcRawMessageEventArgs e)
     {
-        var handler = WhoXReplyReceived;
-        if (handler is not null)
-            handler(this, e);
+        WhoXReplyReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1911,9 +1874,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcUserEventArgs" /> instance containing the event data.</param>
     protected virtual void OnWhoIsReplyReceived(IrcUserEventArgs e)
     {
-        var handler = WhoIsReplyReceived;
-        if (handler is not null)
-            handler(this, e);
+        WhoIsReplyReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1922,9 +1883,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcUserEventArgs" /> instance containing the event data.</param>
     protected virtual void OnWhoWasReplyReceived(IrcUserEventArgs e)
     {
-        var handler = WhoWasReplyReceived;
-        if (handler is not null)
-            handler(this, e);
+        WhoWasReplyReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1935,9 +1894,7 @@ public abstract partial class IrcClient : IDisposable
     /// </param>
     protected virtual void OnChannelListReceived(IrcChannelListReceivedEventArgs e)
     {
-        var handler = ChannelListReceived;
-        if (handler is not null)
-            handler(this, e);
+        ChannelListReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -1946,9 +1903,7 @@ public abstract partial class IrcClient : IDisposable
     /// <param name="e">The <see cref="IrcNickChangedEventArgs" /> instance containing the event data.</param>
     protected virtual void OnNickChanged(IrcNickChangedEventArgs e)
     {
-        var handler = NickChanged;
-        if (handler is not null)
-            handler(this, e);
+        NickChanged?.Invoke(this, e);
     }
 
     protected void CheckDisposed()

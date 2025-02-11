@@ -418,9 +418,7 @@ public partial class CtcpClient
     /// <param name="e">The <see cref="CtcpMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnActionSent(CtcpMessageEventArgs e)
     {
-        var handler = ActionSent;
-        if (handler is not null)
-            handler(this, e);
+        ActionSent?.Invoke(this, e);
     }
 
     /// <summary>
@@ -429,9 +427,7 @@ public partial class CtcpClient
     /// <param name="e">The <see cref="CtcpMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnActionReceived(CtcpMessageEventArgs e)
     {
-        var handler = ActionReceived;
-        if (handler is not null)
-            handler(this, e);
+        ActionReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -442,9 +438,7 @@ public partial class CtcpClient
     /// </param>
     protected virtual void OnTimeResponseReceived(CtcpTimeResponseReceivedEventArgs e)
     {
-        var handler = TimeResponseReceived;
-        if (handler is not null)
-            handler(this, e);
+        TimeResponseReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -455,9 +449,7 @@ public partial class CtcpClient
     /// </param>
     protected virtual void OnVersionResponseReceived(CtcpVersionResponseReceivedEventArgs e)
     {
-        var handler = VersionResponseReceived;
-        if (handler is not null)
-            handler(this, e);
+        VersionResponseReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -469,9 +461,7 @@ public partial class CtcpClient
     /// </param>
     protected virtual void OnErrorMessageResponseReceived(CtcpErrorMessageReceivedEventArgs e)
     {
-        var handler = ErrorMessageReceived;
-        if (handler is not null)
-            handler(this, e);
+        ErrorMessageReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -482,9 +472,7 @@ public partial class CtcpClient
     /// </param>
     protected virtual void OnPingResponseReceived(CtcpPingResponseReceivedEventArgs e)
     {
-        var handler = PingResponseReceived;
-        if (handler is not null)
-            handler(this, e);
+        PingResponseReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -493,9 +481,7 @@ public partial class CtcpClient
     /// <param name="e">The <see cref="CtcpRawMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnRawMessageSent(CtcpRawMessageEventArgs e)
     {
-        var handler = RawMessageSent;
-        if (handler is not null)
-            handler(this, e);
+        RawMessageSent?.Invoke(this, e);
     }
 
     /// <summary>
@@ -504,9 +490,7 @@ public partial class CtcpClient
     /// <param name="e">The <see cref="CtcpRawMessageEventArgs" /> instance containing the event data.</param>
     protected virtual void OnRawMessageReceived(CtcpRawMessageEventArgs e)
     {
-        var handler = RawMessageReceived;
-        if (handler is not null)
-            handler(this, e);
+        RawMessageReceived?.Invoke(this, e);
     }
 
     /// <summary>
@@ -515,9 +499,7 @@ public partial class CtcpClient
     /// <param name="e">The <see cref="IrcErrorEventArgs" /> instance containing the event data.</param>
     protected virtual void OnError(IrcErrorEventArgs e)
     {
-        var handler = Error;
-        if (handler is not null)
-            handler(this, e);
+        Error?.Invoke(this, e);
     }
 
     /// <summary>
