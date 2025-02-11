@@ -55,7 +55,7 @@ partial class IrcClient
     /// <summary>
     ///     Requests a list of capabilities associated with the current connection from the server.
     /// </summary>
-    protected void SendMessageCapListActive()
+    protected void SendMessageCapListEnabled()
     {
         WriteMessage(null, "CAP", "LIST");
     }

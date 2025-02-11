@@ -151,11 +151,11 @@ public abstract partial class IrcClient : IDisposable
     public ReadOnlyCollection<string> ServerCapabilities { get; private set; }
     
     /// <summary>
-    ///     The current set of active capabilities associated with the connection.
+    ///     The current set of enabled capabilities associated with the connection.
     ///     This value is adjusted each time a capability is acknowledged or rejected by the server.
     /// </summary>
-    /// <value>A set of active capabilities associated with the connection.</value>
-    public ReadOnlyCollection<string> ActiveCapabilities { get; private set; }
+    /// <value>A set of enabled capabilities associated with the connection.</value>
+    public ReadOnlyCollection<string> EnabledCapabilities { get; private set; }
 
     /// <summary>
     ///     Gets a collection of channel modes that apply to users in a channel.
@@ -314,10 +314,10 @@ public abstract partial class IrcClient : IDisposable
     public event EventHandler<EventArgs> ServerCapabilitiesReceived;
 
     /// <summary>
-    ///     Occours when the list of capabilities associated with the active
+    ///     Occours when the list of enabled capabilities associated with the active
     ///     connection is received from the server. 
     /// </summary>
-    public event EventHandler<ActiveCapabilitiesEventArgs> ActiveCapabilitiesReceived;
+    public event EventHandler<EnabledCapabilitiesEventArgs> EnabledCapabilitiesReceived;
 
     /// <summary>
     ///     Happens when a capability request is acknowledged (or NAKd) by the server
@@ -719,12 +719,12 @@ public abstract partial class IrcClient : IDisposable
     }
 
     /// <summary>
-    ///     Requests a list of capabilities associated with the active
+    ///     Requests a list of enabled capabilities associated with the active
     ///     connection.
     /// </summary>
-    public void RequestActiveCapabilities()
+    public void RequestEnabledCapabilities()
     {
-        SendMessageCapListActive();
+        SendMessageCapListEnabled();
     }
 
     /// <summary>
@@ -1214,8 +1214,8 @@ public abstract partial class IrcClient : IDisposable
         ServerSupportedFeatures = new ReadOnlyDictionary<string, string>(serverSupportedFeatures);
         serverCapabilities = new List<string>();
         ServerCapabilities = new ReadOnlyCollection<string>(serverCapabilities);
-        activeCapabilities = [];
-        ActiveCapabilities = new ReadOnlyCollection<string>(activeCapabilities);
+        enabledCapabilities = [];
+        EnabledCapabilities = new ReadOnlyCollection<string>(enabledCapabilities);
         channelUserModes = new Collection<char>
         {
             'o',
@@ -1721,12 +1721,12 @@ public abstract partial class IrcClient : IDisposable
         ServerCapabilitiesReceived?.Invoke(this, e);
     }
     /// <summary>
-    ///     Raises the <see cref="ActiveCapabilitiesReceived" /> event.
+    ///     Raises the <see cref="EnabledCapabilitiesReceived" /> event.
     /// </summary>
-    /// <param name="e">The <see cref="ActiveCapabilitiesEventArgs" /> instance containing the event data.</param>
-    protected virtual void OnActiveCapabilitiesReceived(ActiveCapabilitiesEventArgs e)
+    /// <param name="e">The <see cref="EnabledCapabilitiesEventArgs" /> instance containing the event data.</param>
+    protected virtual void OnEnabledCapabilitiesReceived(EnabledCapabilitiesEventArgs e)
     {
-        ActiveCapabilitiesReceived?.Invoke(this, e);
+        EnabledCapabilitiesReceived?.Invoke(this, e);
     }
 
     /// <summary>

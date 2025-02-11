@@ -328,12 +328,12 @@ partial class IrcClient
             case "LIST":
                 string[] active = message.Parameters[2]?.Split(' ');
                 
-                activeCapabilities.Clear();
+                enabledCapabilities.Clear();
                 
                 if (active is { Length: > 0 })
-                    activeCapabilities.AddRange(active);
+                    enabledCapabilities.AddRange(active);
                 
-                OnActiveCapabilitiesReceived(new ActiveCapabilitiesEventArgs(active));
+                OnEnabledCapabilitiesReceived(new EnabledCapabilitiesEventArgs(active));
                 break;
             case "ACK":
                 string[] ackd = message.Parameters[2]?.Split(' ');
@@ -343,10 +343,10 @@ partial class IrcClient
                     // Split into enabled and disabled capabilities
                     // Disabled has a leading `-` to signify it's disabled
                     var enabled = ackd.Where(c => !c.StartsWith('-'));
-                    activeCapabilities.AddRange(enabled);
+                    enabledCapabilities.AddRange(enabled);
                     
                     var disabled = ackd.Where(c => c.StartsWith('-')).Select(c => c[1..]);
-                    activeCapabilities.RemoveAll(disabled.Contains);
+                    enabledCapabilities.RemoveAll(disabled.Contains);
                 }
                 
                 OnCapabilityAcknowledged(new CapabilityAcknowledgedEventArgs(true, ackd));

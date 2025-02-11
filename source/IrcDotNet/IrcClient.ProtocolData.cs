@@ -26,7 +26,7 @@ partial class IrcClient
     private List<string> serverCapabilities;
 
     //List of active capabilities, populated from ACK, NACK, LIST responses. 
-    private List<string> activeCapabilities;
+    private List<string> enabledCapabilities;
         
     // Collection of channel modes that apply to users in a channel.
     private Collection<char> channelUserModes;

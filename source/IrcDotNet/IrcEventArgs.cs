@@ -552,16 +552,16 @@ public class IrcErrorMessageEventArgs : IrcEventArgs
 }
 
 /// <summary>
-///     Provides data for the <see cref="IrcClient.ActiveCapabilitiesReceived" /> event.
+///     Provides data for the <see cref="IrcClient.EnabledCapabilitiesReceived" /> event.
 /// </summary>
 /// <threadsafety static="true" instance="false" />
-public class ActiveCapabilitiesEventArgs : EventArgs
+public class EnabledCapabilitiesEventArgs : EventArgs
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ActiveCapabilitiesEventArgs" /> class.
+    ///     Initializes a new instance of the <see cref="EnabledCapabilitiesEventArgs" /> class.
     /// </summary>
     /// <param name="caps">The list of active capabilities</param>
-    public ActiveCapabilitiesEventArgs(string[] caps)
+    public EnabledCapabilitiesEventArgs(string[] caps)
     {
         ArgumentNullException.ThrowIfNull(caps);
 
