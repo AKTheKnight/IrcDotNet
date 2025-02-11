@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Attributes;
 
 // Indicates that method processes message for some protocol.
 [MeansImplicitUse]

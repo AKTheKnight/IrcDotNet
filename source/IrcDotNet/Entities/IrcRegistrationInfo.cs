@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities;
 
 /// <summary>
 ///     Provides information used by an <see cref="IrcClient" /> for registering the connection as a service.

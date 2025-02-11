@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IrcDotNet.Entities;
 using static IrcDotNet.IrcClient;
 
 namespace IrcDotNet.Interfaces;

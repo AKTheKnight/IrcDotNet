@@ -1,4 +1,4 @@
-﻿namespace IrcDotNet;
+﻿namespace IrcDotNet.Entities.Servers;
 
 /// <summary>
 ///     Stores information about a particular server in an IRC network.

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
 using IrcDotNet.Interfaces;
-using static IrcDotNet.IrcClient;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities.Users;
 
 /// <summary>
 ///     Represents an IRC user that exists on a specific <see cref="IrcClient" />.

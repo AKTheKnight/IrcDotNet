@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Threading;
+using IrcDotNet.Entities;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
+using IrcDotNet.Entities.Users;
 
 namespace IrcDotNet.Samples.TwitchChat
 {

@@ -6,6 +6,9 @@ using System.Reflection;
 using System.Threading;
 using IrcDotNet.Collections;
 using IrcDotNet.Ctcp;
+using IrcDotNet.Entities;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
 using NUnit.Framework;
 
 namespace IrcDotNet.Test

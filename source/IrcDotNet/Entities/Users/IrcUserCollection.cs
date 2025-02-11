@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities.Users;
 
 /// <summary>
 ///     Represents a collection of <see cref="IrcUser" /> objects.

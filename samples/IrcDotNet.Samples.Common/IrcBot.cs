@@ -4,6 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using IrcDotNet.Entities;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
+using IrcDotNet.Entities.Users;
 using IrcDotNet.Interfaces;
 
 namespace IrcDotNet.Samples.Common

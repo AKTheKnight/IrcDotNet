@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-// ReSharper disable once RedundantUsingDirective
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using IrcDotNet.Collections;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
+// ReSharper disable once RedundantUsingDirective
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities.Users;
 
 /// <summary>
 ///     Represents an IRC user that exists on a specific channel on a specific <see cref="IrcClient" />.

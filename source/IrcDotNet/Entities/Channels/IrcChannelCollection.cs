@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities.Channels;
 
 /// <summary>
 ///     Represents a collection of <see cref="IrcChannel" /> objects.

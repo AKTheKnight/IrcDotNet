@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using IrcDotNet.Entities;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
+using IrcDotNet.Entities.Users;
 
 namespace IrcDotNet;
 

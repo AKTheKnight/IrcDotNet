@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IrcDotNet.Entities.Users;
 using IrcDotNet.Interfaces;
 
 namespace IrcDotNet.Samples.Common

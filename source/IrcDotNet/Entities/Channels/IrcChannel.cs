@@ -5,11 +5,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using IrcDotNet.Entities.Users;
 using IrcDotNet.Interfaces;
 using IrcDotNet.Utilities;
-using static IrcDotNet.IrcClient;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities.Channels;
 
 /// <summary>
 ///     Represents an IRC channel that exists on a specific <see cref="IrcClient" />.

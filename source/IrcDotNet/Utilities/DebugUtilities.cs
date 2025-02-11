@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Utilities;
 
 // Utilities for debugging execution.
 // TODO: Use TraceSource here and configure trace listeners in test project.

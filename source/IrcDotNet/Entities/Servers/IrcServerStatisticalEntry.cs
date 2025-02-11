@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities.Servers;
 
 /// <summary>
 ///     Stores a statistical entry for an IRC server.

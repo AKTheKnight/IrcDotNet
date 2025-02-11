@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities.Users;
 
 /// <summary>
 ///     Represents a collection of <see cref="IrcChannelUser" /> objects.

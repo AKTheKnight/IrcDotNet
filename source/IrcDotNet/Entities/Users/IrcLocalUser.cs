@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
 using IrcDotNet.Interfaces;
 using IrcDotNet.Utilities;
-using static IrcDotNet.IrcClient;
 
 #if !NET9_0_OR_GREATER
     using IrcDotNet.Collections;
 #else
-    using System.Collections.ObjectModel;
 #endif
 
-    namespace IrcDotNet;
+    namespace IrcDotNet.Entities.Users;
 
     /// <summary>
     ///     Represents the local user of a specific <see cref="IrcClient" />.

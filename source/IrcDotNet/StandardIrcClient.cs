@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using IrcDotNet.Entities;
 using IrcDotNet.Properties;
-using System.Net.Security;
+using IrcDotNet.Utilities;
 
 namespace IrcDotNet;
 

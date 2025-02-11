@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using static IrcDotNet.IrcClient;
-using System.Net.Security;
+using IrcDotNet.Entities;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
+using IrcDotNet.Entities.Users;
 using IrcDotNet.Interfaces;
 using IrcDotNet.Utilities;
+using static IrcDotNet.IrcClient;
 
 namespace IrcDotNet;
 

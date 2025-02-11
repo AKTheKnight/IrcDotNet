@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using IrcDotNet.Entities;
+using IrcDotNet.Entities.Channels;
+using IrcDotNet.Entities.Servers;
+using IrcDotNet.Entities.Users;
 using IrcDotNet.Interfaces;
 using IrcDotNet.Samples.Common;
 

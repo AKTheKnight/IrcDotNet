@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using IrcDotNet.Interfaces;
 
-namespace IrcDotNet;
+namespace IrcDotNet.Entities;
 
 /// <summary>
     ///     Represents a raw IRC message that is sent/received by <see cref="IrcClient" />.
