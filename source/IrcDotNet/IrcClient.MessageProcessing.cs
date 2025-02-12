@@ -359,6 +359,32 @@ partial class IrcClient
                 break;
         }
     }
+    
+    [MessageProcessor("away")]
+    protected internal void ProcessMessageAway(IrcMessage message)
+    {
+        Debug.Assert(message.Parameters[0] is not null);
+        var source = GetSourceFromPrefix(message.Prefix);
+        
+        var user = source as IrcUser;
+        
+        //:nick!user@host AWAY [:message]
+        //If the message is present, the user (specified by the nick!user@host mask) is going away. If the message is not present, the user is removing their away message/state.
+        
+        var msg = message.Parameters[0];
+
+        //They're returning
+        if (msg is null)
+        {
+            user.IsAway = false;
+        }
+        else
+        {
+            user.IsAway = true;
+            user.AwayMessage = msg;
+        }
+        
+    }
 
     /// <summary>
     ///     Process RPL_WELCOME responses from the server.
