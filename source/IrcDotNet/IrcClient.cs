@@ -1540,34 +1540,44 @@ public abstract partial class IrcClient : IDisposable
 
         // Extract command from message.
         var spaceIndex = lineAfterPrefix.IndexOf(' ');
-        Debug.Assert(spaceIndex != -1);
-        var command = lineAfterPrefix.Substring(0, spaceIndex);
-        var paramsLine = lineAfterPrefix.Substring(command.Length + 1);
 
-        // Extract parameters from message.
-        // Each parameter is separated by single space, except last one, which may contain spaces if it
-        // is prefixed by colon.
+        string command;
         var parameters = new string[maxParamsCount];
-        int paramStartIndex, paramEndIndex = -1;
-        var lineColonIndex = paramsLine.IndexOf(" :", StringComparison.Ordinal);
-        if (lineColonIndex == -1 && !paramsLine.StartsWith(":"))
-            lineColonIndex = paramsLine.Length;
-        for (var i = 0; i < parameters.Length; i++)
+        
+        //Some commands (AWAY) don't have any parameters and therefore no space
+        if (spaceIndex == -1)
         {
-            paramStartIndex = paramEndIndex + 1;
-            paramEndIndex = paramsLine.IndexOf(' ', paramStartIndex);
-            if (paramEndIndex == -1)
-                paramEndIndex = paramsLine.Length;
-            if (paramEndIndex > lineColonIndex)
-            {
-                paramStartIndex++;
-                paramEndIndex = paramsLine.Length;
-            }
-            parameters[i] = paramsLine.Substring(paramStartIndex, paramEndIndex - paramStartIndex);
-            if (paramEndIndex == paramsLine.Length)
-                break;
+            command = lineAfterPrefix;
         }
-
+        else
+        {
+            command = lineAfterPrefix[..spaceIndex];
+            var paramsLine = lineAfterPrefix[(command.Length + 1)..];
+            
+            // Extract parameters from message.
+            // Each parameter is separated by single space, except last one, which may contain spaces if it
+            // is prefixed by colon.
+            int paramStartIndex, paramEndIndex = -1;
+            var lineColonIndex = paramsLine.IndexOf(" :", StringComparison.Ordinal);
+            if (lineColonIndex == -1 && !paramsLine.StartsWith(":"))
+                lineColonIndex = paramsLine.Length;
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                paramStartIndex = paramEndIndex + 1;
+                paramEndIndex = paramsLine.IndexOf(' ', paramStartIndex);
+                if (paramEndIndex == -1)
+                    paramEndIndex = paramsLine.Length;
+                if (paramEndIndex > lineColonIndex)
+                {
+                    paramStartIndex++;
+                    paramEndIndex = paramsLine.Length;
+                }
+                parameters[i] = paramsLine.Substring(paramStartIndex, paramEndIndex - paramStartIndex);
+                if (paramEndIndex == paramsLine.Length)
+                    break;
+            }
+        }
+        
         // Parse received IRC message.
         var message = new IrcMessage(this, prefix, command, parameters, tags);
         var messageReceivedEventArgs = new IrcRawMessageEventArgs(message, line);
